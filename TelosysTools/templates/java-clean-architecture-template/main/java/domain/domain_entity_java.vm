@@ -1,0 +1,74 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#parse ( "main/java/domain/domain_entity_imports_java.vm" )
+
+#include ( "/include/author.vm" )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#set( $tableName = $strUtils.upperCase( $inflector.getInstance().pluralize( $entity.databaseTable ) ) )
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
+@Entity
+@Table(name = "${tableName}",
+       uniqueConstraints = {
+#foreach( $field in $entity.keyAttributes )
+            @UniqueConstraint(columnNames = {"$field.databaseName.toUpperCase()"}, name = "UN_${tableName}_$field.databaseName.toUpperCase()"),
+#end
+       },
+       indexes = {
+#foreach( $field in $entity.attributes )
+            @Index(columnList = "$field.databaseName.toUpperCase()", name = "IDX_${tableName}_$field.databaseName.toUpperCase()"),
+#end
+       }
+)
+public class ${entity.name} implements Serializable {
+
+#parse ( "include/serial_version.vm" )
+#foreach( $field in $entity.keyAttributes )
+
+    @Access(AccessType.PROPERTY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "$field.databaseName.toUpperCase()", updatable = false, insertable = false)
+    private $field.type $field.name#if($field.hasInitialValue())= ${field.initialValue}#end;
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ($link.isCardinalityManyToOne())
+
+    @JoinColumn(name = "$link.fieldName.toUpperCase()_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_$link.fieldName.toUpperCase()_ID"))
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+#if ( $link.fieldType.contains("Enum_") )
+    private $link.fieldType.replace("Enum_", "") $link.fieldName;
+#else
+    private ${link.fieldType} $link.fieldName;
+#end
+#end
+#if ($link.isCardinalityOneToMany())
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
+    @Fetch(FetchMode.SELECT)
+    @JsonBackReference
+#if ( $link.fieldType.contains("Enum_") )
+    private $link.fieldType.replace("Enum_", "") $link.fieldName;
+#else
+    private ${link.fieldType} $link.fieldName;
+#end
+#end
+#end
+#foreach( $field in $dataFields )
+
+    @Column(name = "$field.databaseName.toUpperCase()", nullable = false)
+#if ( $field.type.contains("Enum_") )
+    private $field.type $field.name#if($field.hasInitialValue())= ${field.initialValue}#end;
+#else
+    private $field.type.replace("Enum_", "") $field.name#if($field.hasInitialValue())= ${field.initialValue}#end;
+#end
+#end
+}

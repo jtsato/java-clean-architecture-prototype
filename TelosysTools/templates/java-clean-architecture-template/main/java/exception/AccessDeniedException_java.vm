@@ -1,0 +1,25 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#include ( "/include/author.vm" )
+
+public class AccessDeniedException extends RestException {
+
+#parse ( "include/serial_version.vm" )
+
+    public AccessDeniedException() {
+        super();
+    }
+
+    public AccessDeniedException(final String message) {
+        super(message);
+    }
+
+    public AccessDeniedException(final Object... args) {
+        super(args);
+    }
+
+    public AccessDeniedException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

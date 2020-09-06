@@ -1,0 +1,31 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import ${ROOT_PKG}.api.http.request.WebRequest;
+
+#include ( "/include/author.vm" )
+
+public class BaseController {
+
+    @Autowired
+    protected WebRequest webRequest;
+
+    @ModelAttribute
+    private void checkTenantId() {
+
+        if (StringUtils.isEmpty(webRequest.getTenantId())) {
+            throw new IllegalArgumentException("Tenant identifier not found in the request!");
+        }
+    }
+
+    @ModelAttribute
+    private void checkOrganizationId() {
+
+        if (StringUtils.isEmpty(webRequest.getOrganizationId())) {
+            throw new IllegalArgumentException("Company identifier not found in the request!");
+        }
+    }
+}

@@ -1,0 +1,23 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+#include ( "/include/author.vm" )
+
+@Profile("!prod")
+@Configuration
+@EnableWebSecurity
+@Order(110)
+public class SwaggerConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(final WebSecurity webSecurity)
+        throws Exception {
+        webSecurity.ignoring().antMatchers("/v2/api-docs", "/v2/api-docs/**");
+    }
+}

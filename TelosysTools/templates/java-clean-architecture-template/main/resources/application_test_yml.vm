@@ -1,0 +1,74 @@
+#parse ( "include/loader_stringutils.vm" )
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+logging:
+  level:
+    ${ROOT_PKG}: debug
+    org.springframework.web: warn
+    com.netflix.config.sources.URLConfigurationSource: error
+server:
+  http2:
+    enabled: true
+  servlet:
+    context-path: /v2/api
+  port: 8069
+  error:
+    whitelabel:
+      enabled: true
+spring:
+  application:
+    name: ${appName}
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+  datasource:
+    url: jdbc:h2:mem:datajpa;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: null
+    sqlScriptEncoding: UTF-8
+    hikari:
+      minimum-idle: 4
+      maximum-pool-size: 16
+      connection-timeout: 30000
+      idle-timeout: 300000
+      max-lifetime: 600000
+  jpa:
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        generate_statistics: false
+        jdbc:
+          batch_size: 30
+          order_inserts: true
+          order_updates: true
+        cache:
+          use_second_level_cache: false
+        connection:
+          provider_disables_autocommit: false
+    hibernate:
+      ddl-auto: create
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 600000
+        readTimeout: 900000
+        loggerLevel: basic
+  compression:
+    request:
+      enabled: true
+      mime-types: application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+  hystrix:
+    enabled: true

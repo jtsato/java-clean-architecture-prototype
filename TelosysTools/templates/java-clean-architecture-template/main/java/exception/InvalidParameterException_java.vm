@@ -1,0 +1,25 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#include ( "/include/author.vm" )
+
+public class InvalidParameterException extends RestException {
+
+#parse ( "include/serial_version.vm" )
+
+    public InvalidParameterException() {
+        super();
+    }
+
+    public InvalidParameterException(final String message) {
+        super(message);
+    }
+
+    public InvalidParameterException(final Object... args) {
+        super(args);
+    }
+
+    public InvalidParameterException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

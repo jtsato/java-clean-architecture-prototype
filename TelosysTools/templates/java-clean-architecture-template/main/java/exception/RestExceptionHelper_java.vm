@@ -1,0 +1,23 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.http.HttpStatus;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import ${ROOT_PKG}.api.http.response.HttpResponseStatus;
+import ${ROOT_PKG}.api.http.response.HttpResponseStatus.HttpResponseStatusBuilder;
+
+#include ( "/include/author.vm" )
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class RestExceptionHelper {
+
+    public static HttpResponseStatus buildHttpResponseStatus(final HttpStatus httpStatus, final String message, final String path) {
+        final HttpResponseStatusBuilder httpResponseStatusBuilder = HttpResponseStatus.builder();
+        httpResponseStatusBuilder.status(httpStatus.value());
+        httpResponseStatusBuilder.error(httpStatus.getReasonPhrase());
+        httpResponseStatusBuilder.message(message);
+        httpResponseStatusBuilder.path(path);
+        return httpResponseStatusBuilder.build();
+    }
+}

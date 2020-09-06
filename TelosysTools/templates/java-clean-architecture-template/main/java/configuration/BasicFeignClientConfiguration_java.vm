@@ -1,0 +1,39 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import feign.Contract;
+import feign.Retryer;
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
+
+#include ( "/include/author.vm" )
+
+@Configuration
+public class BasicFeignClientConfiguration {
+
+    @Bean
+    public Encoder feignFormEncoder(@Autowired final ObjectFactory<HttpMessageConverters> messageConverters) {
+        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+    }
+
+    @Bean
+    public feign.Logger.Level multipartLoggerLevel() {
+        return feign.Logger.Level.FULL;
+    }
+
+    @Bean
+    public Contract useFeignAnnotations() {
+        return new Contract.Default();
+    }
+
+    @Bean
+    public Retryer retryer() {
+        return Retryer.NEVER_RETRY;
+    }
+}

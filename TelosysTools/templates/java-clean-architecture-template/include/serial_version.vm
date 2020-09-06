@@ -1,0 +1,2 @@
+#parse ( "include/loader_uuid.vm" )
+    private static final long serialVersionUID = $uuid.randomUUID().getMostSignificantBits()L;

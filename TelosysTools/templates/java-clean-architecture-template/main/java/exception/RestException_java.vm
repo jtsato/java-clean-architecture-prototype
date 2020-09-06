@@ -1,0 +1,32 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.apache.commons.lang3.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@AllArgsConstructor
+public class RestException extends RuntimeException {
+
+#parse ( "include/serial_version.vm" )
+
+    private final String message;
+
+    private final transient Object[] args;
+
+    public RestException(final String message) {
+        super();
+        this.message = message;
+        args = new Object[] {};
+    }
+
+    public RestException(final Object... args) {
+        super();
+        message = StringUtils.EMPTY;
+        this.args = args;
+    }
+}

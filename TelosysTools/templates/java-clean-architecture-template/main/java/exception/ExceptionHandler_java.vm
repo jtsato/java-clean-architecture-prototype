@@ -1,0 +1,150 @@
+#parse ( "include/loader_stringutils.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import javax.ws.rs.ServiceUnavailableException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import ${ROOT_PKG}.api.http.request.WebRequest;
+import ${ROOT_PKG}.api.http.response.HttpResponseStatus;
+
+import feign.RetryableException;
+import lombok.extern.slf4j.Slf4j;
+
+#include ( "/include/author.vm" )
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+@Slf4j
+@RestControllerAdvice
+public class ${appName}ExceptionHandler {
+
+    private static final String EXCEPTION_ERROR = "Exception: ";
+    private static final String EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION = "exception.illegal-argument-exception";
+    private static final String EXCEPTION_UNAVAILABLE_SERVICE = "exception.unavailable-service";
+    private static final String EXCEPTION_ACCESS_DENIED = "exception.access-denied";
+
+    private final MessageSource messageSource;
+
+    @Autowired
+    private WebRequest webRequest;
+
+    @Autowired
+    public ${appName}ExceptionHandler(final MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AlreadyExistsException.class)
+    public HttpResponseStatus handleAlreadyExistsException(final Exception exception, final Locale locale) {
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, exception.getMessage(), webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public HttpResponseStatus handleHttpMessageNotReadableException(final Exception exception, final Locale locale) {
+        final String message = messageSource.getMessage("exception.http-message-not-readable-exception", null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public HttpResponseStatus handleIllegalArgumentException(final Exception exception, final Locale locale) {
+        final String message = StringUtils.isNotBlank(exception.getMessage()) ? exception.getMessage() : messageSource.getMessage(EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION, null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalStateException.class)
+    public HttpResponseStatus handleIllegalStateException(final Exception exception, final Locale locale) {
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, exception.getMessage(), webRequest.getPath());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidParameterException.class)
+    public HttpResponseStatus handleInvalidParametersException(final RestException exception, final Locale locale) {
+        log.error(EXCEPTION_ERROR, exception);
+        final String message = messageSource.getMessage(EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION, null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public HttpResponseStatus handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception, final Locale locale) {
+        final List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+        final String message = fieldErrors.stream().map(fieldError -> messageSource.getMessage(fieldError, locale)).collect(Collectors.joining("|"));
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public HttpResponseStatus handleMethodArgumentTypeMismatchException(final Exception exception, final Locale locale) {
+        final String message = messageSource.getMessage(EXCEPTION_ILLEGAL_ARGUMENT_EXCEPTION, null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RuntimeException.class)
+    public HttpResponseStatus handleRuntimeException(final Exception exception, final Locale locale) {
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.BAD_REQUEST, exception.getMessage(), webRequest.getPath());
+    }
+
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    @ExceptionHandler(RetryableException.class)
+    public HttpResponseStatus handleRetryableException(final RestException exception, final Locale locale) {
+        final String message = messageSource.getMessage(EXCEPTION_UNAVAILABLE_SERVICE, exception.getArgs(), locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.EXPECTATION_FAILED, message, webRequest.getPath());
+    }
+
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public HttpResponseStatus handleServiceUnavailableException(final ServiceUnavailableException exception, final Locale locale) {
+        log.error(EXCEPTION_ERROR, exception);
+        final String message = messageSource.getMessage(EXCEPTION_UNAVAILABLE_SERVICE, null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.EXPECTATION_FAILED, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public HttpResponseStatus handleAccessDeniedException(final RestException exception, final Locale locale) {
+        final String message = StringUtils.isNotBlank(exception.getMessage()) ? exception.getMessage() : messageSource.getMessage(EXCEPTION_ACCESS_DENIED, null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.FORBIDDEN, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public HttpResponseStatus handleException(final Exception exception, final Locale locale) {
+        log.error("Exception Message: {}. Cause: {}.", exception.getMessage(), exception.getCause());
+        final String message = messageSource.getMessage("exception.unexpected", null, locale);
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public HttpResponseStatus handleNotFoundException(final Exception exception, final Locale locale) {
+        return RestExceptionHelper.buildHttpResponseStatus(HttpStatus.NOT_FOUND, exception.getMessage(), webRequest.getPath());
+    }
+}

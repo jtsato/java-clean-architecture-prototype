@@ -1,0 +1,3 @@
+#if ( !$entity.name.contains("Enum_") )
+$generator.generate($target.entityName ,  "${entity.name}Repository.java", $target.folder, "main/java/repository/repository_java.vm"  )
+#end

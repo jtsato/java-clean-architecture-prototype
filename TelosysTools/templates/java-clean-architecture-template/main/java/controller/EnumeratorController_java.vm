@@ -1,0 +1,46 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${ROOT_PKG}.api.http.response.Enumerator;
+import ${ROOT_PKG}.api.http.response.HttpResponseStatus;
+import ${ROOT_PKG}.service.EnumeratorService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+
+#include ( "/include/author.vm" )
+
+@Api(value = "/enumerators")
+@Slf4j
+@RestController
+@RequestMapping(value = "/enumerators")
+public class EnumeratorController extends BaseController {
+
+    @Qualifier("enumeratorServiceImpl")
+    @Autowired
+    private EnumeratorService enumeratorService;
+
+    @ApiOperation(code = 200, value = "Find all enumerators filtering by domain and/or key", response = Enumerator.class, responseContainer = "List")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "unsuccessful operation", response = HttpResponseStatus.class),
+                           @ApiResponse(code = 401, message = "not authenticated", response = HttpResponseStatus.class),
+                           @ApiResponse(code = 403, message = "access token does not have the required scope", response = HttpResponseStatus.class)})
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public List<Enumerator> findAll(@RequestParam(required = false, defaultValue = "") final String domain, @RequestParam(required = false, defaultValue = "") final String key) {
+        log.info("REST request to get enumerator by domain and key. Domain: {}, Key: {}", domain, key);
+        return enumeratorService.filterByDomainAndKey(domain, key);
+    }
+}

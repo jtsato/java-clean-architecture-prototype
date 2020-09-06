@@ -1,0 +1,20 @@
+#parse ( "/include/loader_stringutils.vm" )
+package ${ROOT_PKG};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.cosium.spring.data.jpa.entity.graph.repository.support.EntityGraphJpaRepositoryFactoryBean;
+
+#include ( "/include/author.vm" )
+
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+@SpringBootApplication
+@EnableJpaRepositories(basePackageClasses = ${appName}Application.class, repositoryFactoryBeanClass = EntityGraphJpaRepositoryFactoryBean.class)
+public class ${appName}Application {
+
+    public static void main(final String[] args) {
+        SpringApplication.run(${appName}Application.class, args);
+    }
+}

@@ -1,0 +1,60 @@
+import java.io.Serializable;
+#set ( $toMany = 0 )
+#set ( $toOne = 0 )
+#foreach( $link in $entity.selectedLinks )
+#if ( $link.isCardinalityManyToMany() || $link.isCardinalityOneToMany() )
+#set ( $toMany = $toMany + 1 )
+#end
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
+#set ( $toOne = $toOne + 1 )
+#end
+#end
+#foreach( $import in $java.imports($entity.attributes) )
+import $import;
+#end
+#if ( $toMany > 0 )
+import java.util.List;
+#end
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+#if ( $toMany > 0) 
+import javax.persistence.CascadeType;
+#end
+#if ( $toMany > 0 || $toOne > 0) 
+import javax.persistence.FetchType; 
+#end
+#if ( $toOne > 0) 
+import javax.persistence.ForeignKey;
+#end
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+#if ( $toOne > 0) 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+#end
+import javax.persistence.Index;
+#if ( $toMany > 0) 
+import javax.persistence.OneToMany;
+#end
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+#if ( $toMany > 0) 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+#end
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;

@@ -1,0 +1,38 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
+public class HttpResponseStatus implements Serializable {
+
+#parse ( "include/serial_version.vm" )
+
+    @Setter(AccessLevel.NONE)
+    @Default
+    private final LocalDateTime timestamp = LocalDateTime.now();
+
+    private long status;
+
+    private String error;
+
+    private String message;
+
+    private String path;
+}

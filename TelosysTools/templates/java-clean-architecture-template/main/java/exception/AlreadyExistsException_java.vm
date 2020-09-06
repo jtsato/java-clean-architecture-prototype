@@ -1,0 +1,25 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#include ( "/include/author.vm" )
+
+public class AlreadyExistsException extends RestException {
+
+#parse ( "include/serial_version.vm" )
+
+    public AlreadyExistsException() {
+        super();
+    }
+
+    public AlreadyExistsException(final String message) {
+        super(message);
+    }
+
+    public AlreadyExistsException(final Object... args) {
+        super(args);
+    }
+
+    public AlreadyExistsException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

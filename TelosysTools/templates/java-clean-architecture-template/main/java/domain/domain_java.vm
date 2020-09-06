@@ -1,0 +1,5 @@
+#if ( $entity.name.contains("Enum_") )
+#parse( "main/java/domain/domain_enumerator_java.vm" )
+#else
+#parse( "main/java/domain/domain_entity_java.vm" )
+#end

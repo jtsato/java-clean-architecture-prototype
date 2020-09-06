@@ -1,0 +1,19 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphJpaRepository;
+import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphQuerydslPredicateExecutor;
+import ${ENTITY_PKG}.${entity.name};
+import com.querydsl.core.types.Predicate;
+
+#include ( "/include/author.vm" )
+
+@Repository
+public interface ${entity.name}Repository extends EntityGraphJpaRepository<${entity.name}, Long>, EntityGraphQuerydslPredicateExecutor<${entity.name}> {
+
+    @Override
+    List<${entity.name}> findAll(final Predicate predicate);
+}

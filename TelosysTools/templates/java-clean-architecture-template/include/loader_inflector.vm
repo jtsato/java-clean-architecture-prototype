@@ -1,0 +1,1 @@
+#set($inflector = $loader.loadClass("com.sun.jersey.core.impl.provider.entity.Inflector") )

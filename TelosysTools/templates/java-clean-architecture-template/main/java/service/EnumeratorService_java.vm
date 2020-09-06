@@ -1,0 +1,16 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.List;
+
+import ${ROOT_PKG}.api.http.response.Enumerator;
+
+#include ( "/include/author.vm" )
+
+public interface EnumeratorService {
+
+    List<Enumerator> findAll();
+
+    List<Enumerator> findAllByDomain(final String domain);
+
+    List<Enumerator> filterByDomainAndKey(final String domain, final String key);
+}

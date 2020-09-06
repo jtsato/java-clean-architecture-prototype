@@ -1,0 +1,95 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ${ROOT_PKG}.api.http.response.Enumerator;
+#foreach( $entity in $model.allEntites )
+#if ( $entity.name.contains("Enum_") )
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+import ${ROOT_PKG}.domain.$entityName;
+#end
+#end
+import ${ROOT_PKG}.service.EnumeratorService;
+
+#include ( "/include/author.vm" )
+
+@Transactional(readOnly = true)
+@Service("enumeratorServiceImpl")
+public class EnumeratorServiceImpl implements EnumeratorService {
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private final ConcurrentHashMap<Locale, List<Enumerator>> cache = new ConcurrentHashMap<>();
+
+    @Override
+    public List<Enumerator> findAll() {
+        return filterByDomainAndKey(StringUtils.EMPTY, StringUtils.EMPTY);
+    }
+
+    @Override
+    public List<Enumerator> findAllByDomain(final String domain) {
+        return filterByDomainAndKey(domain, StringUtils.EMPTY);
+    }
+
+    @Override
+    public List<Enumerator> filterByDomainAndKey(final String domain, final String key) {
+        final Predicate<? super Enumerator> filter = enumerator -> {
+            final boolean sameDomainOrNoDomain = StringUtils.isBlank(domain) || enumerator.getDomain().equals(domain);
+            final boolean sameKeyOrNoKey = StringUtils.isBlank(key) || enumerator.getKey().equals(key);
+            return sameDomainOrNoDomain && sameKeyOrNoKey;
+        };
+        return getEnumerators().stream().filter(filter).collect(Collectors.toList());
+    }
+
+    private List<Enumerator> getEnumerators() {
+
+        List<Enumerator> enumerators = cache.get(LocaleContextHolder.getLocale());
+
+        if (enumerators == null) {
+            enumerators = getAllEnumerators();
+            cache.put(LocaleContextHolder.getLocale(), enumerators);
+        }
+
+        return enumerators;
+    }
+
+    private List<Enumerator> getAllEnumerators() {
+
+        final List<Enumerator> enumerators = new ArrayList<>(0);
+#foreach( $entity in $model.allEntites )
+#if ( $entity.name.contains("Enum_") )
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+        enumerators.addAll(Arrays.asList(${entityName}.values()).stream().map(this::getEnumerator).collect(Collectors.toList()));
+#end
+#end
+
+        return enumerators;
+    }
+#foreach( $entity in $model.allEntites )
+#if ( $entity.name.contains("Enum_") )
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+
+    private Enumerator getEnumerator(final $entityName enumerator) {
+        return Enumerator.builder().domain("$entityName").key(enumerator.name()).value(getMessage(enumerator.getMessageKey())).build();
+    }
+#end
+#end
+
+    private String getMessage(final String key) {
+        return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+    }
+}

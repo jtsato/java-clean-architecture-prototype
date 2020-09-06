@@ -1,0 +1,45 @@
+#parse ( "include/loader_stringutils.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.util.Arrays;
+
+#include ( "/include/author.vm" )
+
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+public enum ${entityName} {
+
+#foreach( $field in $entity.attributes )
+        $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() {
+
+            @Override
+            public String getMessageKey() {
+                return "enum-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($entityName), "-").toLowerCase()-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($$field.name), "-").toLowerCase()";
+            }
+#if( $foreach.hasNext )
+        },
+#else
+        };
+#end
+#end
+
+    public String getMessageKey() {
+        return null;
+    }
+
+    public boolean is(final $entityName other) {
+        return equals(other);
+    }
+
+    public boolean isNot(final $entityName other) {
+        return !is(other);
+    }
+
+    public boolean in(final $entityName... others) {
+        return Arrays.asList(others).stream().anyMatch(this::equals);
+    }
+
+    public boolean notIn(final $entityName... others) {
+        return Arrays.asList(others).stream().noneMatch(this::equals);
+    }
+}
+$target.forceEntityName(${entityName})

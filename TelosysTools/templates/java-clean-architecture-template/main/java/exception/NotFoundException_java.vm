@@ -1,0 +1,25 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#include ( "/include/author.vm" )
+
+public class NotFoundException extends RestException {
+
+#parse ( "include/serial_version.vm" )
+
+    public NotFoundException() {
+        super();
+    }
+
+    public NotFoundException(final String message) {
+        super(message);
+    }
+
+    public NotFoundException(final Object... args) {
+        super(args);
+    }
+
+    public NotFoundException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

@@ -1,0 +1,73 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
+public class WebRequest implements Serializable {
+
+#parse ( "include/serial_version.vm" )
+
+    protected String tenantId;
+
+    protected String channelId;
+
+    protected String id;
+
+    protected String organizationId;
+
+    protected String userId;
+
+    protected String email;
+
+    protected String fullName;
+
+    protected String path;
+
+    protected transient List<String> roles;
+
+    protected transient List<String> companies;
+
+    public boolean canViewAllCompanies() {
+        if (companies == null) {
+            return false;
+        }
+        return companies.stream().anyMatch(company -> StringUtils.contains(company, "*"));
+    }
+
+    public boolean canNotViewAllCompanies() {
+        return !canViewAllCompanies();
+    }
+
+    public List<String> getCompanies() {
+        if (companies == null) {
+            return Collections.emptyList();
+        }
+        return companies.stream().filter(company -> !StringUtils.equals(company, "*")).collect(Collectors.toList());
+    }
+
+    public boolean hasAccess(final String companyId) {
+        if (canViewAllCompanies()) {
+            return true;
+        }
+        return getCompanies().stream().anyMatch(company -> StringUtils.equalsIgnoreCase(company, companyId));
+    }
+}

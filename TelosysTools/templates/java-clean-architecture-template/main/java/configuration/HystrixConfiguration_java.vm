@@ -1,0 +1,21 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+#include ( "/include/author.vm" )
+
+@Configuration
+@EnableWebSecurity
+@Order(130)
+public class HystrixConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(final WebSecurity webSecurity)
+        throws Exception {
+        webSecurity.ignoring().antMatchers("/hystrix", "/hystrix/**", "/webjars", "/webjars/**", "/*.stream");
+    }
+}

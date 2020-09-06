@@ -1,0 +1,15 @@
+#set( $clientPackage           = "${ROOT_PKG}.api.http" )
+#set( $requestPackage          = "${ROOT_PKG}.api.http.request" )
+#set( $responsePackage         = "${ROOT_PKG}.api.http.response" )
+#set( $queryParameterPackage   = "${ROOT_PKG}.api.http.search" )
+
+#set( $controllerPackage       = "${ROOT_PKG}.controller" )
+#set( $servicePackage          = "${ROOT_PKG}.service" )
+#set( $serviceImplPackage      = "${ROOT_PKG}.service.impl" )
+#set( $repositoryPackage       = "${ROOT_PKG}.repository" )
+#set( $predicateBuilderPackage = "${ROOT_PKG}.repository.predicate" )
+#set( $domainPackage           = "${ROOT_PKG}.domain" )
+#set( $exceptionPackage        = "${ROOT_PKG}.exception" )
+
+#set( $controllerTestPackage   = "${ROOT_PKG}.controller" )
+#set( $yamlLoaderPackage       = "${ROOT_PKG}.mock" )

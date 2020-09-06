@@ -1,0 +1,27 @@
+#parse ( "include/loader_stringutils.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+import com.cosium.spring.data.jpa.entity.graph.repository.support.EntityGraphJpaRepositoryFactoryBean;
+
+#include ( "/include/author.vm" )
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+@EnableAsync
+@EnableCircuitBreaker
+@EnableFeignClients
+@EnableCaching
+@SpringBootApplication
+@EnableJpaRepositories(basePackageClasses = ${appName}Application.class, repositoryFactoryBeanClass = EntityGraphJpaRepositoryFactoryBean.class)
+public class ${appName}Application {
+
+    public static void main(final String[] args) {
+        SpringApplication.run(${appName}Application.class, args);
+    }
+}

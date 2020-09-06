@@ -1,0 +1,25 @@
+#parse ( "include/loader_uuid.vm" )
+package ${target.javaPackageFromFolder(${SRC})};
+
+#include ( "/include/author.vm" )
+
+public class ServiceUnavailableException extends RestException {
+
+#parse ( "include/serial_version.vm" )
+
+    public ServiceUnavailableException() {
+        super();
+    }
+
+    public ServiceUnavailableException(final String message) {
+        super(message);
+    }
+
+    public ServiceUnavailableException(final Object... args) {
+        super(args);
+    }
+
+    public ServiceUnavailableException(final String message, final Object... args) {
+        super(message, args);
+    }
+}
