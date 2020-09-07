@@ -8,10 +8,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import ${ROOT_PKG}.BookstoreApplication;
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+import ${ROOT_PKG}.${appName}Application;
 
 #include ( "/include/author.vm" )
-#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+
 @Profile("!prod")
 @Configuration
 @ComponentScan(basePackageClasses = ${appName}Application.class)

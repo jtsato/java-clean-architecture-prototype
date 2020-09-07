@@ -38,17 +38,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>${MAVEN_GROUP_ID}</groupId>
-			<artifactId>bookstore-core</artifactId>
+			<artifactId>${MAVEN_ARTIFACT_ID}-core</artifactId>
 			<version>${dollar}{project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${MAVEN_GROUP_ID}</groupId>
-			<artifactId>bookstore-rest</artifactId>
+			<artifactId>${MAVEN_ARTIFACT_ID}-rest</artifactId>
 			<version>${dollar}{project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${MAVEN_GROUP_ID}</groupId>
-			<artifactId>bookstore-dataprovider-mysql</artifactId>
+			<artifactId>${MAVEN_ARTIFACT_ID}-dataprovider-mysql</artifactId>
 			<version>${dollar}{project.version}</version>
 		</dependency>
 		<dependency>
@@ -74,7 +74,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>bookstore-starter</finalName>
+		<finalName>${MAVEN_ARTIFACT_ID}-starter</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

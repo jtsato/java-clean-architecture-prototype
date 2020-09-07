@@ -12,6 +12,7 @@ import io.github.jtsato.bookstore.BookstoreApplication;
 /**
  * @author Jorge Takeshi Sato  
  */
+
 @Profile("!prod")
 @Configuration
 @ComponentScan(basePackageClasses = BookstoreApplication.class)

@@ -1,0 +1,14 @@
+package ${ROOT_PKG}.entrypoint.rest.common.metric;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+#include ( "/include/author.vm" )
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface LogExecutionTime {
+
+}

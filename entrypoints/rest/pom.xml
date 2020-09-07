@@ -198,16 +198,14 @@
 					<sourceDataFormats>
 						<sourceDataFormat>HTML</sourceDataFormat>
 					</sourceDataFormats>
-					<siteReportName>bookstore-rest-springboot</siteReportName>
-					<siteReportDescription>Bookstore rest springboot mutation report</siteReportDescription>
-					<siteReportDirectory>bookstore-rest-springboot</siteReportDirectory>
+					<siteReportName>bookstore-rest</siteReportName>
+					<siteReportDescription>Bookstore rest mutation report</siteReportDescription>
+					<siteReportDirectory>bookstore-rest</siteReportDirectory>
 					<targetClasses>
-						<param>io.github.jtsato.bookstore.entrypoint.rest.author.controller.*Controller</param>
-						<param>io.github.jtsato.bookstore.entrypoint.rest.book.controller.*Controller</param>
+						<param>io.github.jtsato.bookstore.entrypoint.rest.*.controller.*Controller</param>
 					</targetClasses>
 					<targetTests>
-						<param>io.github.jtsato.bookstore.entrypoint.rest.author.controller.*ControllerTest</param>
-						<param>io.github.jtsato.bookstore.entrypoint.rest.book.controller.*ControllerTest</param>
+						<param>io.github.jtsato.bookstore.entrypoint.rest.*.controller.*ControllerTest</param>
 					</targetTests>
 				</configuration>
 				<dependencies>

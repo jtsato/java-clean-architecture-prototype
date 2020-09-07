@@ -47,7 +47,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.github.jtsato</groupId>
-			<artifactId>bookstore-core</artifactId>
+			<artifactId>${MAVEN_ARTIFACT_ID}-core</artifactId>
 			<version>${dollar}{project.version}</version>
 		</dependency>
 		<dependency>
