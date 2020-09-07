@@ -1,0 +1,26 @@
+#parse ( "/include/loader_stringutils.vm" )
+package ${ROOT_PKG}.configuration;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import ${ROOT_PKG}.BookstoreApplication;
+
+#include ( "/include/author.vm" )
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+@Profile("!prod")
+@Configuration
+@ComponentScan(basePackageClasses = ${appName}Application.class)
+@Import(SwaggerConfiguration.class)
+public class SwaggerUIConfiguration implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+}
