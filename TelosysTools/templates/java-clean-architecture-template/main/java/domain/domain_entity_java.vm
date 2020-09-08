@@ -30,7 +30,7 @@ package ${target.javaPackageFromFolder(${SRC})};
 )
 public class ${entity.name} implements Serializable {
 
-#parse ( "include/serial_version.vm" )
+#parse ( "/include/serial_version.vm" )
 #foreach( $field in $entity.keyAttributes )
 
     @Access(AccessType.PROPERTY)

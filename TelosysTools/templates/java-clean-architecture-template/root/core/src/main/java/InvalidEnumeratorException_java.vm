@@ -1,0 +1,15 @@
+package ${ROOT_PKG}.core.exception;
+
+import lombok.Getter;
+
+#include ( "/include/author.vm" )
+
+@Getter
+public class InvalidEnumeratorException extends CoreException {
+
+#parse ( "/include/serial_version.vm" )
+
+    public InvalidEnumeratorException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

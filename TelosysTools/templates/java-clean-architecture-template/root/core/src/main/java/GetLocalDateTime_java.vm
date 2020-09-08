@@ -1,0 +1,11 @@
+package ${ROOT_PKG}.core.common;
+
+import java.time.LocalDateTime;
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface GetLocalDateTime {
+
+    LocalDateTime now();
+}

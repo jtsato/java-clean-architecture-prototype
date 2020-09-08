@@ -5,7 +5,7 @@ package ${target.javaPackageFromFolder(${SRC})};
 
 public class AlreadyExistsException extends RestException {
 
-#parse ( "include/serial_version.vm" )
+#parse ( "/include/serial_version.vm" )
 
     public AlreadyExistsException() {
         super();

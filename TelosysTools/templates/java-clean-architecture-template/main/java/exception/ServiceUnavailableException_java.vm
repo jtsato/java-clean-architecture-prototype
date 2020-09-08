@@ -5,7 +5,7 @@ package ${target.javaPackageFromFolder(${SRC})};
 
 public class ServiceUnavailableException extends RestException {
 
-#parse ( "include/serial_version.vm" )
+#parse ( "/include/serial_version.vm" )
 
     public ServiceUnavailableException() {
         super();

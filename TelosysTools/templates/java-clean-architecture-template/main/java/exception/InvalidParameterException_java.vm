@@ -5,7 +5,7 @@ package ${target.javaPackageFromFolder(${SRC})};
 
 public class InvalidParameterException extends RestException {
 
-#parse ( "include/serial_version.vm" )
+#parse ( "/include/serial_version.vm" )
 
     public InvalidParameterException() {
         super();

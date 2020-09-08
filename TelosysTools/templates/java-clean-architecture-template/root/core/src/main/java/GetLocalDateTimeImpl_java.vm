@@ -1,0 +1,16 @@
+package ${ROOT_PKG}.core.common;
+
+import java.time.LocalDateTime;
+
+import javax.inject.Named;
+
+#include ( "/include/author.vm" )
+
+@Named
+public class GetLocalDateTimeImpl implements GetLocalDateTime {
+
+    @Override
+    public LocalDateTime now() {
+        return LocalDateTime.now();
+    }
+}

@@ -1,0 +1,29 @@
+#parse ( "include/loader_stringutils.vm" )
+package ${ROOT_PKG}.core.exception;
+
+import lombok.Getter;
+
+#include ( "/include/author.vm" )
+
+public class CoreException extends RuntimeException {
+
+#parse ( "/include/serial_version.vm" )
+
+    @Getter
+    private final String message;
+
+    @Getter
+    private final transient Object[] args;
+
+    public CoreException(final String message) {
+        super();
+        this.message = message;
+        this.args = new Object[] {};
+    }
+
+    public CoreException(final String message, final Object... args) {
+        super();
+        this.message = message;
+        this.args = args;
+    }
+}

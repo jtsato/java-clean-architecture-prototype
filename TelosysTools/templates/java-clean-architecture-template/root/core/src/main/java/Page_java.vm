@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.common.paging;
+
+import java.util.List;
+
+#include ( "/include/author.vm" )
+
+public interface Page<T> {
+
+    List<T> getContent();
+
+    Pageable getPageable();
+}

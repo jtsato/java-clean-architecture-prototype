@@ -76,8 +76,7 @@ public class EnumeratorServiceImpl implements EnumeratorService {
         enumerators.addAll(Arrays.asList(${entityName}.values()).stream().map(this::getEnumerator).collect(Collectors.toList()));
 #end
 #end
-
-        return enumerators;
+		return enumerators;
     }
 #foreach( $entity in $model.allEntites )
 #if ( $entity.name.contains("Enum_") )

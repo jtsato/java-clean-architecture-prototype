@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.exception;
+
+#include ( "/include/author.vm" )
+
+public class InvalidParameterException extends CoreException {
+
+#parse ( "/include/serial_version.vm" )
+
+    public InvalidParameterException(final String message) {
+        super(message);
+    }
+}

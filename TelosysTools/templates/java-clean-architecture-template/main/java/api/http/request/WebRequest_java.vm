@@ -24,7 +24,7 @@ import lombok.ToString;
 @Builder
 public class WebRequest implements Serializable {
 
-#parse ( "include/serial_version.vm" )
+#parse ( "/include/serial_version.vm" )
 
     protected String tenantId;
 

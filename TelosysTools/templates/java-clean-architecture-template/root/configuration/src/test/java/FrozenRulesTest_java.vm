@@ -1,0 +1,23 @@
+#parse ( "include/loader_stringutils.vm" )
+#set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
+package ${ROOT_PKG}.archunit;
+
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.freeze.FreezingArchRule.freeze;
+
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
+
+import ${ROOT_PKG}.${appName}Application;
+
+#include ( "/include/author.vm" )
+
+@AnalyzeClasses(packagesOf = ${appName}Application.class)
+public class FrozenRulesTest {
+
+    @ArchTest
+    static final ArchRule no_classes_should_use_the_exception_handler = freeze(noClasses().should()
+                                                                                          .dependOnClassesThat()
+                                                                                          .areAssignableTo(${appName}Application.class));
+}

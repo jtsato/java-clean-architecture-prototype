@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.exception;
+
+#include ( "/include/author.vm" )
+
+public class NotFoundException extends CoreException {
+
+#parse ( "/include/serial_version.vm" )
+
+    public NotFoundException(final String message, final Object... args) {
+        super(message, args);
+    }
+}

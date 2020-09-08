@@ -1,0 +1,27 @@
+package ${ROOT_PKG}.core.enumerator.usecase.parameter;
+
+import java.io.Serializable;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = false)
+public class SearchEnumeratorsParameters implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private final String domain;
+
+    private final String key;
+
+    public SearchEnumeratorsParameters(final String domain, final String key) {
+        this.domain = domain;
+        this.key = key;
+    }
+}

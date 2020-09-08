@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.exception;
+
+#include ( "/include/author.vm" )
+
+public class UniqueConstraintException extends CoreException {
+
+#parse ( "/include/serial_version.vm" )
+
+    public UniqueConstraintException(final String message, final Object... args) {
+        super(message, args);
+    }
+}
