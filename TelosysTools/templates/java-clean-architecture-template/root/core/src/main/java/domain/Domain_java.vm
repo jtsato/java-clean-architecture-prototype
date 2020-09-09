@@ -17,7 +17,11 @@ public class ${entity.name} implements Serializable {
 #parse ( "/include/serial_version.vm" )
 #foreach( $field in $entity.keyAttributes )
 
+#if ( $field.isLongType() )
+    private final Long $field.name;
+#else
     private final $field.type $field.name;
+#end
 #end
 #foreach( $link in $entity.selectedLinks )
 #if ($link.isCardinalityManyToOne())
