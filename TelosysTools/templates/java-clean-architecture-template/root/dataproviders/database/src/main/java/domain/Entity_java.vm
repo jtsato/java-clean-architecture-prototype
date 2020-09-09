@@ -1,8 +1,6 @@
 #parse ( "include/loader_stringutils.vm" )
 #parse ( "include/loader_inflector.vm" )
 #set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
-#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
-#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
 #set( $tableName = $strUtils.upperCase( $inflector.getInstance().pluralize( $entity.databaseTable ) ) )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 

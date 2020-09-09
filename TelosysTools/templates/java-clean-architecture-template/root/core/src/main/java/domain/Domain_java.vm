@@ -1,7 +1,5 @@
 #parse ( "include/loader_stringutils.vm" )
 #set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
-#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
-#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain;
 
 #parse ( "/root/core/src/main/java/domain/Domain_Imports_java.vm" )
