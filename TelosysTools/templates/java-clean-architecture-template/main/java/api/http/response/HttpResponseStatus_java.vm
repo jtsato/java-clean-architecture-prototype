@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 public class HttpResponseStatus implements Serializable {
 
-#parse ( "/include/serial_version.vm" )
+#parse ( "include/serial_version.vm" )
 
     @Setter(AccessLevel.NONE)
     @Default

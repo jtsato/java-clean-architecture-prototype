@@ -1,5 +1,15 @@
 #parse ( "include/loader_stringutils.vm" )
-package ${target.javaPackageFromFolder(${SRC})};
+## Looking for the parent package
+#foreach( $element in $model.allEntites )
+#foreach( $field in $element.selectedLinks )
+#if ( $field.fieldType.contains("Enum_") )
+#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
+#if ( $field.fieldType.equalsIgnoreCase($entity.name) )
+package ${ROOT_PKG}.core.${element.name.toLowerCase()}.domain;
+#end
+#end
+#end
+#end
 
 import java.util.Arrays;
 
@@ -22,24 +32,22 @@ public enum ${entityName} {
 #end
 #end
 
-    public String getMessageKey() {
-        return null;
-    }
+    public abstract String getMessageKey();
 
-    public boolean is(final $entityName other) {
+    public boolean is(final Gender other) {
         return equals(other);
     }
 
-    public boolean isNot(final $entityName other) {
+    public boolean isNot(final Gender other) {
         return !is(other);
     }
 
-    public boolean in(final $entityName... others) {
-        return Arrays.asList(others).stream().anyMatch(this::equals);
+    public boolean in(final Gender... others) {
+        return Arrays.asList(others).contains(this);
     }
 
-    public boolean notIn(final $entityName... others) {
-        return Arrays.asList(others).stream().noneMatch(this::equals);
+    public boolean notIn(final Gender... others) {
+        return Arrays.stream(others).noneMatch(this::equals);
     }
 }
 $target.forceEntityName(${entityName})

@@ -1,9 +1,9 @@
 Book {
-  id : long { @Id };
+  id : long  { @Id };
   author : Author ;
   title : string { @NotBlank };
   price : decimal ;
   available : boolean ;
-  creationDate : date ;
-  updateDate : date ;
+  creationDate : timestamp ;
+  updateDate : timestamp ;
 }

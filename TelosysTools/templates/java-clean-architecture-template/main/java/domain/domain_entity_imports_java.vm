@@ -1,16 +1,19 @@
 import java.io.Serializable;
 #set ( $toMany = 0 )
 #set ( $toOne = 0 )
+
 #foreach( $link in $entity.selectedLinks )
 #if ( $link.isCardinalityManyToMany() || $link.isCardinalityOneToMany() )
 #set ( $toMany = $toMany + 1 )
 #end
 #end
+
 #foreach( $link in $entity.selectedLinks )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
 #set ( $toOne = $toOne + 1 )
 #end
 #end
+
 #foreach( $import in $java.imports($entity.attributes) )
 import $import;
 #end

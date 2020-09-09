@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.jtsato.bookstore.core.author.domain.Gender;
 import io.github.jtsato.bookstore.core.enumerator.domain.Enumerator;
 import io.github.jtsato.bookstore.core.enumerator.usecase.SearchEnumeratorsUseCase;
 import io.github.jtsato.bookstore.core.enumerator.usecase.parameter.SearchEnumeratorsParameters;

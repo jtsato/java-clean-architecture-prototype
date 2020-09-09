@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class KeyValueResponse implements Serializable {
 
-#parse ( "/include/serial_version.vm" )
+#parse ( "include/serial_version.vm" )
 
     private Long id;
 

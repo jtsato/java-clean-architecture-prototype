@@ -30,7 +30,7 @@ package ${target.javaPackageFromFolder(${SRC})};
 )
 public class ${entity.name} implements Serializable {
 
-#parse ( "/include/serial_version.vm" )
+#parse ( "include/serial_version.vm" )
 #foreach( $field in $entity.keyAttributes )
 
     @Access(AccessType.PROPERTY)
@@ -42,22 +42,22 @@ public class ${entity.name} implements Serializable {
 #foreach( $link in $entity.selectedLinks )
 #if ($link.isCardinalityManyToOne())
 
-    @JoinColumn(name = "$link.fieldName.toUpperCase()_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_$link.fieldName.toUpperCase()_ID"))
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
 #if ( $link.fieldType.contains("Enum_") )
     private $link.fieldType.replace("Enum_", "") $link.fieldName;
 #else
+    @JoinColumn(name = "$link.fieldName.toUpperCase()_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_$link.fieldName.toUpperCase()_ID"))
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ${link.fieldType} $link.fieldName;
 #end
 #end
 #if ($link.isCardinalityOneToMany())
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
-    @Fetch(FetchMode.SELECT)
-    @JsonBackReference
 #if ( $link.fieldType.contains("Enum_") )
     private $link.fieldType.replace("Enum_", "") $link.fieldName;
 #else
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
+    @Fetch(FetchMode.SELECT)
+    @JsonBackReference
     private ${link.fieldType} $link.fieldName;
 #end
 #end

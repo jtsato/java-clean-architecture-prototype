@@ -11,10 +11,11 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
-#foreach( $entity in $model.allEntites )
-#if ( $entity.name.contains("Enum_") )
-#foreach( $import in $java.imports($entity) )
-import $import;
+#foreach( $element in $model.allEntites )
+#foreach( $field in $element.selectedLinks )
+#if ( $field.fieldType.contains("Enum_") )
+#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
+import ${ROOT_PKG}.core.${element.name.toLowerCase()}.domain.${fieldType};
 #end
 #end
 #end

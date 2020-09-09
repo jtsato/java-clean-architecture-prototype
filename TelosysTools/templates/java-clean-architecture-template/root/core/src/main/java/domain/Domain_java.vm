@@ -1,0 +1,53 @@
+#parse ( "include/loader_stringutils.vm" )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain;
+
+#parse ( "/root/core/src/main/java/domain/Domain_Imports_java.vm" )
+
+#include ( "/include/author.vm" )
+
+@Getter
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@ToString
+public class ${entity.name} implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+#foreach( $field in $entity.keyAttributes )
+
+    private final $field.type $field.name;
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ($link.isCardinalityManyToOne())
+#if ( $link.fieldType.contains("Enum_") )
+    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
+#else
+    private final ${link.fieldType} $link.fieldName;
+#end
+#elseif ($link.isCardinalityOneToMany())
+#if ( $link.fieldType.contains("Enum_") )
+    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
+#else
+    private final ${link.fieldType} $link.fieldName;
+#end
+#end
+#end
+#foreach( $field in $dataFields )
+#if ( $field.type.contains("Enum_") )
+    private final $field.type.replace("Enum_", "") $field.name;
+#elseif ( $field.isLongType() )
+    private final Long $field.name;
+#elseif ( $field.isDecimalType() )
+    private final BigDecimal $field.name;
+#elseif ( $field.isDateType() )
+    private final LocalDate $field.name;
+#elseif ( $field.isTimestampType() )
+    private final LocalDateTime $field.name;
+#else
+    private final $field.type $field.name;
+#end
+#end
+}
+$target.forceEntityName(${entity.name})

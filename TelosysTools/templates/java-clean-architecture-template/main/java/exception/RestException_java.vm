@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RestException extends RuntimeException {
 
-#parse ( "/include/serial_version.vm" )
+#parse ( "include/serial_version.vm" )
 
     private final String message;
 
