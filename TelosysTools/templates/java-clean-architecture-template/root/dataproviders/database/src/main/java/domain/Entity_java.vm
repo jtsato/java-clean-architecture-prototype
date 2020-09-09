@@ -1,0 +1,89 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#set( $tableName = $strUtils.upperCase( $inflector.getInstance().pluralize( $entity.databaseTable ) ) )
+package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
+
+#parse ( "/root/dataproviders/database/src/main/java/domain/Entity_Imports_java.vm" )
+
+#include ( "/include/author.vm" )
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "${tableName}",
+       uniqueConstraints = {
+#foreach( $field in $entity.keyAttributes )
+            @UniqueConstraint(columnNames = {"$field.databaseName.toUpperCase()"}, name = "UN_${tableName}_$field.databaseName.toUpperCase()"),
+#end
+       },
+       indexes = {
+#foreach( $field in $entity.attributes )
+            @Index(columnList = "$field.databaseName.toUpperCase()", name = "IDX_${tableName}_$field.databaseName.toUpperCase()"),
+#end
+       }
+)
+public class ${entity.name}Entity implements Serializable {
+
+#parse ( "include/serial_version.vm" )
+#foreach( $field in $entity.keyAttributes )
+
+    @Access(AccessType.PROPERTY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "$field.databaseName.toUpperCase()", updatable = false, insertable = false)
+#if ( $field.isLongType() )
+    private Long $field.name;
+#else
+    private $field.type $field.name;
+#end
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ($link.isCardinalityManyToOne())
+#if ( $link.fieldType.contains("Enum_") )
+
+    @Column(name = "$link.fieldName.toUpperCase()", nullable = false)
+    private String $link.fieldName;
+#else
+
+    @JoinColumn(name = "$link.fieldName.toUpperCase()_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_$link.fieldName.toUpperCase()_ID"))
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private ${link.fieldType} $link.fieldName;
+#end
+#end
+#if ($link.isCardinalityOneToMany())
+#if ( $link.fieldType.contains("Enum_") )
+
+    private String $link.fieldName;
+#else
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
+    @Fetch(FetchMode.SELECT)
+    @JsonBackReference
+    private ${link.fieldType} $link.fieldName;
+#end
+#end
+#end
+#foreach( $field in $dataFields )
+
+    @Column(name = "$field.databaseName.toUpperCase()", nullable = false)
+#if ( $field.type.contains("Enum_") )
+    private String $field.name;
+#elseif ( $field.isLongType() )
+    private Long $field.name;
+#elseif ( $field.isDecimalType() )
+    private BigDecimal $field.name;
+#elseif ( $field.isDateType() )
+    private LocalDate $field.name;
+#elseif ( $field.isTimestampType() )
+    private LocalDateTime $field.name;
+#else
+    private $field.type $field.name;
+#end
+#end
+}

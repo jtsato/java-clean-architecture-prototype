@@ -1,0 +1,90 @@
+import java.io.Serializable;
+#set ( $hasDecimal = 0 )
+#set ( $hasTimestamp = 0 )
+#set ( $hasDate = 0 )
+#set ( $toMany = 0 )
+#set ( $toOne = 0 )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $dataFields )
+#if ( $field.isDecimalType() )
+#set ( $hasDecimal = 1 )
+#end
+#if ( $field.isTimestampType() )
+#set ( $hasTimestamp = 1 )
+#end
+#if ( $field.isDateType() )
+#set ( $hasDate = 1 )
+#end
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ( $link.isCardinalityManyToMany() || $link.isCardinalityOneToMany() )
+#if ( !$link.fieldType.contains("Enum_") )
+#set ( $toMany = $toMany + 1 )
+#end
+#end
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
+#if ( !$link.fieldType.contains("Enum_") )
+#set ( $toOne = $toOne + 1 )
+#end
+#end
+#end
+#if ( $hasDecimal == 1)
+import java.math.BigDecimal;
+#end
+#if ( $hasDate == 1)
+import java.time.LocalDate;
+#end
+#if ( $hasTimestamp == 1)
+import java.time.LocalDateTime;
+#end
+#if ( $toMany > 0 )
+import java.util.List;
+#end
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+#if ( $toMany > 0) 
+import javax.persistence.CascadeType;
+#end
+import javax.persistence.Column;
+import javax.persistence.Entity;
+#if ( $toMany > 0 || $toOne > 0) 
+import javax.persistence.FetchType;
+#end
+#if ( $toOne > 0) 
+import javax.persistence.ForeignKey;
+#end
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+#if ( $toOne > 0) 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+#end
+#if ( $toMany > 0) 
+import javax.persistence.OneToMany;
+#end
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+#if ( $toMany > 0) 
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+#end
+
+#foreach( $field in $entity.selectedLinks )
+#set ( $fieldType = $field.fieldType )
+#if ( !$fieldType.contains("Enum_") )
+import ${ROOT_PKG}.core.${fieldType.toLowerCase()}.domain.${fieldType};
+#end
+#end
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;

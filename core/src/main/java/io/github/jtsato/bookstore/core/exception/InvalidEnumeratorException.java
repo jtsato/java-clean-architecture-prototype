@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class InvalidEnumeratorException extends CoreException {
 
-    private static final long serialVersionUID = -4907080277010068709L;
+    private static final long serialVersionUID = 4332792095416208045L;
 
     public InvalidEnumeratorException(final String message, final Object... args) {
         super(message, args);
