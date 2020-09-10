@@ -43,7 +43,7 @@ import lombok.ToString;
 )
 public class AuthorEntity implements Serializable {
 
-    private static final long serialVersionUID = 911270406397052885L;
+    private static final long serialVersionUID = -5846745220367235012L;
 
     @Access(AccessType.PROPERTY)
     @Id
@@ -54,9 +54,9 @@ public class AuthorEntity implements Serializable {
     @Column(name = "GENDER", nullable = false)
     private String gender;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME ", nullable = false)
     private String name;
 
-    @Column(name = "BIRTHDATE", nullable = false)
+    @Column(name = "BIRTHDATE ", nullable = false)
     private LocalDate birthdate;
 }

@@ -45,7 +45,7 @@ public class ${entity.name}Entity implements Serializable {
 #if ($link.isCardinalityManyToOne())
 #if ( $link.fieldType.contains("Enum_") )
 
-    @Column(name = "$link.fieldName.toUpperCase()", nullable = false)
+    @Column(name = "$strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase()", nullable = false)
     private String $link.fieldName;
 #else
 
@@ -69,7 +69,7 @@ public class ${entity.name}Entity implements Serializable {
 #end
 #foreach( $field in $dataFields )
 
-    @Column(name = "$field.databaseName.toUpperCase()", nullable = false)
+    @Column(name = "$strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ", nullable = false)
 #if ( $field.type.contains("Enum_") )
     private String $field.name;
 #elseif ( $field.isLongType() )

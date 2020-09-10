@@ -1,0 +1,36 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/loader_wordutils.vm" )
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository;
+
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+
+import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphJpaRepository;
+import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphQuerydslPredicateExecutor;
+
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
+
+#include ( "/include/author.vm" )
+
+@Repository
+public interface ${entity.name}Repository extends EntityGraphJpaRepository<${entity.name}Entity, Long>, EntityGraphQuerydslPredicateExecutor<${entity.name}Entity> {
+#foreach( $link in $entity.selectedLinks )
+#if ($link.isCardinalityManyToOne())
+#if ( $link.fieldType.contains("Enum_") )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)IgnoreCase(final String $link.fieldName);
+#end
+#end
+#end
+#foreach( $field in $dataFields )
+#if ( $field.isStringType() )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name);
+#elseif ( $field.isBooleanType() )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final Boolean $field.name);
+#end
+#end
+}

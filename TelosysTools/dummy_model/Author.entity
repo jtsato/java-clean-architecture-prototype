@@ -1,6 +1,6 @@
 Author {
-  id : long  { @Id } ;
-  name: string { @NotBlank } ;
-  gender: Enum_Gender ;
-  birthdate: date ;
+ id : long { @Id } ;
+ name: string { @NotBlank } ;
+ gender: Enum_Gender ;
+ birthdate: date { @NotNull } ;
 }
