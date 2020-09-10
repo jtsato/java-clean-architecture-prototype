@@ -1,0 +1,107 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/loader_wordutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+#set( $pluralEntity = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
+#set ( $hasDecimal = 0 )
+#set ( $hasTimestamp = 0 )
+#set ( $hasDate = 0 )
+#set ( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $dataFields )
+#if ( $field.isDecimalType() )
+#set ( $hasDecimal = 1 )
+#end
+#if ( $field.isTimestampType() )
+#set ( $hasTimestamp = 1 )
+#end
+#if ( $field.isDateType() )
+#set ( $hasDate = 1 )
+#end
+#end
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter;
+
+import java.io.Serializable;
+#if ( $hasDecimal == 1)
+import java.math.BigDecimal;
+#end
+#if ( $hasTimestamp == 1 || $hasDate == 1 )
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
+#end
+#foreach( $field in $entity.selectedLinks )
+#set ( $fieldType = $field.fieldType )
+#if ( !$fieldType.contains("Enum_") )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($fieldType)) )
+import ${ROOT_PKG}.core.${fieldType.toLowerCase()}.usecase.parameter.Search${pluralType}Parameters;
+#end
+#end
+#if ( $hasDate == 1)
+import ${ROOT_PKG}.core.common.validation.LocalDateConstraint;
+#end
+#if ( $hasTimestamp == 1)
+import ${ROOT_PKG}.core.common.validation.LocalDateTimeConstraint;
+#end
+import ${ROOT_PKG}.core.common.validation.SelfValidating;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = false)
+@ToString
+public class Search${pluralEntity}Parameters extends SelfValidating<Search${pluralEntity}Parameters>  implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+#foreach( $field in $entity.keyAttributes )
+
+#if ( $field.isLongType() )
+    private Long $field.name;
+#else
+    private $field.type $field.name;
+#end
+#end
+#foreach( $link in $entity.selectedLinks )
+#if ( $link.isCardinalityManyToOne())
+#if ( $link.fieldType.contains("Enum_") )
+
+	private String $link.fieldName;
+#else
+	#set( $pluralObject = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+    
+	private Search${pluralObject}Parameters ${link.fieldName}Parameters;
+#end
+#end
+#end
+#foreach( $field in $dataFields )
+#if ( $field.isDecimalType() )
+
+	private BigDecimal start$wordUtils.capitalize($field.name);
+
+	private BigDecimal end$wordUtils.capitalize($field.name);
+#elseif ( $field.isTimestampType() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+
+    @LocalDateTimeConstraint(message = "validation.${entity.name}.start.${entityNameLowerCaseWithSeparator}.invalid")
+    private String start$wordUtils.capitalize($field.name);
+
+    @LocalDateTimeConstraint(message = "validation.${entity.name}.end.${entityNameLowerCaseWithSeparator}.invalid")
+    private String end$wordUtils.capitalize($field.name);
+#elseif ( $field.isDateType() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+
+    @LocalDateConstraint(message = "validation.${entity.name}.start.${entityNameLowerCaseWithSeparator}.invalid")
+    private String start$wordUtils.capitalize($field.name);
+
+    @LocalDateConstraint(message = "validation.${entity.name}.end.${entityNameLowerCaseWithSeparator}.invalid")
+    private String end$wordUtils.capitalize($field.name);
+#else
+
+	private $field.type $field.name;
+#end
+#end
+}
