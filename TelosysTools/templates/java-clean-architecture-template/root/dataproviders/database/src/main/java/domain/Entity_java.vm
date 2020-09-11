@@ -52,7 +52,7 @@ public class ${entity.name}Entity implements Serializable {
 #parse ( "include/serial_version.vm" )
 #foreach( $field in $domainKeys )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() )  
-	
+    
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

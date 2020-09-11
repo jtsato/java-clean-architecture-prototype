@@ -51,7 +51,7 @@ public class SearchEnumeratorsUseCaseImpl implements SearchEnumeratorsUseCase {
     }
 
     private List<Enumerator> getAllEnumerators() {
-		final List<Enumerator> enumerators = new ArrayList<>(0);
+        final List<Enumerator> enumerators = new ArrayList<>(0);
 #foreach( $entity in $model.allEntites )
 #if ( $entity.name.contains("Enum_") )
 #set ( $entityName = $entity.name.replace("Enum_", "") )
