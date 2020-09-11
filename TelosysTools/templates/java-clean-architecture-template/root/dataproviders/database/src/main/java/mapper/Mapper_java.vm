@@ -1,31 +1,24 @@
-#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.mapper;
 
 import org.mapstruct.Mapper;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-#foreach( $field in $entity.selectedLinks )
-#set ( $fieldType = $field.fieldType )
-#if ( !$fieldType.contains("Enum_") )
-import ${ROOT_PKG}.dataprovider.${fieldType.toLowerCase()}.mapper.${fieldType}Mapper;
-#end
+#foreach( $field in $domainLinks )
+import ${ROOT_PKG}.dataprovider.${field.fieldType.toLowerCase()}.mapper.${field.fieldType}Mapper;
 #end
 import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
 
 #include ( "/include/author.vm" )
 
 #set ( $mappers = [] )
-#set( $linkFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
-#foreach( $field in $entity.selectedLinks )
-#set ( $fieldType = $field.fieldType )
-#if ( !$fieldType.contains("Enum_") )
-#set($x = $mappers.add("${fieldType}Mapper.class"))
-#end
+#foreach( $field in $domainLinks )
+#set($x = $mappers.add("${field.fieldType}Mapper.class"))
 #end
 #if ( $mappers.size() == 0 )
 @Mapper
 #else
-@Mapper(uses = {#foreach( $field in $mappers )${fieldType}Mapper.class#if( $foreach.hasNext ), #end#end})
+@Mapper(uses = {#foreach( $mapper in $mappers )${mapper}#if( $foreach.hasNext ), #end#end})
 #end
 public interface ${entity.name}Mapper {
 

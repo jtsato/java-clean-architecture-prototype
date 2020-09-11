@@ -24,47 +24,49 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>  implements Serializable {
 
-    private static final long serialVersionUID = -2282585784964332014L;
+    private static final long serialVersionUID = -573524217870466155L;
 
     private Long id;
-    
-	private SearchAuthorsParameters authorParameters;
 
-	private String title;
+    private SearchAuthorsParameters authorsParameters;
 
-	private BigDecimal startPrice;
+    private String title;
 
-	private BigDecimal endPrice;
+    private BigDecimal startPrice;
 
-	private boolean available;
+    private BigDecimal endPrice;
 
-    @LocalDateTimeConstraint(message = "validation.Book.start.creation.date.invalid")
-    private String startCreationDate;
+    private Boolean available;
 
-    @LocalDateTimeConstraint(message = "validation.Book.end.creation.date.invalid")
-    private String endCreationDate;
+    @LocalDateTimeConstraint(message = "validation.book.start.created.date.invalid")
+    private String startCreatedDate;
 
-    @LocalDateTimeConstraint(message = "validation.Book.start.update.date.invalid")
-    private String startUpdateDate;
+    @LocalDateTimeConstraint(message = "validation.book.end.created.date.invalid")
+    private String endCreatedDate;
 
-    @LocalDateTimeConstraint(message = "validation.Book.end.update.date.invalid")
-    private String endUpdateDate;
-    
-    public SearchBooksParameters(final SearchAuthorsParameters authorParameters,
+    @LocalDateTimeConstraint(message = "validation.book.start.last.modified.date.invalid")
+    private String startLastModifiedDate;
+
+    @LocalDateTimeConstraint(message = "validation.book.end.last.modified.date.invalid")
+    private String endLastModifiedDate;
+
+    public SearchBooksParameters(final Long id,
+                                 final SearchAuthorsParameters authorsParameters,
                                  final String title,
                                  final ImmutablePair<BigDecimal, BigDecimal> priceRange,
                                  final Boolean available,
-                                 final ImmutablePair<String, String> creationDateRange,
-                                 final ImmutablePair<String, String> updateDateRange) {
-        this.authorParameters = authorParameters;
+                                 final ImmutablePair<String, String> createdDateRange,
+                                 final ImmutablePair<String, String> lastModifiedDateRange) {
+        this.id = id;
+        this.authorsParameters = authorsParameters;
         this.title = title;
         this.startPrice = priceRange.getLeft();
         this.endPrice = priceRange.getRight();
         this.available = available;
-        this.startCreationDate = creationDateRange.getLeft();
-        this.endCreationDate = creationDateRange.getRight();
-        this.startUpdateDate = updateDateRange.getLeft();
-        this.endUpdateDate = updateDateRange.getRight();
+        this.startCreatedDate = createdDateRange.getLeft();
+        this.endCreatedDate = createdDateRange.getRight();
+        this.startLastModifiedDate = lastModifiedDateRange.getLeft();
+        this.endLastModifiedDate = lastModifiedDateRange.getRight();
         this.validateSelf();
     }
 }

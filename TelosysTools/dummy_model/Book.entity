@@ -4,6 +4,6 @@ Book {
  title : string { @NotBlank };
  price : decimal { @NotNull } ;
  available : boolean { @NotNull } ;
- creationDate : timestamp { @NotNull } ;
- updateDate : timestamp { @NotNull } ;
+ createdDate : timestamp { @NotNull } ;
+ lastModifiedDate : timestamp { @NotNull } ;
 }

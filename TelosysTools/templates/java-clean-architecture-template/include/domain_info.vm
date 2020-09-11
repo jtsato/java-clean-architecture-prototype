@@ -1,0 +1,63 @@
+#parse ( "include/loader_wordutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+#set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
+#set ( $domainKeys            = [] )
+#set ( $domainEnumeratos      = [] )
+#set ( $domainLinks           = [] )
+#set ( $domainStrings         = [] )
+#set ( $domainDecimals        = [] )
+#set ( $domainTimestamps      = [] )
+#set ( $domainDates           = [] )
+#set ( $domainBooleans        = [] )
+#set ( $domainLinksManyToMany = [] )
+#set ( $domainLinksOneToMany  = [] )
+#set ( $domainLinksManyToOne  = [] )
+#set ( $domainLinksOneToOne   = [] )
+#foreach( $field in $entity.keyAttributes )
+#set ( $x = $domainKeys.add($field) )
+#end
+#foreach( $field in $entity.selectedLinks )
+#if ( $field.fieldType.contains("Enum_") )
+#set ( $x = $domainEnumeratos.add($field) )
+#else
+#set ( $x = $domainLinks.add($field) )
+#if ( $field.isCardinalityManyToMany() )
+#set ( $x = $domainLinksManyToMany.add($field) )
+#elseif ( $field.isCardinalityOneToMany() )
+#set ( $x = $domainLinksOneToMany.add($field) )
+#elseif ( $field.isCardinalityManyToOne() )
+#set ( $x = $domainLinksManyToOne.add($field) )
+#elseif ( $field.isCardinalityOneToOne() )
+#set ( $x = $domainLinksOneToOne.add($field) )
+#end
+#end
+#end
+#set ( $domainAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $domainAttributes )
+#if ( $field.isStringType() )
+#set ( $x = $domainStrings.add($field) )
+#elseif ( $field.isDecimalType() )
+#set ( $x = $domainDecimals.add($field) )
+#elseif ( $field.isTimestampType() )
+#set ( $x = $domainTimestamps.add($field) )
+#elseif ( $field.isDateType() )
+#set ( $x = $domainDates.add($field) )
+#elseif ( $field.isBooleanType() )
+#set ( $x = $domainBooleans.add($field) )
+#end
+#end
+#if ( 1 == 0 )
+// $entity.name
+#foreach( $field in $domainKeys )
+// ${field.name} [domainKeys]
+#end
+#foreach( $field in $domainEnumeratos )
+// ${field.fieldName} [domainEnumeratos]
+#end
+#foreach( $field in $domainLinks )
+// ${field.fieldName} [domainLinks]
+#end
+#foreach( $field in $domainAttributes )
+// ${field.name} [domainAttributes]
+#end
+#end

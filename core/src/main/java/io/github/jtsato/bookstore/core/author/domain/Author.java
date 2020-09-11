@@ -19,11 +19,10 @@ import lombok.ToString;
 @ToString
 public class Author implements Serializable {
 
-    private static final long serialVersionUID = -5035682415898244569L;
+    private static final long serialVersionUID = -7999600437301132903L;
 
     private final Long id;
-    private final Gender gender;
+     private final Gender gender;
     private final String name;
     private final LocalDate birthdate;
 }
-

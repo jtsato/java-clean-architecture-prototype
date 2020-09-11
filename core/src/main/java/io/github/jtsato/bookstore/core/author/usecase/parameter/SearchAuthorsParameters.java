@@ -22,26 +22,29 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters>  implements Serializable {
 
-    private static final long serialVersionUID = 8083838705541005686L;
+    private static final long serialVersionUID = 2070072446852155075L;
 
     private Long id;
 
-	private String gender;
+    private String gender;
 
-	private String name;
+    private String name;
 
-    @LocalDateConstraint(message = "validation.Author.start.birthdate.invalid")
+    @LocalDateConstraint(message = "validation.author.start.birthdate.invalid")
     private String startBirthdate;
 
-    @LocalDateConstraint(message = "validation.Author.end.birthdate.invalid")
+    @LocalDateConstraint(message = "validation.author.end.birthdate.invalid")
     private String endBirthdate;
-    
-    public SearchAuthorsParameters(final Long id, final String name, final String gender, final String startBirthdateDate, final String endBirthdateDate) {
+
+    public SearchAuthorsParameters(final Long id,
+                                   final String gender,
+                                   final String name,
+                                   final ImmutablePair<String, String> birthdateRange) {
         this.id = id;
-        this.name = name;
         this.gender = gender;
-        this.startBirthdateDate = startBirthdateDate;
-        this.endBirthdateDate = endBirthdateDate;
+        this.name = name;
+        this.startBirthdate = birthdateRange.getLeft();
+        this.endBirthdate = birthdateRange.getRight();
         this.validateSelf();
     }
 }

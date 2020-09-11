@@ -1,44 +1,26 @@
 #parse ( "include/loader_stringutils.vm" )
 #parse ( "include/loader_wordutils.vm" )
 #parse ( "include/loader_inflector.vm" )
-#set( $pluralEntity = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
-#set ( $hasDecimal = 0 )
-#set ( $hasTimestamp = 0 )
-#set ( $hasDate = 0 )
-#set ( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
-#foreach( $field in $dataFields )
-#if ( $field.isDecimalType() )
-#set ( $hasDecimal = 1 )
-#end
-#if ( $field.isTimestampType() )
-#set ( $hasTimestamp = 1 )
-#end
-#if ( $field.isDateType() )
-#set ( $hasDate = 1 )
-#end
-#end
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter;
 
 import java.io.Serializable;
-#if ( $hasDecimal == 1)
+#if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
 #end
-#if ( $hasTimestamp == 1 || $hasDate == 1 )
+#if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 #end
-#foreach( $field in $entity.selectedLinks )
-#set ( $fieldType = $field.fieldType )
-#if ( !$fieldType.contains("Enum_") )
-#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($fieldType)) )
-import ${ROOT_PKG}.core.${fieldType.toLowerCase()}.usecase.parameter.Search${pluralType}Parameters;
+#foreach ( $field in $domainLinks )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
+import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.usecase.parameter.Search${pluralType}Parameters;
 #end
-#end
-#if ( $hasDate == 1)
+#if ( $domainDates.size() > 0 )
 import ${ROOT_PKG}.core.common.validation.LocalDateConstraint;
 #end
-#if ( $hasTimestamp == 1)
+#if ( $domainTimestamps.size() > 0 )
 import ${ROOT_PKG}.core.common.validation.LocalDateTimeConstraint;
 #end
 import ${ROOT_PKG}.core.common.validation.SelfValidating;
@@ -54,54 +36,121 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Search${pluralEntity}Parameters extends SelfValidating<Search${pluralEntity}Parameters>  implements Serializable {
+public class Search${pluralEntityName}Parameters extends SelfValidating<Search${pluralEntityName}Parameters>  implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
-#foreach( $field in $entity.keyAttributes )
-
+#foreach ( $field in $domainKeys )
 #if ( $field.isLongType() )
+
     private Long $field.name;
 #else
+
     private $field.type $field.name;
 #end
 #end
-#foreach( $link in $entity.selectedLinks )
+#foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne())
-#if ( $link.fieldType.contains("Enum_") )
+#set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+#set( $pluralObject = $wordUtils.uncapitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
-	private String $link.fieldName;
-#else
-	#set( $pluralObject = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
-    
-	private Search${pluralObject}Parameters ${link.fieldName}Parameters;
+    private Search${pluralClass}Parameters ${pluralObject}Parameters;
 #end
 #end
+#foreach ( $link in $domainEnumeratos )
+#if ( $link.isCardinalityManyToOne())
+
+    private String $link.fieldName;
 #end
-#foreach( $field in $dataFields )
+#end
+#foreach ( $field in $domainAttributes )
 #if ( $field.isDecimalType() )
 
-	private BigDecimal start$wordUtils.capitalize($field.name);
+    private BigDecimal start$wordUtils.capitalize($field.name);
 
-	private BigDecimal end$wordUtils.capitalize($field.name);
+    private BigDecimal end$wordUtils.capitalize($field.name);
 #elseif ( $field.isTimestampType() )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
-    @LocalDateTimeConstraint(message = "validation.${entity.name}.start.${entityNameLowerCaseWithSeparator}.invalid")
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
     private String start$wordUtils.capitalize($field.name);
 
-    @LocalDateTimeConstraint(message = "validation.${entity.name}.end.${entityNameLowerCaseWithSeparator}.invalid")
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
     private String end$wordUtils.capitalize($field.name);
 #elseif ( $field.isDateType() )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
-    @LocalDateConstraint(message = "validation.${entity.name}.start.${entityNameLowerCaseWithSeparator}.invalid")
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
     private String start$wordUtils.capitalize($field.name);
 
-    @LocalDateConstraint(message = "validation.${entity.name}.end.${entityNameLowerCaseWithSeparator}.invalid")
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
     private String end$wordUtils.capitalize($field.name);
+#elseif ( $field.isBooleanType() )
+
+    private Boolean $field.name;
 #else
 
-	private $field.type $field.name;
+    private $field.type $field.name;
 #end
 #end
+#set ( $constructorParameters = [] )
+#set ( $setParameters = [] )
+#foreach ( $field in $domainKeys )
+#if ( $field.isLongType() )
+#set ( $x = $constructorParameters.add("final Long ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#else
+#set ( $x = $constructorParameters.add("final ${field.type} ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#end
+#foreach ( $field in $domainLinks )
+#set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
+#set( $pluralObject = $wordUtils.uncapitalize($inflector.getInstance().pluralize($field.fieldType)) )
+#set ( $x = $constructorParameters.add("final Search${pluralClass}Parameters ${pluralObject}Parameters") )
+#set ( $x = $setParameters.add("this.${pluralObject}Parameters = ${pluralObject}Parameters;") )
+#end
+#foreach ( $field in $domainEnumeratos )
+#set ( $x = $constructorParameters.add("final String ${field.fieldName}") )
+#set ( $x = $setParameters.add("this.${field.fieldName} = ${field.fieldName};") )
+#end
+#foreach ( $field in $domainAttributes )
+#if ( $field.isDecimalType() )
+#set ( $x = $constructorParameters.add("final ImmutablePair<BigDecimal, BigDecimal> ${field.name}Range") )
+#set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
+#set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
+#elseif ( $field.isTimestampType() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
+#set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
+#set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
+#elseif ( $field.isDateType() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
+#set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
+#set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
+#elseif ( $field.isBooleanType() )
+#set ( $x = $constructorParameters.add("final Boolean ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#else
+#set ( $x = $constructorParameters.add("final ${field.type} ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#end
+#set ( $signature = "    public Search${pluralEntityName}Parameters(" )
+#set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
+
+${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ),#end
+#foreach ( $parameter in $constructorParameters )#if ( $velocityCount > 1 )
+
+${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
+#end) {
+#foreach ( $parameter in $setParameters )
+        ${parameter}
+#end
+        this.validateSelf();
+    }
 }
