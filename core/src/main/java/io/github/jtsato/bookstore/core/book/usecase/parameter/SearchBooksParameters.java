@@ -15,7 +15,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -24,11 +24,11 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>  implements Serializable {
 
-    private static final long serialVersionUID = -573524217870466155L;
+    private static final long serialVersionUID = -3987839404673579136L;
 
     private Long id;
 
-    private SearchAuthorsParameters authorsParameters;
+    private SearchAuthorsParameters searchAuthorsParameters;
 
     private String title;
 
@@ -51,14 +51,14 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
     private String endLastModifiedDate;
 
     public SearchBooksParameters(final Long id,
-                                 final SearchAuthorsParameters authorsParameters,
+                                 final SearchAuthorsParameters searchAuthorsParameters,
                                  final String title,
                                  final ImmutablePair<BigDecimal, BigDecimal> priceRange,
                                  final Boolean available,
                                  final ImmutablePair<String, String> createdDateRange,
                                  final ImmutablePair<String, String> lastModifiedDateRange) {
         this.id = id;
-        this.authorsParameters = authorsParameters;
+        this.searchAuthorsParameters = searchAuthorsParameters;
         this.title = title;
         this.startPrice = priceRange.getLeft();
         this.endPrice = priceRange.getRight();

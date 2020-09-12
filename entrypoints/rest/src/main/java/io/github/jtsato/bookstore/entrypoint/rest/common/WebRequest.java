@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class WebRequest implements Serializable {
 
-    private static final long serialVersionUID = 3381759339726196724L;
+    private static final long serialVersionUID = -482297685334144744L;
 
     protected String path;
 }

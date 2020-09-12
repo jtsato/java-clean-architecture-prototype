@@ -12,7 +12,7 @@ import com.tngtech.archunit.library.dependencies.SliceIdentifier;
 import io.github.jtsato.bookstore.BookstoreApplication;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @AnalyzeClasses(packagesOf = BookstoreApplication.class)

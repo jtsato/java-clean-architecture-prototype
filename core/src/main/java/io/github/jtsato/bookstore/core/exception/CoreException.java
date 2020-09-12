@@ -3,12 +3,12 @@ package io.github.jtsato.bookstore.core.exception;
 import lombok.Getter;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 public class CoreException extends RuntimeException {
 
-    private static final long serialVersionUID = 1770693146953599778L;
+    private static final long serialVersionUID = -867753587067567823L;
 
     @Getter
     private final String message;

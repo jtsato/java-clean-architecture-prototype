@@ -13,7 +13,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters>  implements Serializable {
 
-    private static final long serialVersionUID = 2070072446852155075L;
+    private static final long serialVersionUID = -7256179412183659536L;
 
     private Long id;
 

@@ -16,7 +16,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Documented

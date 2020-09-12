@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Named
@@ -45,7 +45,7 @@ public class SearchEnumeratorsUseCaseImpl implements SearchEnumeratorsUseCase {
     }
 
     private List<Enumerator> getAllEnumerators() {
-		final List<Enumerator> enumerators = new ArrayList<>(0);
+        final List<Enumerator> enumerators = new ArrayList<>(0);
         enumerators.addAll(Arrays.asList(Gender.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         return enumerators;
     }

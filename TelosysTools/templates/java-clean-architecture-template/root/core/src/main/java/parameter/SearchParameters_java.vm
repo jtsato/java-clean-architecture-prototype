@@ -51,12 +51,11 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne())
 #set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
-#set( $pluralObject = $wordUtils.uncapitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
-    private Search${pluralClass}Parameters ${pluralObject}Parameters;
+    private Search${pluralClass}Parameters search${pluralClass}Parameters;
 #end
 #end
-#foreach ( $link in $domainEnumeratos )
+#foreach ( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne())
 
     private String $link.fieldName;
@@ -107,11 +106,10 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #end
 #foreach ( $field in $domainLinks )
 #set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
-#set( $pluralObject = $wordUtils.uncapitalize($inflector.getInstance().pluralize($field.fieldType)) )
-#set ( $x = $constructorParameters.add("final Search${pluralClass}Parameters ${pluralObject}Parameters") )
-#set ( $x = $setParameters.add("this.${pluralObject}Parameters = ${pluralObject}Parameters;") )
+#set ( $x = $constructorParameters.add("final Search${pluralClass}Parameters search${pluralClass}Parameters") )
+#set ( $x = $setParameters.add("this.search${pluralClass}Parameters = search${pluralClass}Parameters;") )
 #end
-#foreach ( $field in $domainEnumeratos )
+#foreach ( $field in $domainEnumerators )
 #set ( $x = $constructorParameters.add("final String ${field.fieldName}") )
 #set ( $x = $setParameters.add("this.${field.fieldName} = ${field.fieldName};") )
 #end

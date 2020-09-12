@@ -6,7 +6,7 @@ import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.dataprovider.author.domain.AuthorEntity;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Mapper

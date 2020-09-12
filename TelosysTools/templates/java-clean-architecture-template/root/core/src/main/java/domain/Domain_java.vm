@@ -26,7 +26,7 @@ public class ${entity.name} implements Serializable {
     private final ${link.fieldType} $link.fieldName;
 #end
 #end
-#foreach( $link in $domainEnumeratos )
+#foreach( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
      private final $link.fieldType.replace("Enum_", "") $link.fieldName;
 #end

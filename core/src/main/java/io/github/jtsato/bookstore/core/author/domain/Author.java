@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class Author implements Serializable {
 
-    private static final long serialVersionUID = -7999600437301132903L;
+    private static final long serialVersionUID = -7228787651982178196L;
 
     private final Long id;
      private final Gender gender;

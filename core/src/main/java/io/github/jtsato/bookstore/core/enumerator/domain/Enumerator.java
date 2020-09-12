@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Enumerator implements Serializable {
 
-    private static final long serialVersionUID = -6628545714776749571L;
+    private static final long serialVersionUID = 3634561277475832681L;
 
     private final String domain;
     private final String key;

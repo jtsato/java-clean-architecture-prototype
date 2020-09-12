@@ -3,7 +3,7 @@ package io.github.jtsato.bookstore.core.author.domain;
 import java.util.Arrays;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 public enum Gender {

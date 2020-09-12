@@ -1,0 +1,30 @@
+#parse ( "include/domain_info.vm" )
+$entity.name
+#foreach( $field in $domainKeys )
+${field.name} [domainKeys]
+#end
+#foreach( $field in $domainLinks )
+${field.fieldName} [domainLinks]
+#end
+#foreach( $field in $domainEnumerators )
+${field.fieldName} [domainEnumerators]
+#end
+#foreach( $field in $domainStrings )
+${field.name} [domainStrings]
+#end
+#foreach( $field in $domainBooleans )
+${field.name} [domainBooleans]
+#end
+#foreach( $field in $domainDecimals )
+${field.name} [domainDecimals]
+#end
+#foreach( $field in $domainDates )
+${field.name} [domainDates]
+#end
+#foreach( $field in $domainTimestamps )
+${field.name} [domainTimestamps]
+#end
+#if ( $entity.name.contains("Enum_") )
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+$target.forceEntityName(${entityName})
+#end

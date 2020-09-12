@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import io.github.jtsato.bookstore.entrypoint.rest.common.WebRequest;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Configuration

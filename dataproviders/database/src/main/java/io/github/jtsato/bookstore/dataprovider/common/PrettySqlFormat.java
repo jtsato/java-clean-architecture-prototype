@@ -9,7 +9,7 @@ import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 public class PrettySqlFormat implements MessageFormattingStrategy {

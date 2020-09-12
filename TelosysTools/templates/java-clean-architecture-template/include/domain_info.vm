@@ -2,7 +2,7 @@
 #parse ( "include/loader_inflector.vm" )
 #set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
 #set ( $domainKeys            = [] )
-#set ( $domainEnumeratos      = [] )
+#set ( $domainEnumerators     = [] )
 #set ( $domainLinks           = [] )
 #set ( $domainStrings         = [] )
 #set ( $domainDecimals        = [] )
@@ -18,7 +18,7 @@
 #end
 #foreach( $field in $entity.selectedLinks )
 #if ( $field.fieldType.contains("Enum_") )
-#set ( $x = $domainEnumeratos.add($field) )
+#set ( $x = $domainEnumerators.add($field) )
 #else
 #set ( $x = $domainLinks.add($field) )
 #if ( $field.isCardinalityManyToMany() )
@@ -44,20 +44,5 @@
 #set ( $x = $domainDates.add($field) )
 #elseif ( $field.isBooleanType() )
 #set ( $x = $domainBooleans.add($field) )
-#end
-#end
-#if ( 1 == 0 )
-// $entity.name
-#foreach( $field in $domainKeys )
-// ${field.name} [domainKeys]
-#end
-#foreach( $field in $domainEnumeratos )
-// ${field.fieldName} [domainEnumeratos]
-#end
-#foreach( $field in $domainLinks )
-// ${field.fieldName} [domainLinks]
-#end
-#foreach( $field in $domainAttributes )
-// ${field.name} [domainAttributes]
 #end
 #end

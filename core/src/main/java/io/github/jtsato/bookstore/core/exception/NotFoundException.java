@@ -1,12 +1,12 @@
 package io.github.jtsato.bookstore.core.exception;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 public class NotFoundException extends CoreException {
 
-    private static final long serialVersionUID = 6921275751917899710L;
+    private static final long serialVersionUID = 6914268239549843470L;
 
     public NotFoundException(final String message, final Object... args) {
         super(message, args);

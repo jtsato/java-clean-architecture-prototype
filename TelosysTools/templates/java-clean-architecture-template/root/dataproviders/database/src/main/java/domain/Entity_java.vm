@@ -22,9 +22,9 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 #end
        },
 #end
-#if ( $domainEnumeratos.size() > 0 || $domainStrings.size() > 0 || $domainBooleans.size() > 0 || $domainDates.size() > 0 && $domainTimestamps.size() )
+#if ( $domainEnumerators.size() > 0 || $domainStrings.size() > 0 || $domainBooleans.size() > 0 || $domainDates.size() > 0 && $domainTimestamps.size() )
        indexes = {
-#foreach( $field in $domainEnumeratos )
+#foreach( $field in $domainEnumerators )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() ) 
             @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
 #end

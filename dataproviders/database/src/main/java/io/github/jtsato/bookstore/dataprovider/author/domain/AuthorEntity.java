@@ -21,7 +21,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Getter
@@ -42,8 +42,8 @@ import lombok.ToString;
 )
 public class AuthorEntity implements Serializable {
 
-    private static final long serialVersionUID = 1841434658219248721L;
-	
+    private static final long serialVersionUID = 8010140929712869348L;
+    
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

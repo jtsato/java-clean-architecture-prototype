@@ -13,7 +13,7 @@ import lombok.Generated;
 import lombok.SneakyThrows;
 
 /**
- * @author Jorge Takeshi Sato  
+ * @author Jorge Takeshi Sato
  */
 
 @Generated
