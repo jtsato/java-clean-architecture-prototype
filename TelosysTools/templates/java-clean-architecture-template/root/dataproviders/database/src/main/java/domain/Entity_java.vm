@@ -4,7 +4,7 @@
 #set( $tableName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralEntityName), "_").toUpperCase() ) 
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 
-#parse ( "/root/dataproviders/database/src/main/java/domain/Entity_Imports_java.vm" )
+#parse ( "root/dataproviders/database/src/main/java/domain/Entity_Imports_java.vm" )
 
 #include ( "/include/author.vm" )
 
@@ -63,31 +63,30 @@ public class ${entity.name}Entity implements Serializable {
     private $field.type $field.name;
 #end
 #end
-#foreach( $link in $entity.selectedLinks )
+#foreach( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne() )
-#if ( $link.fieldType.contains("Enum_") )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase() )  
-
-    @Column(name = "${columnName}", nullable = false)
-    private String $link.fieldName;
-#else
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase() )  
 
     @JoinColumn(name = "${columnName}_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_${columnName}_ID"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ${link.fieldType}Entity $link.fieldName;
-#end
 #elseif ( $link.isCardinalityOneToMany() )
-#if ( $link.fieldType.contains("Enum_") )
-
-    private List<String> $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldName));
-#else
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
     @Fetch(FetchMode.SELECT)
     @JsonBackReference
     private ${link.fieldType}Entity $link.fieldName;
 #end
+#end
+#foreach( $link in $domainEnumerators )
+#if ( $link.isCardinalityManyToOne() )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase() )  
+
+    @Column(name = "${columnName}", nullable = false)
+    private String $link.fieldName;
+#elseif ( $link.isCardinalityOneToMany() )
+
+    private List<String> $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldName));
 #end
 #end
 #foreach( $field in $domainAttributes )

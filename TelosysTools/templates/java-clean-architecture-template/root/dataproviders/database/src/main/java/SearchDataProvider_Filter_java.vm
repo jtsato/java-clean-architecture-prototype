@@ -2,5 +2,5 @@
 #parse ( "include/loader_inflector.vm" )
 #set( $pluralEntity = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
 #if ( !$entity.name.contains("Enum_") )
-$generator.generate($target.entityName, "Search${pluralEntity}Parameters.java", $target.folder, "root/core/src/main/java/parameter/SearchParameters_java.vm" )
+$generator.generate($target.entityName, "Search${pluralEntity}DataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/SearchDataProvider_java.vm" )
 #end

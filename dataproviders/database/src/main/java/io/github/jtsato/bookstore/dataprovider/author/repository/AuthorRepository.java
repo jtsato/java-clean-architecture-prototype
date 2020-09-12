@@ -16,7 +16,7 @@ import io.github.jtsato.bookstore.dataprovider.author.domain.AuthorEntity;
 @Repository
 public interface AuthorRepository extends EntityGraphJpaRepository<AuthorEntity, Long>, EntityGraphQuerydslPredicateExecutor<AuthorEntity> {
 
-    Optional<AuthorEntity> findByGenderIgnoreCase(final String gender);
+    Optional<AuthorEntity> findByGender(final String gender);
 
     Optional<AuthorEntity> findByNameIgnoreCase(final String name);
 }

@@ -1,5 +1,4 @@
 #parse ( "include/loader_stringutils.vm" )
-## Looking for the parent package
 #foreach( $element in $model.allEntites )
 #foreach( $field in $element.selectedLinks )
 #if ( $field.fieldType.contains("Enum_") )

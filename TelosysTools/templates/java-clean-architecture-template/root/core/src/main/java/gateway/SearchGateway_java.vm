@@ -1,0 +1,14 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Search${pluralEntityName}Parameters;
+import ${ROOT_PKG}.core.common.paging.Page;
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Search${pluralEntityName}Gateway {
+
+    Page<${entity.name}> execute(final Search${pluralEntityName}Parameters parameters, final Integer page, final Integer size, final String orderBy);
+}

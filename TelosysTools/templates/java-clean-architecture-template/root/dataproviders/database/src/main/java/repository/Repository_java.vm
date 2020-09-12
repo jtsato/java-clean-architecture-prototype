@@ -1,6 +1,6 @@
 #parse ( "include/loader_stringutils.vm" )
 #parse ( "include/loader_wordutils.vm" )
-#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository;
 
 import java.util.Optional;
@@ -16,21 +16,20 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.nam
 
 @Repository
 public interface ${entity.name}Repository extends EntityGraphJpaRepository<${entity.name}Entity, Long>, EntityGraphQuerydslPredicateExecutor<${entity.name}Entity> {
-#foreach( $link in $entity.selectedLinks )
+#foreach( $link in $domainEnumerators )
 #if ($link.isCardinalityManyToOne())
 #if ( $link.fieldType.contains("Enum_") )
 
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)IgnoreCase(final String $link.fieldName);
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)(final String $link.fieldName);
 #end
 #end
 #end
-#foreach( $field in $dataFields )
-#if ( $field.isStringType() )
+#foreach( $field in $domainStrings )
 
     Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name);
-#elseif ( $field.isBooleanType() )
-
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final Boolean $field.name);
 #end
+#foreach( $field in $domainBooleans )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final Boolean $field.name);
 #end
 }

@@ -1,0 +1,33 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
+
+import javax.inject.Named;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Search${pluralEntityName}Gateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Search${pluralEntityName}UseCase;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Search${pluralEntityName}Parameters;
+import ${ROOT_PKG}.core.common.paging.Page;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Search${pluralEntityName}UseCaseImpl implements Search${pluralEntityName}UseCase {
+
+    private final Search${pluralEntityName}Gateway search${pluralEntityName}Gateway;
+
+    @Override
+    public Page<${entity.name}> execute(final Search${pluralEntityName}Parameters parameters, final Integer page, final Integer size, final String orderBy) {
+        return search${pluralEntityName}Gateway.execute(parameters, page, size, orderBy);
+    }
+}

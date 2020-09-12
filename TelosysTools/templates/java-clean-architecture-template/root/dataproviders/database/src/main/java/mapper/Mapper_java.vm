@@ -12,8 +12,8 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.nam
 #include ( "/include/author.vm" )
 
 #set ( $mappers = [] )
-#foreach( $field in $domainLinks )
-#set($x = $mappers.add("${field.fieldType}Mapper.class"))
+#foreach( $link in $domainLinks )
+#set($x = $mappers.add("${link.fieldType}Mapper.class"))
 #end
 #if ( $mappers.size() == 0 )
 @Mapper

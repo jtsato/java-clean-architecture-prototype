@@ -2,7 +2,7 @@
 #parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain;
 
-#parse ( "/root/core/src/main/java/domain/Domain_Imports_java.vm" )
+#parse ( "root/core/src/main/java/domain/Domain_Imports_java.vm" )
 
 #include ( "/include/author.vm" )
 
@@ -28,7 +28,7 @@ public class ${entity.name} implements Serializable {
 #end
 #foreach( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
-     private final $link.fieldType.replace("Enum_", "") $link.fieldName;
+    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
 #end
 #end
 #foreach( $field in $domainAttributes )
