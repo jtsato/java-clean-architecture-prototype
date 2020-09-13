@@ -1,0 +1,11 @@
+BookDocument {
+ id : long { @Id };
+ bookId : long;
+ contentType : string { @NotBlank };
+ extension : string { @NotBlank };
+ name : string { @NotBlank };
+ size : long { @NotBlank };
+ content : string { @NotBlank };
+ creationDate : timestamp { @DefaultValue("now") } ;
+ lastModifiedDate : timestamp { @DefaultValue("now") } ;
+}

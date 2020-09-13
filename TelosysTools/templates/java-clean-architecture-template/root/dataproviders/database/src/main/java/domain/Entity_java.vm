@@ -15,33 +15,19 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 @ToString
 @Entity
 @Table(name = "${tableName}"#if ( $domainStrings.size() > 0 ),
-       uniqueConstraints = {
-#foreach( $field in $domainStrings )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
-            @UniqueConstraint(columnNames = {"$field.databaseName.toUpperCase()"}, name = "UN_${tableName}_${columnName}"),
 #end
+       uniqueConstraints = {
+#foreach( $field in $domainUkKeys )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
+            @UniqueConstraint(columnNames = {"${columnName}"}, name = "UN_${tableName}_${columnName}"),
+#end
+#if ( $domainStrings.size() > 0 )
        },
 #end
-#if ( $domainEnumerators.size() > 0 || $domainStrings.size() > 0 || $domainBooleans.size() > 0 || $domainDates.size() > 0 && $domainTimestamps.size() )
+#if ( $domainIndexes.size() > 0 )
        indexes = {
-#foreach( $field in $domainEnumerators )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() ) 
-            @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
-#end
-#foreach( $field in $domainStrings )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
-            @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
-#end
-#foreach( $field in $domainBooleans )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
-            @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
-#end
-#foreach( $field in $domainDates )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
-            @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
-#end
-#foreach( $field in $domainTimestamps )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
+#foreach( $field in $domainIndexes )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() ) 
             @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
 #end
        }
@@ -51,12 +37,13 @@ public class ${entity.name}Entity implements Serializable {
 
 #parse ( "include/serial_version.vm" )
 #foreach( $field in $domainKeys )
+#set( $prefix = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), "_").toUpperCase() ) 
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() )  
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "${entity.name.toUpperCase()}_${columnName}", updatable = false, insertable = false)
+    @Column(name = "${prefix}_${columnName}", updatable = false, insertable = false)
 #if ( $field.isLongType() )
     private Long $field.name;
 #else

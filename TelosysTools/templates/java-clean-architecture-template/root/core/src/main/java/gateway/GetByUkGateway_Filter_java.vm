@@ -1,0 +1,8 @@
+#parse ( "include/loader_wordutils.vm" )
+#parse ( "include/domain_info.vm" )
+#if ( !$entity.name.contains("Enum_") )
+#foreach( $field in $domainStrings )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+$generator.generate($target.entityName, "Get${entity.name}By${fieldName}Gateway.java", $target.folder, "root/core/src/main/java/gateway/GetByUkGateway_java.vm" )
+#end
+#end

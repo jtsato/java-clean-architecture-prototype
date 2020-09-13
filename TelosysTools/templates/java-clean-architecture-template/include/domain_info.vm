@@ -2,6 +2,8 @@
 #parse ( "include/loader_inflector.vm" )
 #set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
 #set ( $domainKeys            = [] )
+#set ( $domainUkKeys          = [] )
+#set ( $domainIndexes         = [] )
 #set ( $domainEnumerators     = [] )
 #set ( $domainLinks           = [] )
 #set ( $domainStrings         = [] )
@@ -44,5 +46,10 @@
 #set ( $x = $domainDates.add($field) )
 #elseif ( $field.isBooleanType() )
 #set ( $x = $domainBooleans.add($field) )
+#end
+#if ( $field.databaseComment.contains("UniqueKey") )
+#set ( $x = $domainUkKeys.add($field) )
+#elseif ( $field.databaseComment.contains("Index") )
+#set ( $x = $domainIndexes.add($field) )
 #end
 #end

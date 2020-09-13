@@ -1,4 +1,5 @@
 #parse ( "include/domain_info.vm" )
+#parse ( "include/loader_stringutils.vm" )
 $entity.name
 #foreach( $field in $domainKeys )
 ${field.name} [domainKeys]
@@ -27,4 +28,13 @@ ${field.name} [domainTimestamps]
 #if ( $entity.name.contains("Enum_") )
 #set ( $entityName = $entity.name.replace("Enum_", "") )
 $target.forceEntityName(${entityName})
+#end
+
+$wordUtils.uncapitalize( $entity.name ) [uncapitalize] 
+$wordUtils.capitalize( $inflector.getInstance().pluralize( $entity.name ) ) [capitalize plural]
+$wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [uncapitalize plural]
+#foreach( $field in $domainAttributes )
+#if ( $strUtils.isNotBlank($field.databaseComment) ) 
+$field.name [$field.databaseComment]
+#end
 #end

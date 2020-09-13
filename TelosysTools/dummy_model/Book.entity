@@ -1,9 +1,9 @@
 Book {
  id : long { @Id };
- author : Author ;
- title : string { @NotBlank };
+ author : Author { @NotNull, @DbComment("Index") };
+ title : string { @NotBlank, @DbComment("UniqueKey") };
  price : decimal { @NotNull } ;
- available : boolean { @NotNull } ;
- createdDate : timestamp { @DefaultValue("now") } ;
- lastModifiedDate : timestamp { @DefaultValue("now") } ;
+ available : boolean { @NotNull, @DbComment("Index") } ;
+ createdDate : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
+ lastModifiedDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
 }
