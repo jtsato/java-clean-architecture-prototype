@@ -41,6 +41,7 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"TITLE"}, name = "UN_BOOKS_TITLE"),
        },
        indexes = {
+            @Index(columnList = "AUTHOR_ID", name = "IDX_BOOKS_AUTHOR_ID"),
             @Index(columnList = "AVAILABLE", name = "IDX_BOOKS_AVAILABLE"),
             @Index(columnList = "CREATED_DATE", name = "IDX_BOOKS_CREATED_DATE"),
             @Index(columnList = "LAST_MODIFIED_DATE", name = "IDX_BOOKS_LAST_MODIFIED_DATE"),
@@ -48,7 +49,7 @@ import lombok.ToString;
 )
 public class BookEntity implements Serializable {
 
-    private static final long serialVersionUID = -8420704566593238819L;
+    private static final long serialVersionUID = -2675211994479114634L;
     
     @Access(AccessType.PROPERTY)
     @Id

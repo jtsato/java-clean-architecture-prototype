@@ -1,0 +1,15 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
+
+import java.util.List;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.common.paging.Page;
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Get${pluralEntityName}ByIdsGateway {
+
+    Page<${entity.name}> execute(final List<Long> ids);
+}

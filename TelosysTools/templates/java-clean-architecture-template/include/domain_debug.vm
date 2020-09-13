@@ -31,10 +31,12 @@ $target.forceEntityName(${entityName})
 #end
 
 $wordUtils.uncapitalize( $entity.name ) [uncapitalize] 
-$wordUtils.capitalize( $inflector.getInstance().pluralize( $entity.name ) ) [capitalize plural]
 $wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [uncapitalize plural]
-#foreach( $field in $domainAttributes )
-#if ( $strUtils.isNotBlank($field.databaseComment) ) 
-$field.name [$field.databaseComment]
+$wordUtils.capitalize( $inflector.getInstance().pluralize( $entity.name ) ) [capitalize plural]
+
+#foreach( $field in $domainUkKeys )
+$field.name [Unique Keys]
 #end
+#foreach( $field in $domainIndexes )
+$field.name [Indexes]: $field.isNotNull()
 #end

@@ -1,0 +1,13 @@
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
+
+import java.util.Optional;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Remove${entity.name}ByIdGateway {
+
+    Optional<${entity.name}> execute(final Long id);
+}

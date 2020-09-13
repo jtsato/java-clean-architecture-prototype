@@ -34,6 +34,10 @@
 #end
 #end
 #end
+#set ( $domainLinkAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#foreach( $field in $domainLinkAttributes )
+#set ( $x = $domainIndexes.add($field) )
+#end
 #set ( $domainAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
 #foreach( $field in $domainAttributes )
 #if ( $field.isStringType() )

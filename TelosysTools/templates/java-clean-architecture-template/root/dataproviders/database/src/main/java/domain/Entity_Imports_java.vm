@@ -28,7 +28,9 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+#if ( $domainIndexes.size() > 0 )
 import javax.persistence.Index;
+#end
 #if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -37,7 +39,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 #end
 import javax.persistence.Table;
+#if ( $domainUkKeys.size() > 0 )
 import javax.persistence.UniqueConstraint;
+#end
 #if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
 
 import org.hibernate.annotations.Fetch;

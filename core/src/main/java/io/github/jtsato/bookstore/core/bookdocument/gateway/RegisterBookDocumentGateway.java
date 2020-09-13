@@ -1,7 +1,5 @@
 package io.github.jtsato.bookstore.core.bookdocument.gateway;
 
-import java.util.Optional;
-
 import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 
 /**
@@ -9,7 +7,7 @@ import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
  */
 
 @FunctionalInterface
-public interface GetBookDocumentByContentTypeGateway {
+public interface RegisterBookDocumentGateway {
 
-    Optional<BookDocument> execute(final String contentType);
+    BookDocument execute(final BookDocument bookDocument);
 }

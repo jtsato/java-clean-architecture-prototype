@@ -35,12 +35,13 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"NAME"}, name = "UN_AUTHORS_NAME"),
        },
        indexes = {
+            @Index(columnList = "GENDER_ID", name = "IDX_AUTHORS_GENDER_ID"),
             @Index(columnList = "BIRTHDATE", name = "IDX_AUTHORS_BIRTHDATE"),
        }
 )
 public class AuthorEntity implements Serializable {
 
-    private static final long serialVersionUID = -7711466473676976651L;
+    private static final long serialVersionUID = -6694932322098331419L;
     
     @Access(AccessType.PROPERTY)
     @Id

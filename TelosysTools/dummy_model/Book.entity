@@ -1,6 +1,6 @@
 Book {
  id : long { @Id };
- author : Author { @NotNull, @DbComment("Index") };
+ author : Author { @NotNull };
  title : string { @NotBlank, @DbComment("UniqueKey") };
  price : decimal { @NotNull } ;
  available : boolean { @NotNull, @DbComment("Index") } ;

@@ -14,21 +14,25 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "${tableName}"#if ( $domainStrings.size() > 0 ),
-#end
+@Table(name = "${tableName}"#if ( $domainUkKeys.size() > 0 ),
        uniqueConstraints = {
+#end
 #foreach( $field in $domainUkKeys )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 
             @UniqueConstraint(columnNames = {"${columnName}"}, name = "UN_${tableName}_${columnName}"),
 #end
-#if ( $domainStrings.size() > 0 )
+#if ( $domainUkKeys.size() > 0 )
        },
 #end
 #if ( $domainIndexes.size() > 0 )
        indexes = {
 #foreach( $field in $domainIndexes )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() ) 
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() )
+#if ( $strUtils.isBlank( $field.databaseComment) )
+            @Index(columnList = "${columnName}_ID", name = "IDX_${tableName}_${columnName}_ID"),
+#else 
             @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
+#end
 #end
        }
 #end

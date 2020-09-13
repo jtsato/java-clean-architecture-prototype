@@ -32,11 +32,16 @@ import lombok.ToString;
 @Entity
 @Table(name = "BOOK_DOCUMENTS",
        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"NAME"}, name = "UN_BOOK_DOCUMENTS_NAME"),
        },
+       indexes = {
+            @Index(columnList = "CREATION_DATE", name = "IDX_BOOK_DOCUMENTS_CREATION_DATE"),
+            @Index(columnList = "LAST_MODIFIED_DATE", name = "IDX_BOOK_DOCUMENTS_LAST_MODIFIED_DATE"),
+       }
 )
 public class BookDocumentEntity implements Serializable {
 
-    private static final long serialVersionUID = -1302979218815168915L;
+    private static final long serialVersionUID = -3126744562145932356L;
     
     @Access(AccessType.PROPERTY)
     @Id

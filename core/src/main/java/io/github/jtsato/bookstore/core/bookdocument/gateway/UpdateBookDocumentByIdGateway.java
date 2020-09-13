@@ -9,7 +9,7 @@ import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
  */
 
 @FunctionalInterface
-public interface GetBookDocumentByExtensionGateway {
+public interface UpdateBookDocumentByIdGateway {
 
-    Optional<BookDocument> execute(final String extension);
+    Optional<BookDocument> execute(final Long id);
 }
