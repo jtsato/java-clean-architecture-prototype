@@ -1,0 +1,43 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
+
+import java.util.Optional;
+
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+#if ( $domainLinksToOne.size() > 0 )
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+#end
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}ByIdGateway;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.mapper.${entity.name}Mapper;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity.name}Repository;
+
+#include ( "/include/author.vm" )
+
+@Transactional(readOnly = true)
+@Service
+public class Get${entity.name}ByIdDataProvider implements Get${entity.name}ByIdGateway {
+
+    private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
+    
+    @Autowired
+    ${entity.name}Repository ${uncapitalizeEntityName}Repository;
+
+    @Override
+    public Optional<${entity.name}> execute(final Long id) {
+#if ( $domainLinksToOne.size() > 0 )
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(id, entityGraph);
+#else
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(id);
+#end
+        return optional.map(${uncapitalizeEntityName}Mapper::of);
+    }
+}

@@ -3,6 +3,10 @@
 #if ( !$entity.name.contains("Enum_") )
 #foreach( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $field.isStringType() )
+$generator.generate($target.entityName, "Get${entity.name}By${fieldName}IgnoreCaseGateway.java", $target.folder, "root/core/src/main/java/gateway/GetByUkGateway_java.vm" )
+#else
 $generator.generate($target.entityName, "Get${entity.name}By${fieldName}Gateway.java", $target.folder, "root/core/src/main/java/gateway/GetByUkGateway_java.vm" )
+#end
 #end
 #end

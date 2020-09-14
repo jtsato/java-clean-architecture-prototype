@@ -7,6 +7,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+#if ( $domainLinksToOne.size() > 0  && ( $domainEnumerators.size() > 0 || $domainStrings.size() > 0 || $domainBooleans.size() > 0 ) )
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+#end
 import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphJpaRepository;
 import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphQuerydslPredicateExecutor;
 
@@ -20,16 +23,16 @@ public interface ${entity.name}Repository extends EntityGraphJpaRepository<${ent
 #if ($link.isCardinalityManyToOne())
 #if ( $link.fieldType.contains("Enum_") )
 
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)(final String $link.fieldName);
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)(final String $link.fieldName#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
 #end
 #end
 #foreach( $field in $domainStrings )
 
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name);
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
 #foreach( $field in $domainBooleans )
 
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final Boolean $field.name);
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final Boolean $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
 }

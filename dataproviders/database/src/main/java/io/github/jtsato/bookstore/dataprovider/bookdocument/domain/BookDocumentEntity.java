@@ -41,7 +41,7 @@ import lombok.ToString;
 )
 public class BookDocumentEntity implements Serializable {
 
-    private static final long serialVersionUID = -3126744562145932356L;
+    private static final long serialVersionUID = 4549476855745890942L;
     
     @Access(AccessType.PROPERTY)
     @Id

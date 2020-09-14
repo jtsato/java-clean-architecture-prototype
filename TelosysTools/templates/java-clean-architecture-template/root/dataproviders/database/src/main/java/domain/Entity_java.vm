@@ -63,7 +63,7 @@ public class ${entity.name}Entity implements Serializable {
     private ${link.fieldType}Entity $link.fieldName;
 #elseif ( $link.isCardinalityOneToMany() )
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${entity.name.toLowerCase()}")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "${uncapitalizeEntityName}")
     @Fetch(FetchMode.SELECT)
     @JsonBackReference
     private ${link.fieldType}Entity $link.fieldName;

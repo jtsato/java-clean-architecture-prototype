@@ -1,16 +1,15 @@
 package io.github.jtsato.bookstore.core.book.gateway;
 
-import java.util.List;
+import java.util.Optional;
 
 import io.github.jtsato.bookstore.core.book.domain.Book;
-import io.github.jtsato.bookstore.core.common.paging.Page;
 
 /**
  * @author Jorge Takeshi Sato
  */
 
 @FunctionalInterface
-public interface GetBooksByIdsGateway {
+public interface GetBookByTitleIgnoreCaseGateway {
 
-    Page<Book> execute(final List<Long> ids);
+    Optional<Book> execute(final String title);
 }

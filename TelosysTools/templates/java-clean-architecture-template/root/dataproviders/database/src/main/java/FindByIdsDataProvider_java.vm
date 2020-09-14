@@ -1,0 +1,54 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
+
+import java.util.List;
+
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+#if ( $domainLinksToOne.size() > 0 ) 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+#end
+import com.querydsl.core.types.dsl.BooleanExpression;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Find${pluralEntityName}ByIdsGateway;
+import ${ROOT_PKG}.core.common.paging.Page;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.Q${entity.name}Entity;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.mapper.${entity.name}Mapper;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity.name}Repository;
+import ${ROOT_PKG}.dataprovider.common.PageMapper;
+import ${ROOT_PKG}.dataprovider.common.PageRequestHelper;
+
+#include ( "/include/author.vm" )
+
+@Transactional(readOnly = true)
+@Service
+public class Find${pluralEntityName}ByIdsDataProvider implements Find${pluralEntityName}ByIdsGateway {
+
+    private final PageMapper<${entity.name}, ${entity.name}Entity> pageMapper = new PageMapper<>() {};
+    private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
+
+    @Autowired
+    ${entity.name}Repository ${uncapitalizeEntityName}Repository;
+
+    @Override
+    public Page<${entity.name}> execute(final List<Long> ids) {
+
+        final BooleanExpression predicate = Q${entity.name}Entity.${uncapitalizeEntityName}Entity.id.in(ids);
+        final PageRequest pageRequest = PageRequestHelper.buildPageRequest(0, 1000, "${domainKeys[0].name}:asc");
+#if ( $domainLinksToOne.size() > 0 ) 
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
+        final org.springframework.data.domain.Page<${entity.name}Entity> page = ${uncapitalizeEntityName}Repository.findAll(predicate, pageRequest, entityGraph);
+#else
+        final org.springframework.data.domain.Page<${entity.name}Entity> page = ${uncapitalizeEntityName}Repository.findAll(predicate, pageRequest);
+#end
+    
+        return pageMapper.of(page, ${uncapitalizeEntityName}Mapper::of);
+    }
+}

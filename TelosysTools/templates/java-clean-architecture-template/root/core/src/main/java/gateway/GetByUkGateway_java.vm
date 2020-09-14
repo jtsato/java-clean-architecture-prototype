@@ -7,11 +7,17 @@ import java.util.Optional;
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 
 #include ( "/include/author.vm" )
-#set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "Gateway"))
+#if ( $target.file.contains("IgnoreCase") )
+#set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "IgnoreCaseGateway") )
+#set ( $ignoreCase = "IgnoreCase" )
+#else
+#set ( $fieldName = $strUtils.substringBetween($target.file, "By", "Gateway") )
+#set ( $ignoreCase = "" )
+#end
 #set ( $uncapitalizedFieldName =  $wordUtils.uncapitalize($fieldName) )
 
 @FunctionalInterface
-public interface Get${entity.name}By${fieldName}Gateway {
+public interface Get${entity.name}By${fieldName}${ignoreCase}Gateway {
 
     Optional<${entity.name}> execute(final String ${uncapitalizedFieldName});
 }

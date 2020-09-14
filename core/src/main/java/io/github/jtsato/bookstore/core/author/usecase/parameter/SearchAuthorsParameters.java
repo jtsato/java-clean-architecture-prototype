@@ -20,9 +20,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters>  implements Serializable {
+public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters> implements Serializable {
 
-    private static final long serialVersionUID = 8342214641745740293L;
+    private static final long serialVersionUID = 86022224126165638L;
 
     private Long id;
 

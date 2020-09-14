@@ -1,3 +1,4 @@
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
 
 import java.util.Optional;
@@ -9,5 +10,5 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 @FunctionalInterface
 public interface Update${entity.name}ByIdGateway {
 
-    Optional<${entity.name}> execute(final Long id);
+    Optional<${entity.name}> execute(final ${entity.name} ${uncapitalizeEntityName});
 }

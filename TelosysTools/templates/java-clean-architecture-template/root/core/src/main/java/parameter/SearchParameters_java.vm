@@ -36,7 +36,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Search${pluralEntityName}Parameters extends SelfValidating<Search${pluralEntityName}Parameters>  implements Serializable {
+public class Search${pluralEntityName}Parameters extends SelfValidating<Search${pluralEntityName}Parameters> implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
 #foreach ( $field in $domainKeys )

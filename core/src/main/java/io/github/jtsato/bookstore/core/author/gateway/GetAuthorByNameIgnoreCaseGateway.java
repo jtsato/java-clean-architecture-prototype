@@ -9,7 +9,7 @@ import io.github.jtsato.bookstore.core.author.domain.Author;
  */
 
 @FunctionalInterface
-public interface GetAuthorByNameGateway {
+public interface GetAuthorByNameIgnoreCaseGateway {
 
     Optional<Author> execute(final String name);
 }

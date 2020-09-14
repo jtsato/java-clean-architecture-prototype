@@ -11,5 +11,5 @@ import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 @FunctionalInterface
 public interface UpdateBookDocumentByIdGateway {
 
-    Optional<BookDocument> execute(final Long id);
+    Optional<BookDocument> execute(final BookDocument bookDocument);
 }

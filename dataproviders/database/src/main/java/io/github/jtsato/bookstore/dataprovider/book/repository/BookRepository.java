@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
 import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphJpaRepository;
 import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphQuerydslPredicateExecutor;
 
@@ -16,7 +17,7 @@ import io.github.jtsato.bookstore.dataprovider.book.domain.BookEntity;
 @Repository
 public interface BookRepository extends EntityGraphJpaRepository<BookEntity, Long>, EntityGraphQuerydslPredicateExecutor<BookEntity> {
 
-    Optional<BookEntity> findByTitleIgnoreCase(final String title);
+    Optional<BookEntity> findByTitleIgnoreCase(final String title, final EntityGraph entityGraph);
 
-    Optional<BookEntity> findByAvailable(final Boolean available);
+    Optional<BookEntity> findByAvailable(final Boolean available, final EntityGraph entityGraph);
 }

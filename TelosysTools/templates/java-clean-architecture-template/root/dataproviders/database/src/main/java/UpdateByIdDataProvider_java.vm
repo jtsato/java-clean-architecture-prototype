@@ -1,0 +1,70 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
+
+import java.util.Optional;
+
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Update${entity.name}ByIdGateway;
+#foreach ( $field in $domainLinks )
+import ${ROOT_PKG}.dataprovider.${field.fieldType.toLowerCase()}.repository.${field.fieldType}Repository;
+#end
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.mapper.${entity.name}Mapper;
+import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity.name}Repository;
+
+#include ( "/include/author.vm" )
+
+@Transactional
+@Service
+public class Update${entity.name}ByIdDataProvider implements Update${entity.name}ByIdGateway {
+    
+    private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
+
+    @Autowired
+    ${entity.name}Repository ${uncapitalizeEntityName}Repository;
+#foreach ( $field in $domainLinks )
+#set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
+
+    @Autowired
+    ${field.fieldType}Repository ${uncapitalizeFieldType}Repository;
+#end
+
+    @Override
+    public Optional<${entity.name}> execute(final ${entity.name} ${uncapitalizeEntityName}) {
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(${uncapitalizeEntityName}.getId());
+        return optional.map(${uncapitalizeEntityName}Entity -> update${entity.name}Entity(${uncapitalizeEntityName}Entity, ${uncapitalizeEntityName}));
+    }
+
+    private ${entity.name} update${entity.name}Entity(final ${entity.name}Entity ${uncapitalizeEntityName}Entity, final ${entity.name} ${uncapitalizeEntityName}) {
+#foreach ( $field in $domainLinks )
+        update${field.fieldType}(${uncapitalizeEntityName}, ${uncapitalizeEntityName}Entity);
+#end
+#foreach ( $field in $domainAttributes )
+#if ( !$field.databaseComment.contains("CurrentDateTimeOnCreation") )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+        ${uncapitalizeEntityName}Entity.set${capitalizeFieldName}(${uncapitalizeEntityName}.get${capitalizeFieldName}());
+#end
+#end
+#foreach ( $field in $domainEnumerators )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
+        ${uncapitalizeEntityName}Entity.set${capitalizeFieldName}(${uncapitalizeEntityName}.get${capitalizeFieldName}().name());
+#end
+        return ${uncapitalizeEntityName}Mapper.of(${uncapitalizeEntityName}Repository.saveAndFlush(${uncapitalizeEntityName}Entity));
+    }
+#foreach ( $field in $domainLinks )
+#set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
+
+    private void update${field.fieldType}(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
+        final Long current${field.fieldType}Id = ${uncapitalizeEntityName}Entity.get${field.fieldType}().getId();
+        final Long new${field.fieldType}Id = ${uncapitalizeEntityName}.get${field.fieldType}().getId();
+        if (!new${field.fieldType}Id.equals(current${field.fieldType}Id)) {
+            ${uncapitalizeFieldType}Repository.findById(new${field.fieldType}Id).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+        }
+    }
+#end
+}

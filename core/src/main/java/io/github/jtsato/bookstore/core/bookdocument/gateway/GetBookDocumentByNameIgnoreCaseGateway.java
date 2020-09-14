@@ -9,7 +9,7 @@ import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
  */
 
 @FunctionalInterface
-public interface GetBookDocumentByNameGateway {
+public interface GetBookDocumentByNameIgnoreCaseGateway {
 
     Optional<BookDocument> execute(final String name);
 }

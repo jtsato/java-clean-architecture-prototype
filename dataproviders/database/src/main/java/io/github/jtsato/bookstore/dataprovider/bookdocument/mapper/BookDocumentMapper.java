@@ -12,7 +12,7 @@ import io.github.jtsato.bookstore.dataprovider.bookdocument.domain.BookDocumentE
 @Mapper
 public interface BookDocumentMapper {
 
-    BookDocument of(final BookDocumentEntity bookdocumentEntity);
+    BookDocument of(final BookDocumentEntity bookDocumentEntity);
 
-    BookDocumentEntity of(final BookDocument bookdocument);
+    BookDocumentEntity of(final BookDocument bookDocument);
 }

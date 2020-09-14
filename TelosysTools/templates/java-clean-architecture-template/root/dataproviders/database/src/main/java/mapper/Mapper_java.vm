@@ -22,7 +22,7 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.nam
 #end
 public interface ${entity.name}Mapper {
 
-    ${entity.name} of(final ${entity.name}Entity ${entity.name.toLowerCase()}Entity);
+    ${entity.name} of(final ${entity.name}Entity ${uncapitalizeEntityName}Entity);
 
-    ${entity.name}Entity of(final ${entity.name} ${entity.name.toLowerCase()});
+    ${entity.name}Entity of(final ${entity.name} ${uncapitalizeEntityName});
 }
