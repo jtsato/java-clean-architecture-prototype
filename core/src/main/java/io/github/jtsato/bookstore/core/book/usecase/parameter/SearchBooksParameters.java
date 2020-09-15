@@ -24,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBooksParameters extends SelfValidating<SearchBooksParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7428366360697421390L;
+    private static final long serialVersionUID = -446426313592059978L;
 
     private Long id;
 
@@ -33,10 +33,6 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
     private String title;
 
     private Boolean available;
-
-    private BigDecimal startPrice;
-
-    private BigDecimal endPrice;
 
     @LocalDateTimeConstraint(message = "validation.book.start.created.date.invalid")
     private String startCreatedDate;
@@ -50,23 +46,27 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
     @LocalDateTimeConstraint(message = "validation.book.end.last.modified.date.invalid")
     private String endLastModifiedDate;
 
+    private BigDecimal startPrice;
+
+    private BigDecimal endPrice;
+
     public SearchBooksParameters(final Long id,
                                  final SearchAuthorsParameters searchAuthorsParameters,
                                  final String title,
                                  final Boolean available,
-                                 final ImmutablePair<BigDecimal, BigDecimal> priceRange,
                                  final ImmutablePair<String, String> createdDateRange,
-                                 final ImmutablePair<String, String> lastModifiedDateRange) {
+                                 final ImmutablePair<String, String> lastModifiedDateRange,
+                                 final ImmutablePair<BigDecimal, BigDecimal> priceRange) {
         this.id = id;
         this.searchAuthorsParameters = searchAuthorsParameters;
         this.title = title;
         this.available = available;
-        this.startPrice = priceRange.getLeft();
-        this.endPrice = priceRange.getRight();
         this.startCreatedDate = createdDateRange.getLeft();
         this.endCreatedDate = createdDateRange.getRight();
         this.startLastModifiedDate = lastModifiedDateRange.getLeft();
         this.endLastModifiedDate = lastModifiedDateRange.getRight();
+        this.startPrice = priceRange.getLeft();
+        this.endPrice = priceRange.getRight();
         this.validateSelf();
     }
 }

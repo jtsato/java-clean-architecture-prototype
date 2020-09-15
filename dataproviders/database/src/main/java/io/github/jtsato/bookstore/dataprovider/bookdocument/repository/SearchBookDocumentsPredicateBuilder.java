@@ -32,6 +32,22 @@ public class SearchBookDocumentsPredicateBuilder extends AbstractPredicateBuilde
             booleanExpressions.add(entityPath.id.eq(query.getId()));
         }
 
+        if (query.getStartBookId() != null) {
+            booleanExpressions.add(entityPath.bookId.goe(query.getStartBookId()));
+        }
+
+        if (query.getEndBookId() != null) {
+            booleanExpressions.add(entityPath.bookId.loe(query.getEndBookId()));
+        }
+
+        if (query.getStartSize() != null) {
+            booleanExpressions.add(entityPath.size.goe(query.getStartSize()));
+        }
+
+        if (query.getEndSize() != null) {
+            booleanExpressions.add(entityPath.size.loe(query.getEndSize()));
+        }
+
         if (StringUtils.isNotBlank(query.getContentType())) {
             booleanExpressions.add(entityPath.contentType.like(addLikeOperator(query.getContentType())));
         }

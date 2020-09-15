@@ -1,6 +1,6 @@
 #parse ( "include/loader_stringutils.vm" )
 #set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) )
-#set( $dollar = '$' )
+#set ( $dollar = '$' )
 logging:
    level:
       ${ROOT_PKG}: info

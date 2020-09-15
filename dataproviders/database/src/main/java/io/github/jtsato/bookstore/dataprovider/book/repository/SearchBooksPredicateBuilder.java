@@ -46,14 +46,6 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
             booleanExpressions.add(entityPath.available.eq(query.getAvailable()));
         }
 
-        if (query.getStartPrice() != null) {
-            booleanExpressions.add(entityPath.price.goe(query.getStartPrice()));
-        }
-
-        if (query.getEndPrice() != null) {
-            booleanExpressions.add(entityPath.price.loe(query.getEndPrice()));
-        }
-
         if (StringUtils.isNotBlank(query.getStartCreatedDate())) {
             final LocalDateTime startCreatedDate = LocalDateTime.parse(query.getStartCreatedDate(), DateTimeFormatter.ISO_DATE_TIME);
             booleanExpressions.add(entityPath.createdDate.goe(startCreatedDate));
@@ -72,6 +64,14 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
         if (StringUtils.isNotBlank(query.getEndLastModifiedDate())) {
             final LocalDateTime endLastModifiedDate = LocalDateTime.parse(query.getEndLastModifiedDate(), DateTimeFormatter.ISO_DATE_TIME);
             booleanExpressions.add(entityPath.lastModifiedDate.loe(endLastModifiedDate));
+        }
+
+        if (query.getStartPrice() != null) {
+            booleanExpressions.add(entityPath.price.goe(query.getStartPrice()));
+        }
+
+        if (query.getEndPrice() != null) {
+            booleanExpressions.add(entityPath.price.loe(query.getEndPrice()));
         }
 
         return booleanExpressions;

@@ -1,7 +1,7 @@
 #parse ( "include/loader_stringutils.vm" )
 #parse ( "include/loader_inflector.vm" )
 #parse ( "include/domain_info.vm" )
-#set( $tableName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralEntityName), "_").toUpperCase() ) 
+#set ( $tableName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralEntityName), "_").toUpperCase() ) 
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 
 #parse ( "root/dataproviders/database/src/main/java/domain/Entity_Imports_java.vm" )
@@ -41,7 +41,7 @@ public class ${entity.name}Entity implements Serializable {
 
 #parse ( "include/serial_version.vm" )
 #foreach( $field in $domainKeys )
-#set( $prefix = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), "_").toUpperCase() ) 
+#set ( $prefix = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), "_").toUpperCase() ) 
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() )  
     
     @Access(AccessType.PROPERTY)

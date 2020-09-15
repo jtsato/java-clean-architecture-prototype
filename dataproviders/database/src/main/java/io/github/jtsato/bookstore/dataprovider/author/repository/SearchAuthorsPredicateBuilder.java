@@ -34,13 +34,13 @@ public class SearchAuthorsPredicateBuilder extends AbstractPredicateBuilderImpl<
             booleanExpressions.add(entityPath.id.eq(query.getId()));
         }
 
+        if (StringUtils.isNotBlank(query.getName())) {
+            booleanExpressions.add(entityPath.name.like(addLikeOperator(query.getName())));
+        }
+
         if (StringUtils.isNotBlank(query.getGender())) {
             final Gender gender = EnumeratorUtils.valueOf(query.getGender(), Gender.class);
             booleanExpressions.add(entityPath.gender.eq(gender.name()));
-        }
-
-        if (StringUtils.isNotBlank(query.getName())) {
-            booleanExpressions.add(entityPath.name.like(addLikeOperator(query.getName())));
         }
 
         if (StringUtils.isNotBlank(query.getStartBirthdate())) {

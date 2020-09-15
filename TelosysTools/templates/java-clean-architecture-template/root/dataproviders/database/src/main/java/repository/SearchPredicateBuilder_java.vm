@@ -55,13 +55,31 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
 #end
 #foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
-#set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
         if (query.getSearch${pluralClass}Parameters() != null) {
             final Search${pluralClass}PredicateBuilder search${link.fieldType}PredicateBuilder = new Search${pluralClass}PredicateBuilder(entityPath.${link.fieldName});
             booleanExpressions.addAll(search${link.fieldType}PredicateBuilder.buildBooleanExpressions(query.getSearch${pluralClass}Parameters()));
         }
 #end
+#end
+#foreach ( $field in $domainLongs )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (query.getStart${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.goe(query.getStart${capitalizeFieldName}()));
+        }
+
+        if (query.getEnd${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.loe(query.getEnd${capitalizeFieldName}()));
+        }
+#end
+#foreach ( $field in $domainStrings )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
+            booleanExpressions.add(entityPath.${field.name}.like(addLikeOperator(query.get${capitalizeFieldName}())));
+        }
 #end
 #foreach ( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
@@ -73,29 +91,11 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
         }
 #end
 #end
-#foreach ( $field in $domainStrings )
-#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
-
-        if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
-            booleanExpressions.add(entityPath.${field.name}.like(addLikeOperator(query.get${capitalizeFieldName}())));
-        }
-#end
 #foreach ( $field in $domainBooleans )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
 
         if (query.get${capitalizeFieldName}() != null) {
             booleanExpressions.add(entityPath.${field.name}.eq(query.get${capitalizeFieldName}()));
-        }
-#end
-#foreach ( $field in $domainDecimals )
-#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
-
-        if (query.getStart${capitalizeFieldName}() != null) {
-            booleanExpressions.add(entityPath.${field.name}.goe(query.getStart${capitalizeFieldName}()));
-        }
-
-        if (query.getEnd${capitalizeFieldName}() != null) {
-            booleanExpressions.add(entityPath.${field.name}.loe(query.getEnd${capitalizeFieldName}()));
         }
 #end
 #foreach ( $field in $domainDates )
@@ -122,6 +122,17 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
         if (StringUtils.isNotBlank(query.getEnd${capitalizeFieldName}())) {
             final LocalDateTime end${capitalizeFieldName} = LocalDateTime.parse(query.getEnd${capitalizeFieldName}(), DateTimeFormatter.ISO_DATE_TIME);
             booleanExpressions.add(entityPath.${field.name}.loe(end${capitalizeFieldName}));
+        }
+#end
+#foreach ( $field in $domainDecimals )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (query.getStart${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.goe(query.getStart${capitalizeFieldName}()));
+        }
+
+        if (query.getEnd${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.loe(query.getEnd${capitalizeFieldName}()));
         }
 #end
 

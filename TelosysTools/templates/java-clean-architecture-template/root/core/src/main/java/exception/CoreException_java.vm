@@ -1,4 +1,3 @@
-#parse ( "include/loader_stringutils.vm" )
 package ${ROOT_PKG}.core.exception;
 
 import lombok.Getter;

@@ -1,4 +1,6 @@
-#parse ( "include/domain_info.vm" )
 #if ( !$entity.name.contains("Enum_") )
+#parse ( "include/loader_wordutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+#set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
 $generator.generate($target.entityName, "Search${pluralEntityName}PredicateBuilder.java", $target.folder, "root/dataproviders/database/src/main/java/repository/SearchPredicateBuilder_java.vm" )
 #end

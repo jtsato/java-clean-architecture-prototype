@@ -30,9 +30,10 @@ ${field.name} [domainTimestamps]
 $target.forceEntityName(${entityName})
 #end
 
-$wordUtils.uncapitalize( $entity.name ) [uncapitalize] 
+$capitalizedEntityName [capitalize] 
+$uncapitalizeEntityName [uncapitalize] 
+$pluralEntityName [capitalize plural]
 $wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [uncapitalize plural]
-$wordUtils.capitalize( $inflector.getInstance().pluralize( $entity.name ) ) [capitalize plural]
 
 #foreach( $field in $domainUkKeys )
 $field.name [Unique Keys]

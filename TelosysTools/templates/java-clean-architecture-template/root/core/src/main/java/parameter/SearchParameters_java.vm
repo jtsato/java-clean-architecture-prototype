@@ -48,10 +48,20 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #end
 #foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne())
-#set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
     private Search${pluralClass}Parameters search${pluralClass}Parameters;
 #end
+#end
+#foreach ( $field in $domainLongs )
+
+    private Long start$wordUtils.capitalize($field.name);
+
+    private Long end$wordUtils.capitalize($field.name);
+#end
+#foreach ( $field in $domainStrings )
+
+    private String $field.name;
 #end
 #foreach ( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne())
@@ -59,22 +69,11 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
     private String $link.fieldName;
 #end
 #end
-#foreach ( $field in $domainAttributes )
-#if ( $field.isDecimalType() )
+#foreach ( $field in $domainBooleans )
 
-    private BigDecimal start$wordUtils.capitalize($field.name);
-
-    private BigDecimal end$wordUtils.capitalize($field.name);
-#elseif ( $field.isTimestampType() )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
-
-    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
-    private String start$wordUtils.capitalize($field.name);
-
-    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
-    private String end$wordUtils.capitalize($field.name);
-#elseif ( $field.isDateType() )
+    private Boolean $field.name;
+#end
+#foreach ( $field in $domainDates )
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
 #set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
@@ -83,13 +82,22 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 
     @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
     private String end$wordUtils.capitalize($field.name);
-#elseif ( $field.isBooleanType() )
-
-    private Boolean $field.name;
-#else
-
-    private $field.type $field.name;
 #end
+#foreach ( $field in $domainTimestamps )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
+    private String start$wordUtils.capitalize($field.name);
+
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
+    private String end$wordUtils.capitalize($field.name);
+#end
+#foreach ( $field in $domainDecimals )
+
+    private BigDecimal start$wordUtils.capitalize($field.name);
+
+    private BigDecimal end$wordUtils.capitalize($field.name);
 #end
 #set ( $constructorParameters = [] )
 #set ( $setParameters = [] )
@@ -103,38 +111,45 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #end
 #end
 #foreach ( $field in $domainLinks )
-#set( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
+#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
 #set ( $x = $constructorParameters.add("final Search${pluralClass}Parameters search${pluralClass}Parameters") )
 #set ( $x = $setParameters.add("this.search${pluralClass}Parameters = search${pluralClass}Parameters;") )
+#end
+#foreach ( $field in $domainLongs )
+#set ( $x = $constructorParameters.add("final ImmutablePair<Long, Long> ${field.name}Range") )
+#set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
+#set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
+#end
+#foreach ( $field in $domainStrings )
+#set ( $x = $constructorParameters.add("final String ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
 #foreach ( $field in $domainEnumerators )
 #set ( $x = $constructorParameters.add("final String ${field.fieldName}") )
 #set ( $x = $setParameters.add("this.${field.fieldName} = ${field.fieldName};") )
 #end
-#foreach ( $field in $domainAttributes )
-#if ( $field.isLongType() )
-#set ( $x = $constructorParameters.add("final Long ${field.name}") )
-#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
-#elseif ( $field.isBooleanType() )
+#foreach ( $field in $domainBooleans )
 #set ( $x = $constructorParameters.add("final Boolean ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
-#elseif ( $field.isStringType() )
-#set ( $x = $constructorParameters.add("final String ${field.name}") )
-#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
-#elseif ( $field.isDateType() || $field.isTimestampType() )
+#end
+#foreach ( $field in $domainDates )
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
 #set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 #set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
 #set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
 #set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
-#elseif ( $field.isDecimalType() )
+#end
+#foreach ( $field in $domainTimestamps )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
+#set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
+#set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
+#end
+#foreach ( $field in $domainDecimals )
 #set ( $x = $constructorParameters.add("final ImmutablePair<BigDecimal, BigDecimal> ${field.name}Range") )
 #set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
 #set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
-#else
-#set ( $x = $constructorParameters.add("final ${field.type} ${field.name}") )
-#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
-#end
 #end
 #set ( $signature = "    public Search${pluralEntityName}Parameters(" )
 #set ( $filler = $strUtils.repeat(" ", $signature.length() ) )

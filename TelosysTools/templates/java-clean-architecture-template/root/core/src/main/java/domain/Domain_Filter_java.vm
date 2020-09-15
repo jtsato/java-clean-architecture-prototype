@@ -1,8 +1,8 @@
-#parse ( "include/domain_info.vm" )
 #if ( !$entity.name.contains("Enum_") )
+#parse ( "include/domain_info.vm" )
 $generator.generate($target.entityName, "${entity.name}.java", $target.folder, "root/core/src/main/java/domain/Domain_java.vm" )
 #foreach( $field in $domainEnumerators )
 #set ( $fieldType = $field.fieldType.replace("Enum_", "") )
 $generator.generate($field.fieldType, "${fieldType}.java", $target.folder, "root/core/src/main/java/domain/Domain_Enumerator_java.vm" )
 #end
-#end
+#end 

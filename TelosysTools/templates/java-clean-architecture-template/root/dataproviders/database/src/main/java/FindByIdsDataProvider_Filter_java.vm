@@ -1,6 +1,6 @@
+#if ( !$entity.name.contains("Enum_") )
 #parse ( "include/loader_wordutils.vm" )
 #parse ( "include/loader_inflector.vm" )
-#set( $pluralEntity = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
-#if ( !$entity.name.contains("Enum_") )
-$generator.generate($target.entityName, "Find${pluralEntity}ByIdsDataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/FindByIdsDataProvider_java.vm" )
+#set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
+$generator.generate($target.entityName, "Find${pluralEntityName}ByIdsDataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/FindByIdsDataProvider_java.vm" )
 #end
