@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookDocumentParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7457612103854439118L;
+    private static final long serialVersionUID = 5842747307564419824L;
 
     private final Long bookId;
 

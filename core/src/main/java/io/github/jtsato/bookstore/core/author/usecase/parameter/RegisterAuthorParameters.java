@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParameters> implements Serializable {
 
-    private static final long serialVersionUID = -4870742010553023055L;
+    private static final long serialVersionUID = -7376324206183953804L;
 
     @NotBlank(message = "validation.author.gender.blank")
     private final String gender;

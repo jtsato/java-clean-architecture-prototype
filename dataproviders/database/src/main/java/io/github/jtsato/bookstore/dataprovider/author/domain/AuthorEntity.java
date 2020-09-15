@@ -41,7 +41,7 @@ import lombok.ToString;
 )
 public class AuthorEntity implements Serializable {
 
-    private static final long serialVersionUID = -2359052888441666034L;
+    private static final long serialVersionUID = 2370704696294525585L;
     
     @Access(AccessType.PROPERTY)
     @Id
