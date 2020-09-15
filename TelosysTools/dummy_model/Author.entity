@@ -2,5 +2,5 @@ Author {
  id : long { @Id } ;
  name: string { @NotBlank, @DbComment("UniqueKey") } ;
  gender: Enum_Gender;
- birthdate: date { @NotNull, @DbComment("Index") } ;
+ birthdate: date { @NotBlank, @DbComment("Index") } ;
 }

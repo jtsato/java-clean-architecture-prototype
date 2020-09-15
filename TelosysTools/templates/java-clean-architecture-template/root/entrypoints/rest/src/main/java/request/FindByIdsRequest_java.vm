@@ -1,0 +1,23 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request;
+
+import java.io.Serializable;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public final class Find${pluralEntityName}ByIdsRequest implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private List<Long> ids;
+}

@@ -1,0 +1,54 @@
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class RegisterBookRequest implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private Long authorId;
+    private String title;
+    private BigDecimal price;
+    private Boolean available;
+
+#foreach( $link in $domainLinks )
+#if ( $link.isCardinalityManyToOne() )
+    private final ${link.fieldType} $link.fieldName;
+#end
+#end
+#foreach( $link in $domainEnumerators )
+#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
+    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
+#end
+#end
+#foreach( $field in $domainAttributes )
+#if ( $field.type.contains("Enum_") )
+    private final $field.type.replace("Enum_", "") $field.name;
+#elseif ( $field.isLongType() )
+    private final Long $field.name;
+#elseif ( $field.isDecimalType() )
+    private final BigDecimal $field.name;
+#elseif ( $field.isBooleanType() )
+    private final Boolean $field.name;
+#elseif ( $field.isDateType() )
+    private final LocalDate $field.name;
+#elseif ( $field.isTimestampType() )
+    private final LocalDateTime $field.name;
+#else
+    private final $field.type $field.name;
+#end
+#end
+}

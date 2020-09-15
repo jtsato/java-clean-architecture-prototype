@@ -1,0 +1,174 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter;
+
+import java.io.Serializable;
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+#end
+#if ( $domainEnumerators.size() > 0 )
+import javax.validation.constraints.NotBlank;
+#else
+#foreach( $field in $domainAttributes )
+#if ( $field.isNotBlank() )
+import javax.validation.constraints.NotBlank;
+#break
+#end
+#end
+#end
+#if ( $domainLinksToOne.size() > 0 )
+import javax.validation.constraints.NotNull;
+#else
+#foreach( $field in $domainAttributes )
+#if ( $field.isNotNull())
+import javax.validation.constraints.NotNull;
+#break
+#end
+#end
+#end
+#foreach( $field in $domainAttributes )
+#if ( $field.databaseComment.contains("PositiveOrZero") )
+import javax.validation.constraints.PositiveOrZero;
+#break
+#end
+#end
+
+#foreach( $field in $domainDates )
+#if ( !$field.databaseComment.contains("CurrentDate") )
+import ${ROOT_PKG}.core.common.validation.LocalDateConstraint;
+#break;
+#end
+#end
+#foreach( $field in $domainTimestamps )
+#if ( !$field.databaseComment.contains("CurrentDate") )
+import ${ROOT_PKG}.core.common.validation.LocalDateTimeConstraint;
+#break;
+#end
+#end
+import ${ROOT_PKG}.core.common.validation.SelfValidating;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = false)
+@ToString
+public class Register${entity.name}Parameters extends SelfValidating<Register${entity.name}Parameters> implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+#foreach( $field in $domainLinksToOne )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
+
+    @NotNull(message = "validation.${fieldNameLowerCaseWithSeparator}.id.null")
+    private final Long ${wordUtils.uncapitalize($field.fieldName)}Id;
+#end
+#foreach( $field in $domainEnumerators )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+
+    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+    private final String ${wordUtils.uncapitalize($field.fieldName)};
+#end
+#foreach( $field in $domainAttributes )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#if ( $field.isLongType() )
+
+#if ( $field.isNotNull() )
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+#end
+    private final Long ${wordUtils.uncapitalize($field.name)};
+#elseif ( $field.isBooleanType() )
+
+#if ( $field.isNotNull() )
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+#end
+    private final Boolean ${wordUtils.uncapitalize($field.name)};
+#elseif ( $field.isStringType() )
+
+#if ( $field.isNotBlank() )
+    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+#end
+    private final String ${wordUtils.uncapitalize($field.name)};
+#elseif ( $field.isDateType() && !$field.databaseComment.contains("CurrentDateTimeOn") )
+
+#if ( $field.isNotBlank() )
+    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+#end
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid")
+    private final String ${wordUtils.uncapitalize($field.name)};
+#elseif ( $field.isTimestampType() && !$field.databaseComment.contains("CurrentDateTimeOn") )
+
+#if ( $field.isNotBlank() )
+    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+#end
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid")
+    private final String ${wordUtils.uncapitalize($field.name)};
+#elseif ( $field.isDecimalType() )
+
+#if ( $field.isNotNull() )
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+#end 
+#if ( $field.databaseComment.contains("PositiveOrZero") )
+    @PositiveOrZero(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative")
+#end
+    private final BigDecimal ${wordUtils.uncapitalize($field.name)}; 
+#end
+#end
+#set ( $constructorParameters = [] )
+#set ( $setParameters = [] )
+#foreach ( $field in $domainLinks )
+#set ( $x = $constructorParameters.add("final Long ${field.fieldName}Id") )
+#set ( $x = $setParameters.add("this.${field.fieldName}Id = ${field.fieldName}Id;") )
+#end
+#foreach ( $field in $domainLongs )
+#set ( $x = $constructorParameters.add("final Long ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#foreach ( $field in $domainStrings )
+#set ( $x = $constructorParameters.add("final String ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#foreach ( $field in $domainEnumerators )
+#set ( $x = $constructorParameters.add("final String ${field.fieldName}") )
+#set ( $x = $setParameters.add("this.${field.fieldName} = ${field.fieldName};") )
+#end
+#foreach ( $field in $domainBooleans )
+#set ( $x = $constructorParameters.add("final Boolean ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#foreach ( $field in $domainDates )
+#if ( !$field.databaseComment.contains("CurrentDateTimeOn") )
+#set ( $x = $constructorParameters.add("final String ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#end
+#foreach ( $field in $domainTimestamps )
+#if ( !$field.databaseComment.contains("CurrentDateTimeOn") )
+#set ( $x = $constructorParameters.add("final String ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#end
+#foreach ( $field in $domainDecimals )
+#set ( $x = $constructorParameters.add("final BigDecimal ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#set ( $signature = "    public Register${entity.name}Parameters(" )
+#set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
+
+${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ),#end
+#foreach ( $parameter in $constructorParameters )#if ( $velocityCount > 1 )
+
+${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
+#end) {
+#foreach ( $parameter in $setParameters )
+        ${parameter}
+#end
+        this.validateSelf();
+    }
+}

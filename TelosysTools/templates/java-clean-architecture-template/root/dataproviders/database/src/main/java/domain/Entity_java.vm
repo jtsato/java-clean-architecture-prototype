@@ -84,18 +84,16 @@ public class ${entity.name}Entity implements Serializable {
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() )  
 
     @Column(name = "${columnName}", nullable = false)
-#if ( $field.type.contains("Enum_") )
-    private String $field.name;
-#elseif ( $field.isLongType() )
+#if ( $field.isLongType() )
     private Long $field.name;
-#elseif ( $field.isDecimalType() )
-    private BigDecimal $field.name;
 #elseif ( $field.isBooleanType() )
     private Boolean $field.name;
 #elseif ( $field.isDateType() )
     private LocalDate $field.name;
 #elseif ( $field.isTimestampType() )
     private LocalDateTime $field.name;
+#elseif ( $field.isDecimalType() )
+    private BigDecimal $field.name;
 #else
     private $field.type $field.name;
 #end

@@ -2,8 +2,8 @@ Book {
  id : long { @Id };
  author : Author { @NotNull };
  title : string { @NotBlank, @DbComment("UniqueKey") };
- price : decimal { @NotNull } ;
  available : boolean { @NotNull, @DbComment("Index") } ;
+ price : decimal { @NotNull, @DbComment("PositiveOrZero") } ;
  createdDate : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
  lastModifiedDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
 }
