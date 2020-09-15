@@ -4,7 +4,7 @@ BookDocument {
  contentType : string { @NotBlank };
  extension : string { @NotBlank };
  name : string { @NotBlank, @DbComment("UniqueKey") };
- size : long { @NotNull };
+ size : long { @NotNull, @DbComment("Positive") };
  content : string { @NotBlank };
  creationDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
  lastModifiedDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;

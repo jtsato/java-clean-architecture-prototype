@@ -1,0 +1,3 @@
+#if ( !$entity.name.contains("Enum_") )
+$generator.generate($target.entityName, "Get${entity.name}ByIdUseCase.java", $target.folder, "root/core/src/main/java/usecase/GetByIdUseCase_java.vm" )
+#end

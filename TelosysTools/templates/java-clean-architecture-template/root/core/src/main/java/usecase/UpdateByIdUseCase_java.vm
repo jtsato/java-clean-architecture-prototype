@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}ByIdParameters;
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Update${entity.name}ByIdUseCase {
+
+    ${entity.name} execute(final Update${entity.name}ByIdParameters parameters);
+}

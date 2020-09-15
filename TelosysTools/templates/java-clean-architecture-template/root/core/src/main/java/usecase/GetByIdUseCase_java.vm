@@ -1,0 +1,11 @@
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Get${entity.name}ByIdUseCase {
+
+    ${entity.name} execute(final Long id);
+}

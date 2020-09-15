@@ -2,6 +2,7 @@ package io.github.jtsato.bookstore.core.author.usecase.parameter;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
@@ -19,9 +20,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParameters> implements Serializable {
+public class UpdateAuthorByIdParameters extends SelfValidating<UpdateAuthorByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -9098765724044017474L;
+    private static final long serialVersionUID = 3968196731402733400L;
+
+    @NotNull(message = "validation.author.id.null")
+    private Long id;
 
     @NotBlank(message = "validation.author.gender.blank")
     private final String gender;
@@ -33,9 +37,11 @@ public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParam
     @LocalDateConstraint(message = "validation.author.birthdate.invalid")
     private final String birthdate;
 
-    public RegisterAuthorParameters(final String name,
-                                    final String gender,
-                                    final String birthdate) {
+    public UpdateAuthorByIdParameters(final Long id,
+                                      final String name,
+                                      final String gender,
+                                      final String birthdate) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.birthdate = birthdate;

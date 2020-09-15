@@ -6,7 +6,7 @@ package io.github.jtsato.bookstore.core.exception;
 
 public class ParentConstraintException extends CoreException {
 
-    private static final long serialVersionUID = -9022497996781369025L;
+    private static final long serialVersionUID = 101858230503689017L;
 
     public ParentConstraintException(final String message) {
         super(message);

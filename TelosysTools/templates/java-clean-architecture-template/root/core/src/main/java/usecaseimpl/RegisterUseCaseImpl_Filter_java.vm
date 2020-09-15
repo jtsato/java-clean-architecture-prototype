@@ -1,0 +1,12 @@
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Register${entity.name}Parameters;
+
+#include ( "/include/author.vm" )
+
+@FunctionalInterface
+public interface Register${entity.name}UseCase {
+
+    ${entity.name} execute(final Register${entity.name}Parameters parameters);
+}

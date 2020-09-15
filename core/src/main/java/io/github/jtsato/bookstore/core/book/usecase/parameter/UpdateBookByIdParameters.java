@@ -21,9 +21,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class RegisterBookParameters extends SelfValidating<RegisterBookParameters> implements Serializable {
+public class UpdateBookByIdParameters extends SelfValidating<UpdateBookByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -6906806151970929584L;
+    private static final long serialVersionUID = -1135630276544541070L;
+
+    @NotNull(message = "validation.book.id.null")
+    private Long id;
 
     @NotNull(message = "validation.author.id.null")
     private final Long authorId;
@@ -38,10 +41,12 @@ public class RegisterBookParameters extends SelfValidating<RegisterBookParameter
     @PositiveOrZero(message = "validation.book.price.negative")
     private final BigDecimal price; 
 
-    public RegisterBookParameters(final Long authorId,
-                                  final String title,
-                                  final Boolean available,
-                                  final BigDecimal price) {
+    public UpdateBookByIdParameters(final Long id,
+                                    final Long authorId,
+                                    final String title,
+                                    final Boolean available,
+                                    final BigDecimal price) {
+        this.id = id;
         this.authorId = authorId;
         this.title = title;
         this.available = available;

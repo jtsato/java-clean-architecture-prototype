@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 #end
 #end
 #end
-#if ( $domainLinksToOne.size() > 0 )
+#if ( $domainLinksToOne.size() > 0 || $domainKeys.size() > 0 )
 import javax.validation.constraints.NotNull;
 #else
 #foreach( $field in $domainAttributes )
@@ -64,9 +64,22 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Register${entity.name}Parameters extends SelfValidating<Register${entity.name}Parameters> implements Serializable {
+public class Update${entity.name}ByIdParameters extends SelfValidating<Update${entity.name}ByIdParameters> implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
+#foreach ( $field in $domainKeys )
+
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#if ( $field.isNotNull() )
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+#end
+#if ( $field.isLongType() )
+    private Long $field.name;
+#else
+    private $field.type $field.name;
+#end
+#end
 #foreach( $field in $domainLinksToOne )
 #set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
 
@@ -131,6 +144,15 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #end
 #set ( $constructorParameters = [] )
 #set ( $setParameters = [] )
+#foreach ( $field in $domainKeys )
+#if ( $field.isLongType() )
+#set ( $x = $constructorParameters.add("final Long ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#else
+#set ( $x = $constructorParameters.add("final ${field.type} ${field.name}") )
+#set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
+#end
 #foreach ( $field in $domainLinks )
 #set ( $x = $constructorParameters.add("final Long ${field.fieldName}Id") )
 #set ( $x = $setParameters.add("this.${field.fieldName}Id = ${field.fieldName}Id;") )
@@ -167,7 +189,7 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #set ( $x = $constructorParameters.add("final BigDecimal ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
-#set ( $signature = "    public Register${entity.name}Parameters(" )
+#set ( $signature = "    public Update${entity.name}ByIdParameters(" )
 #set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
 
 ${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ),#end
