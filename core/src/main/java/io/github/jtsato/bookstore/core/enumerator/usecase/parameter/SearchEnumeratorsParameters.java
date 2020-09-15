@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(callSuper = false)
 public class SearchEnumeratorsParameters implements Serializable {
 
-    private static final long serialVersionUID = 4207271350085828936L;
+    private static final long serialVersionUID = -1418844148657206408L;
 
     private final String domain;
 

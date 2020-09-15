@@ -24,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBooksParameters extends SelfValidating<SearchBooksParameters> implements Serializable {
 
-    private static final long serialVersionUID = 8030379011060220922L;
+    private static final long serialVersionUID = -7428366360697421390L;
 
     private Long id;
 
@@ -32,11 +32,11 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
 
     private String title;
 
+    private Boolean available;
+
     private BigDecimal startPrice;
 
     private BigDecimal endPrice;
-
-    private Boolean available;
 
     @LocalDateTimeConstraint(message = "validation.book.start.created.date.invalid")
     private String startCreatedDate;
@@ -53,16 +53,16 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
     public SearchBooksParameters(final Long id,
                                  final SearchAuthorsParameters searchAuthorsParameters,
                                  final String title,
-                                 final ImmutablePair<BigDecimal, BigDecimal> priceRange,
                                  final Boolean available,
+                                 final ImmutablePair<BigDecimal, BigDecimal> priceRange,
                                  final ImmutablePair<String, String> createdDateRange,
                                  final ImmutablePair<String, String> lastModifiedDateRange) {
         this.id = id;
         this.searchAuthorsParameters = searchAuthorsParameters;
         this.title = title;
+        this.available = available;
         this.startPrice = priceRange.getLeft();
         this.endPrice = priceRange.getRight();
-        this.available = available;
         this.startCreatedDate = createdDateRange.getLeft();
         this.endCreatedDate = createdDateRange.getRight();
         this.startLastModifiedDate = lastModifiedDateRange.getLeft();

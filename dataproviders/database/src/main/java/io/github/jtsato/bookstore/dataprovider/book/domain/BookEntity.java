@@ -49,7 +49,7 @@ import lombok.ToString;
 )
 public class BookEntity implements Serializable {
 
-    private static final long serialVersionUID = 8974958169166399118L;
+    private static final long serialVersionUID = -6452266567788836335L;
     
     @Access(AccessType.PROPERTY)
     @Id
@@ -64,11 +64,11 @@ public class BookEntity implements Serializable {
     @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @Column(name = "PRICE", nullable = false)
-    private BigDecimal price;
-
     @Column(name = "AVAILABLE", nullable = false)
     private Boolean available;
+
+    @Column(name = "PRICE", nullable = false)
+    private BigDecimal price;
 
     @Column(name = "CREATED_DATE", nullable = false)
     private LocalDateTime createdDate;
