@@ -1,0 +1,44 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
+
+import java.util.Optional;
+
+import javax.inject.Named;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}ByIdGateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Get${entity.name}ByIdUseCase;
+import ${ROOT_PKG}.core.exception.InvalidParameterException;
+import ${ROOT_PKG}.core.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Get${entity.name}ByIdUseCaseImpl implements Get${entity.name}ByIdUseCase {
+
+    private final Get${entity.name}ByIdGateway get${entity.name}ByIdGateway;
+
+    @Override
+    public ${entity.name} execute(final Long id) {
+
+        if (id == null) {
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.id.null");
+        }
+
+        final Optional<${entity.name}> optional = get${entity.name}ByIdGateway.execute(id);
+
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.id.notfound", String.valueOf(id)));
+    }
+}

@@ -1,3 +1,4 @@
+#parse ( "include/loader_stringutils.vm" )
 #parse ( "include/loader_wordutils.vm" )
 #parse ( "include/loader_inflector.vm" )
 #set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
@@ -62,9 +63,9 @@
 #elseif ( $field.isDecimalType() )
 #set ( $x = $domainDecimals.add($field) )
 #end
-#if ( $field.databaseComment.contains("UniqueKey") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey") )
 #set ( $x = $domainUkKeys.add($field) )
-#elseif ( $field.databaseComment.contains("Index") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("Index") )
 #set ( $x = $domainIndexes.add($field) )
 #end
 #end

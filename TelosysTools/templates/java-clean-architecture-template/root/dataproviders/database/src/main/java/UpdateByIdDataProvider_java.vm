@@ -45,7 +45,7 @@ public class Update${entity.name}ByIdDataProvider implements Update${entity.name
         update${field.fieldType}(${uncapitalizeEntityName}, ${uncapitalizeEntityName}Entity);
 #end
 #foreach ( $field in $domainAttributes )
-#if ( !$field.databaseComment.contains("CurrentDateTimeOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
         ${uncapitalizeEntityName}Entity.set${capitalizeFieldName}(${uncapitalizeEntityName}.get${capitalizeFieldName}());
 #end

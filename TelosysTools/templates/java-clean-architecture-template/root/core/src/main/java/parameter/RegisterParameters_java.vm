@@ -33,20 +33,20 @@ import javax.validation.constraints.Positive;
 #end
 #end
 #foreach( $field in $domainAttributes )
-#if ( $field.databaseComment.contains("PositiveOrZero") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("PositiveOrZero") )
 import javax.validation.constraints.PositiveOrZero;
 #break
 #end
 #end
 
 #foreach( $field in $domainDates )
-#if ( !$field.databaseComment.contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
 import ${ROOT_PKG}.core.common.validation.LocalDateConstraint;
 #break;
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( !$field.databaseComment.contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
 import ${ROOT_PKG}.core.common.validation.LocalDateTimeConstraint;
 #break;
 #end
@@ -88,7 +88,7 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #if ( $field.isNotNull() )
     @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
 #end
-#if ( $field.databaseComment.contains("Positive") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("Positive") )
     @Positive(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative.or.zero")
 #end
     private final Long ${wordUtils.uncapitalize($field.name)};
@@ -104,14 +104,14 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
     @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
 #end
     private final String ${wordUtils.uncapitalize($field.name)};
-#elseif ( $field.isDateType() && !$field.databaseComment.contains("CurrentDateTimeOn") )
+#elseif ( $field.isDateType() && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
 
 #if ( $field.isNotBlank() )
     @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
 #end
     @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid")
     private final String ${wordUtils.uncapitalize($field.name)};
-#elseif ( $field.isTimestampType() && !$field.databaseComment.contains("CurrentDateTimeOn") )
+#elseif ( $field.isTimestampType() && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
 
 #if ( $field.isNotBlank() )
     @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
@@ -123,7 +123,7 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #if ( $field.isNotNull() )
     @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
 #end 
-#if ( $field.databaseComment.contains("PositiveOrZero") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("PositiveOrZero") )
     @PositiveOrZero(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative")
 #end
     private final BigDecimal ${wordUtils.uncapitalize($field.name)}; 
@@ -152,13 +152,13 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
 #foreach ( $field in $domainDates )
-#if ( !$field.databaseComment.contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
 #set ( $x = $constructorParameters.add("final String ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
 #end
 #foreach ( $field in $domainTimestamps )
-#if ( !$field.databaseComment.contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
 #set ( $x = $constructorParameters.add("final String ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end

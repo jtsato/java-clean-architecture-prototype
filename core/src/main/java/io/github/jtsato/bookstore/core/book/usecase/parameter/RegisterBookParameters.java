@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookParameters extends SelfValidating<RegisterBookParameters> implements Serializable {
 
-    private static final long serialVersionUID = -6906806151970929584L;
+    private static final long serialVersionUID = 7306057000282312426L;
 
     @NotNull(message = "validation.author.id.null")
     private final Long authorId;
@@ -38,13 +39,23 @@ public class RegisterBookParameters extends SelfValidating<RegisterBookParameter
     @PositiveOrZero(message = "validation.book.price.negative")
     private final BigDecimal price; 
 
+    @LocalDateTimeConstraint(message = "validation.book.created.date.invalid")
+    private final String createdDate;
+
+    @LocalDateTimeConstraint(message = "validation.book.last.modified.date.invalid")
+    private final String lastModifiedDate;
+
     public RegisterBookParameters(final Long authorId,
                                   final String title,
                                   final Boolean available,
+                                  final String createdDate,
+                                  final String lastModifiedDate,
                                   final BigDecimal price) {
         this.authorId = authorId;
         this.title = title;
         this.available = available;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
         this.price = price;
         this.validateSelf();
     }

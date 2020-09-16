@@ -1,0 +1,48 @@
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
+
+import java.util.List;
+
+import javax.inject.Named;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Find${pluralEntityName}ByIdsGateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Find${pluralEntityName}ByIdsUseCase;
+import ${ROOT_PKG}.core.common.paging.Page;
+import ${ROOT_PKG}.core.exception.InvalidParameterException;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Find${pluralEntityName}ByIdsUseCaseImpl implements Find${pluralEntityName}ByIdsUseCase {
+
+    private final Find${pluralEntityName}ByIdsGateway find${pluralEntityName}ByIdsGateway;
+
+    @Override
+    public Page<${entity.name}> execute(final List<Long> ids) {
+
+        if (CollectionUtils.isEmpty(ids)) {
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.ids.null");
+        }
+
+        if (ids.size() > 1000) {
+            throw new InvalidParameterException("validation.get.by.ids.limit");
+        }
+
+        return find${pluralEntityName}ByIdsGateway.execute(ids);
+    }
+}

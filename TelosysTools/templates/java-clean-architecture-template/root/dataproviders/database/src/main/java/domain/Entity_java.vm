@@ -1,5 +1,3 @@
-#parse ( "include/loader_stringutils.vm" )
-#parse ( "include/loader_inflector.vm" )
 #parse ( "include/domain_info.vm" )
 #set ( $tableName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralEntityName), "_").toUpperCase() ) 
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;

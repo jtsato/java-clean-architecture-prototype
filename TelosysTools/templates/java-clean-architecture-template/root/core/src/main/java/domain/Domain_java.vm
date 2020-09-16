@@ -12,40 +12,39 @@ package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain;
 public class ${entity.name} implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
-#foreach( $field in $domainKeys )
 
+#foreach( $field in $domainKeys )
 #if ( $field.isLongType() )
     private final Long $field.name;
 #else
     private final $field.type $field.name;
 #end
 #end
-#foreach( $link in $domainLinks )
-#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
-    private final ${link.fieldType} $link.fieldName;
+#foreach( $field in $domainLinksToOne )
+    private final ${field.fieldType} $field.fieldName;
 #end
-#end
-#foreach( $link in $domainEnumerators )
-#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
-    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
-#end
-#end
-#foreach( $field in $domainAttributes )
-#if ( $field.type.contains("Enum_") )
-    private final $field.type.replace("Enum_", "") $field.name;
-#elseif ( $field.isLongType() )
+#foreach( $field in $domainLongs )
     private final Long $field.name;
-#elseif ( $field.isDecimalType() )
-    private final BigDecimal $field.name;
-#elseif ( $field.isBooleanType() )
-    private final Boolean $field.name;
-#elseif ( $field.isDateType() )
-    private final LocalDate $field.name;
-#elseif ( $field.isTimestampType() )
-    private final LocalDateTime $field.name;
-#else
-    private final $field.type $field.name;
 #end
+#foreach( $field in $domainStrings )
+    private final String $field.name;
+#end
+#foreach( $field in $domainEnumerators )
+#if ( $field.isCardinalityManyToOne() || $field.isCardinalityOneToMany() )
+    private final $field.fieldType.replace("Enum_", "") $field.fieldName;
+#end
+#end
+#foreach( $field in $domainBooleans )
+    private final Boolean $field.name;
+#end
+#foreach( $field in $domainDates )
+    private final LocalDate $field.name;
+#end
+#foreach( $field in $domainTimestamps )
+    private final LocalDateTime $field.name;
+#end
+#foreach( $field in $domainDecimals )
+    private final BigDecimal $field.name;
 #end
 }
 $target.forceEntityName(${entity.name})

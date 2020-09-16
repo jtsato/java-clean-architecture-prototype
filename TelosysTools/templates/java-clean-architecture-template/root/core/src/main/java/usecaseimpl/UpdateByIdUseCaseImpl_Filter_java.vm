@@ -1,0 +1,3 @@
+#if ( !$entity.name.contains("Enum_") )
+$generator.generate($target.entityName, "Update${entity.name}ByIdUseCaseImpl.java", $target.folder, "root/core/src/main/java/usecaseimpl/UpdateByIdUseCaseImpl_java.vm" )
+#end

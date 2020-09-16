@@ -8,6 +8,7 @@ import java.time.LocalDate;
 #if ( $domainTimestamps.size() > 0 )
 import java.time.LocalDateTime;
 #end
+#if ( $domainLinks.size() > 0 )
 
 #foreach( $field in $domainLinks )
 #set ( $fieldType = $field.fieldType )
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import ${ROOT_PKG}.core.${fieldType.toLowerCase()}.domain.${fieldType};
 #end
 #end
-
+#end
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
