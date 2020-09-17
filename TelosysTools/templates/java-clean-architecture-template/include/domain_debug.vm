@@ -1,5 +1,4 @@
 #parse ( "include/domain_info.vm" )
-#parse ( "include/loader_stringutils.vm" )
 $entity.name
 #foreach( $field in $domainKeys )
 ${field.name} [domainKeys]
@@ -40,4 +39,8 @@ $field.name [Unique Keys]
 #end
 #foreach( $field in $domainIndexes )
 $field.name [Indexes]: $field.isNotNull()
+#end
+
+#foreach( $element in $domainReferencedBy )
+References [The $entity.name is referenced by $element]
 #end

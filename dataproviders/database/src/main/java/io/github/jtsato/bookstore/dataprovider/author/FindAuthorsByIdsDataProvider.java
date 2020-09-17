@@ -28,8 +28,8 @@ import io.github.jtsato.bookstore.dataprovider.common.PageRequestHelper;
 @Service
 public class FindAuthorsByIdsDataProvider implements FindAuthorsByIdsGateway {
 
-    private final PageMapper<Author, AuthorEntity> pageMapper = new PageMapper<>() {};
     private final AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
+    private final PageMapper<Author, AuthorEntity> pageMapper = new PageMapper<>() {};
 
     @Autowired
     AuthorRepository authorRepository;

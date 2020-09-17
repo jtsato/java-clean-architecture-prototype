@@ -1,5 +1,5 @@
 #if ( !$entity.name.contains("Enum_") )
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 #foreach( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
 #if ( $field.isStringType() )

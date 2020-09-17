@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request;
 
 import java.io.Serializable;

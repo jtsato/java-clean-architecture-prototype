@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository;
 
 #if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
@@ -54,11 +54,11 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
 #end
 #foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
-#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
-        if (query.getSearch${pluralClass}Parameters() != null) {
-            final Search${pluralClass}PredicateBuilder search${link.fieldType}PredicateBuilder = new Search${pluralClass}PredicateBuilder(entityPath.${link.fieldName});
-            booleanExpressions.addAll(search${link.fieldType}PredicateBuilder.buildBooleanExpressions(query.getSearch${pluralClass}Parameters()));
+        if (query.getSearch${pluralType}Parameters() != null) {
+            final Search${pluralType}PredicateBuilder search${link.fieldType}PredicateBuilder = new Search${pluralType}PredicateBuilder(entityPath.${link.fieldName});
+            booleanExpressions.addAll(search${link.fieldType}PredicateBuilder.buildBooleanExpressions(query.getSearch${pluralType}Parameters()));
         }
 #end
 #end

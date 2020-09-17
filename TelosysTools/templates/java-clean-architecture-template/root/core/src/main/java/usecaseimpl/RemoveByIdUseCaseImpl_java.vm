@@ -1,0 +1,82 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
+
+import java.util.Optional;
+
+import javax.inject.Named;
+#if ( $domainReferencedBy.size() > 0 )
+
+import org.apache.commons.collections.CollectionUtils;
+#end
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Remove${entity.name}ByIdGateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Remove${entity.name}ByIdUseCase;
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.domain.${dependent.name};
+import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.gateway.Search${pluralType}By${entity.name}IdGateway;
+#end
+#if ( $domainReferencedBy.size() > 0 )
+import ${ROOT_PKG}.core.common.paging.Page;
+#end
+import ${ROOT_PKG}.core.exception.InvalidParameterException;
+import ${ROOT_PKG}.core.exception.NotFoundException;
+#if ( $domainReferencedBy.size() > 0 )
+import ${ROOT_PKG}.core.exception.ParentConstraintException;
+#end
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Remove${entity.name}ByIdUseCaseImpl implements Remove${entity.name}ByIdUseCase {
+
+    private final Remove${entity.name}ByIdGateway remove${entity.name}ByIdGateway;
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+
+    private final Search${pluralType}By${entity.name}IdGateway search${pluralType}By${entity.name}IdGateway;
+#end
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+
+    @Override
+    public ${entity.name} execute(final Long id) {
+
+        if (id == null) {
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.id.null");
+        }
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+
+        avoidRemoving${entity.name}With${pluralType}(id);
+#end
+
+        final Optional<${entity.name}> optional = remove${entity.name}ByIdGateway.execute(id);
+
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.id.notfound", String.valueOf(id)));
+    }
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $dependentLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
+
+    private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizeEntityName}Id) {
+
+        final Page<Book> pageOf${pluralType} = search${pluralType}By${entity.name}IdGateway.execute(${uncapitalizeEntityName}Id, 0, 1, null);
+
+        if (CollectionUtils.isNotEmpty(pageOf${pluralType}.getContent())) {
+            throw new ParentConstraintException("validation.${entityNameLowerCaseWithSeparator}.with.${dependentLowerCaseWithSeparator}.removal");
+        }
+    }
+#end
+}

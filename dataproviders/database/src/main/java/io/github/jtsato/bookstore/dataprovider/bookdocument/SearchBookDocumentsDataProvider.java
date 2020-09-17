@@ -30,11 +30,10 @@ import io.github.jtsato.bookstore.dataprovider.common.PageRequestHelper;
 public class SearchBookDocumentsDataProvider implements SearchBookDocumentsGateway {
     
     private final BookDocumentMapper bookDocumentMapper = Mappers.getMapper(BookDocumentMapper.class);
+    private final PageMapper<BookDocument, BookDocumentEntity> pageMapper = new PageMapper<>() {};
 
     @Autowired
     BookDocumentRepository bookDocumentRepository;
-
-    private final PageMapper<BookDocument, BookDocumentEntity> pageMapper = new PageMapper<>() {};
 
     @Override
     public Page<BookDocument> execute(final SearchBookDocumentsParameters parameters, final Integer pageNumber, final Integer size, final String orderBy) {

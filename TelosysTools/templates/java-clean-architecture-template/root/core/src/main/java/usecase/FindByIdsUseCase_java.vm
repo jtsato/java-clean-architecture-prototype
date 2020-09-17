@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
 
 import java.util.List;

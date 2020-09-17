@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain;
 
 #parse ( "root/core/src/main/java/domain/Domain_Imports_java.vm" )
@@ -47,4 +47,3 @@ public class ${entity.name} implements Serializable {
     private final BigDecimal $field.name;
 #end
 }
-$target.forceEntityName(${entity.name})

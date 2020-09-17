@@ -1,7 +1,10 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository;
 
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,12 +20,14 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.nam
 
 @Repository
 public interface ${entity.name}Repository extends EntityGraphJpaRepository<${entity.name}Entity, Long>, EntityGraphQuerydslPredicateExecutor<${entity.name}Entity> {
+#foreach( $link in $domainLinksManyToOne )
+
+    Page<${entity.name}Entity> findBy${wordUtils.capitalize($link.fieldName)}Id(final Long ${link.fieldName}Id, final PageRequest pageRequest);
+#end
 #foreach( $link in $domainEnumerators )
 #if ($link.isCardinalityManyToOne())
-#if ( $link.fieldType.contains("Enum_") )
 
     Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)(final String $link.fieldName#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
-#end
 #end
 #end
 #foreach( $field in $domainStrings )

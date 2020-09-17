@@ -30,11 +30,10 @@ import io.github.jtsato.bookstore.dataprovider.common.PageRequestHelper;
 public class SearchAuthorsDataProvider implements SearchAuthorsGateway {
     
     private final AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
+    private final PageMapper<Author, AuthorEntity> pageMapper = new PageMapper<>() {};
 
     @Autowired
     AuthorRepository authorRepository;
-
-    private final PageMapper<Author, AuthorEntity> pageMapper = new PageMapper<>() {};
 
     @Override
     public Page<Author> execute(final SearchAuthorsParameters parameters, final Integer pageNumber, final Integer size, final String orderBy) {

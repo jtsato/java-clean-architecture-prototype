@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
 
 import java.util.List;
@@ -31,8 +31,8 @@ import ${ROOT_PKG}.dataprovider.common.PageRequestHelper;
 @Service
 public class Find${pluralEntityName}ByIdsDataProvider implements Find${pluralEntityName}ByIdsGateway {
 
-    private final PageMapper<${entity.name}, ${entity.name}Entity> pageMapper = new PageMapper<>() {};
     private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
+    private final PageMapper<${entity.name}, ${entity.name}Entity> pageMapper = new PageMapper<>() {};
 
     @Autowired
     ${entity.name}Repository ${uncapitalizeEntityName}Repository;

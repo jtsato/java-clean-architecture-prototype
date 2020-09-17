@@ -1,4 +1,4 @@
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
 
 import org.mapstruct.factory.Mappers;

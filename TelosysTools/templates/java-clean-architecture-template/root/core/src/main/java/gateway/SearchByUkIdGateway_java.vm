@@ -1,0 +1,14 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.common.paging.Page;
+
+#include ( "/include/author.vm" )
+#set ( $fieldName = $strUtils.substringBetween($target.file, "By", "IdGateway") )
+#set ( $uncapitalizedFieldName =  $wordUtils.uncapitalize($fieldName) )
+@FunctionalInterface
+public interface Search${pluralEntityName}By${fieldName}IdGateway {
+
+    Page<${entity.name}> execute(final Long ${uncapitalizedFieldName}Id, final Integer pageNumber, final Integer size, final String orderBy);
+}

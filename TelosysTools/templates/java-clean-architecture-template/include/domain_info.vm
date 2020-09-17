@@ -21,6 +21,7 @@
 #set ( $domainDates           = [] )
 #set ( $domainTimestamps      = [] )
 #set ( $domainDecimals        = [] )
+#set ( $domainReferencedBy    = [] )
 #foreach( $field in $entity.keyAttributes )
 #set ( $x = $domainKeys.add($field) )
 #end
@@ -67,5 +68,14 @@
 #set ( $x = $domainUkKeys.add($field) )
 #elseif ( $strUtils.split($field.databaseComment, ", ").contains("Index") )
 #set ( $x = $domainIndexes.add($field) )
+#end
+#end
+#foreach( $element in $model.allEntites )
+#if ( !$element.name.contains("Enum_") )
+#foreach( $field in $element.selectedLinks )
+#if ( $field.fieldType.equalsIgnoreCase($entity.name) )
+#set ( $x = $domainReferencedBy.add($element) )
+#end
+#end
 #end
 #end

@@ -1,12 +1,12 @@
 #parse ( "include/loader_stringutils.vm" )
-#parse ( "include/domain_info.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter;
 
 import java.io.Serializable;
 #if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
 #end
-#if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
+#if ( $domainLongs.size() || $domainDates.size() > 0 || $domainTimestamps.size() > 0 || $domainDecimals.size() > 0 )
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -48,9 +48,9 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #end
 #foreach ( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne())
-#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
 
-    private Search${pluralClass}Parameters search${pluralClass}Parameters;
+    private Search${pluralType}Parameters search${pluralType}Parameters;
 #end
 #end
 #foreach ( $field in $domainLongs )
@@ -111,9 +111,9 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #end
 #end
 #foreach ( $field in $domainLinks )
-#set ( $pluralClass = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
-#set ( $x = $constructorParameters.add("final Search${pluralClass}Parameters search${pluralClass}Parameters") )
-#set ( $x = $setParameters.add("this.search${pluralClass}Parameters = search${pluralClass}Parameters;") )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
+#set ( $x = $constructorParameters.add("final Search${pluralType}Parameters search${pluralType}Parameters") )
+#set ( $x = $setParameters.add("this.search${pluralType}Parameters = search${pluralType}Parameters;") )
 #end
 #foreach ( $field in $domainLongs )
 #set ( $x = $constructorParameters.add("final ImmutablePair<Long, Long> ${field.name}Range") )

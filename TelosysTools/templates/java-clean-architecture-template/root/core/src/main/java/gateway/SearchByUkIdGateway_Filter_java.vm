@@ -1,0 +1,7 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+#foreach( $field in $domainLinks )
+#set ( $fieldType = $field.fieldType )
+$generator.generate($target.entityName, "Search${pluralEntityName}By${fieldType}IdGateway.java", $target.folder, "root/core/src/main/java/gateway/SearchByUkIdGateway_java.vm" )
+#end
+#end
