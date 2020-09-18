@@ -43,13 +43,13 @@ import lombok.ToString;
        indexes = {
             @Index(columnList = "AUTHOR_ID", name = "IDX_BOOKS_AUTHOR_ID"),
             @Index(columnList = "AVAILABLE", name = "IDX_BOOKS_AVAILABLE"),
-            @Index(columnList = "CREATED_DATE", name = "IDX_BOOKS_CREATED_DATE"),
-            @Index(columnList = "LAST_MODIFIED_DATE", name = "IDX_BOOKS_LAST_MODIFIED_DATE"),
+            @Index(columnList = "CREATED_DATE_TIME", name = "IDX_BOOKS_CREATED_DATE_TIME"),
+            @Index(columnList = "LAST_MODIFIED_DATE_TIME", name = "IDX_BOOKS_LAST_MODIFIED_DATE_TIME"),
        }
 )
 public class BookEntity implements Serializable {
 
-    private static final long serialVersionUID = -1003344416568555249L;
+    private static final long serialVersionUID = -382642056850815751L;
     
     @Access(AccessType.PROPERTY)
     @Id
@@ -70,9 +70,9 @@ public class BookEntity implements Serializable {
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "CREATED_DATE", nullable = false)
-    private LocalDateTime createdDate;
+    @Column(name = "CREATED_DATE_TIME", nullable = false)
+    private LocalDateTime createdDateTime;
 
-    @Column(name = "LAST_MODIFIED_DATE", nullable = false)
-    private LocalDateTime lastModifiedDate;
+    @Column(name = "LAST_MODIFIED_DATE_TIME", nullable = false)
+    private LocalDateTime lastModifiedDateTime;
 }

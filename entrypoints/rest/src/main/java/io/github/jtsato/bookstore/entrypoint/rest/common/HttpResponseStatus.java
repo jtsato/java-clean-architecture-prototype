@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HttpResponseStatus implements Serializable {
 
-    private static final long serialVersionUID = -8513598344921789339L;
+    private static final long serialVersionUID = -3581186534756761381L;
 
     private LocalDateTime timestamp;
 

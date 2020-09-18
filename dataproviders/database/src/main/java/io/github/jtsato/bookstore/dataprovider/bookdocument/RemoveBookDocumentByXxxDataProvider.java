@@ -6,6 +6,10 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+
 import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 import io.github.jtsato.bookstore.core.bookdocument.gateway.RemoveBookDocumentByXxxGateway;
 import io.github.jtsato.bookstore.dataprovider.bookdocument.domain.BookDocumentEntity;
@@ -28,7 +32,8 @@ public class RemoveBookDocumentByXxxDataProvider implements RemoveBookDocumentBy
     @Override
     public Optional<BookDocument> execute(final Long xxx) {
 
-        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByXxx(xxx);
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("book");
+        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByXxx(xxx, entityGraph);
 
         return optional.map(this::removeBookDocumentEntity);
     }

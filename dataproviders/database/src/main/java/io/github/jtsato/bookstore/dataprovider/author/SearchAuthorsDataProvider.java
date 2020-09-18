@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.dataprovider.author;
+package io.github.jtsato.bookstore.dataprovider.author;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;

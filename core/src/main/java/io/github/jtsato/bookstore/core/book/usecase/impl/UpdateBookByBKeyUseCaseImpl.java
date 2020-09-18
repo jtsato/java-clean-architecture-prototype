@@ -51,19 +51,18 @@ public class UpdateBookByBKeyUseCaseImpl implements UpdateBookByBKeyUseCase {
 
         checkDuplicatedTitleViolation(parameters.getBKey(), parameters.getTitle());
 
-        final Long BKey = parameters.getBKey();
+        final Long bKey = parameters.getBKey();
         final String title = StringUtils.stripToEmpty(parameters.getTitle());
         final Boolean available = parameters.getAvailable();
-        final LocalDateTime createdDate = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDate = LocalDateTime.parse(parameters.getLastModifiedDate());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
         final BigDecimal price = parameters.getPrice();
 
-        final Book book = new Book(BKey ,
+        final Book book = new Book(bKey ,
                                    author,
                                    title,
                                    available,
-                                   createdDate,
-                                   lastModifiedDate,
+                                   null,
+                                   lastModifiedDateTime,
                                    price);
 
         final Optional<Book> optional = updateBookByBKeyGateway.execute(book);

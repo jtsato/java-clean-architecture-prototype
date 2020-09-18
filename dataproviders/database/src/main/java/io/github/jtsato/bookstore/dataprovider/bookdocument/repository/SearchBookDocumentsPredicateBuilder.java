@@ -1,6 +1,6 @@
 package io.github.jtsato.bookstore.dataprovider.bookdocument.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import io.github.jtsato.bookstore.core.bookdocument.usecase.parameter.SearchBookDocumentsParameters;
+import io.github.jtsato.bookstore.dataprovider.book.repository.SearchBooksPredicateBuilder;
 import io.github.jtsato.bookstore.dataprovider.bookdocument.domain.QBookDocumentEntity;
 import io.github.jtsato.bookstore.dataprovider.common.predicate.AbstractPredicateBuilderImpl;
 
@@ -32,12 +33,9 @@ public class SearchBookDocumentsPredicateBuilder extends AbstractPredicateBuilde
             booleanExpressions.add(entityPath.xxx.eq(query.getXxx()));
         }
 
-        if (query.getStartBookId() != null) {
-            booleanExpressions.add(entityPath.bookId.goe(query.getStartBookId()));
-        }
-
-        if (query.getEndBookId() != null) {
-            booleanExpressions.add(entityPath.bookId.loe(query.getEndBookId()));
+        if (query.getSearchBooksParameters() != null) {
+            final SearchBooksPredicateBuilder searchBookPredicateBuilder = new SearchBooksPredicateBuilder(entityPath.book);
+            booleanExpressions.addAll(searchBookPredicateBuilder.buildBooleanExpressions(query.getSearchBooksParameters()));
         }
 
         if (query.getStartSize() != null) {
@@ -65,22 +63,22 @@ public class SearchBookDocumentsPredicateBuilder extends AbstractPredicateBuilde
         }
 
         if (StringUtils.isNotBlank(query.getStartCreationDate())) {
-            final LocalDateTime startCreationDate = LocalDateTime.parse(query.getStartCreationDate(), DateTimeFormatter.ISO_DATE_TIME);
+            final LocalDate startCreationDate = LocalDate.parse(query.getStartCreationDate(), DateTimeFormatter.ISO_DATE);
             booleanExpressions.add(entityPath.creationDate.goe(startCreationDate));
         }
 
         if (StringUtils.isNotBlank(query.getEndCreationDate())) {
-            final LocalDateTime endCreationDate = LocalDateTime.parse(query.getEndCreationDate(), DateTimeFormatter.ISO_DATE_TIME);
+            final LocalDate endCreationDate = LocalDate.parse(query.getEndCreationDate(), DateTimeFormatter.ISO_DATE);
             booleanExpressions.add(entityPath.creationDate.loe(endCreationDate));
         }
 
         if (StringUtils.isNotBlank(query.getStartLastModifiedDate())) {
-            final LocalDateTime startLastModifiedDate = LocalDateTime.parse(query.getStartLastModifiedDate(), DateTimeFormatter.ISO_DATE_TIME);
+            final LocalDate startLastModifiedDate = LocalDate.parse(query.getStartLastModifiedDate(), DateTimeFormatter.ISO_DATE);
             booleanExpressions.add(entityPath.lastModifiedDate.goe(startLastModifiedDate));
         }
 
         if (StringUtils.isNotBlank(query.getEndLastModifiedDate())) {
-            final LocalDateTime endLastModifiedDate = LocalDateTime.parse(query.getEndLastModifiedDate(), DateTimeFormatter.ISO_DATE_TIME);
+            final LocalDate endLastModifiedDate = LocalDate.parse(query.getEndLastModifiedDate(), DateTimeFormatter.ISO_DATE);
             booleanExpressions.add(entityPath.lastModifiedDate.loe(endLastModifiedDate));
         }
 

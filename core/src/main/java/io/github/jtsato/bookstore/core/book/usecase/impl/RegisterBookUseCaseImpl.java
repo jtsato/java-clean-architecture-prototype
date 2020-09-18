@@ -53,16 +53,16 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
         final String title = StringUtils.stripToEmpty(parameters.getTitle());
         final Boolean available = parameters.getAvailable();
-        final LocalDateTime createdDate = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDate = LocalDateTime.parse(parameters.getLastModifiedDate());
+        final LocalDateTime createdDateTime = getLocalDateTime.now();
+        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
         final BigDecimal price = parameters.getPrice();
 
         final Book book = new Book(null,
                                    author,
                                    title,
                                    available,
-                                   createdDate,
-                                   lastModifiedDate,
+                                   createdDateTime,
+                                   lastModifiedDateTime,
                                    price);
 
         return registerBookGateway.execute(book);

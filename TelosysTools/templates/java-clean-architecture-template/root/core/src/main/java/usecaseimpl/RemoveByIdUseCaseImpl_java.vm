@@ -79,7 +79,7 @@ public class Remove${entity.name}By${domainId}UseCaseImpl implements Remove${ent
 
     private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizedDomainId}) {
 
-        final Page<Book> pageOf${pluralType} = search${pluralType}By${entity.name}${domainId}Gateway.execute(${uncapitalizedDomainId}, 0, 1, null);
+        final Page<${dependent.name}> pageOf${pluralType} = search${pluralType}By${entity.name}${domainId}Gateway.execute(${uncapitalizedDomainId}, 0, 1, null);
 
         if (CollectionUtils.isNotEmpty(pageOf${pluralType}.getContent())) {
             throw new ParentConstraintException("validation.${entityNameLowerCaseWithSeparator}.with.${dependentLowerCaseWithSeparator}.removal");

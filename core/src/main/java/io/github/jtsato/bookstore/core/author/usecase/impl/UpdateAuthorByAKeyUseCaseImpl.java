@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.usecase.impl;
+package io.github.jtsato.bookstore.core.author.usecase.impl;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -43,12 +43,12 @@ public class UpdateAuthorByAKeyUseCaseImpl implements UpdateAuthorByAKeyUseCase 
 
         checkDuplicatedNameViolation(parameters.getAKey(), parameters.getName());
 
-        final Long AKey = parameters.getAKey();
+        final Long aKey = parameters.getAKey();
         final String name = StringUtils.stripToEmpty(parameters.getName());
         final Gender gender = EnumeratorUtils.valueOf(parameters.getGender(), Gender.class);
         final LocalDate birthdate = LocalDate.parse(parameters.getBirthdate());
 
-        final Author author = new Author(AKey ,
+        final Author author = new Author(aKey ,
                                          name,
                                          gender,
                                          birthdate);

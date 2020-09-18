@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.usecase.parameter;
+package io.github.jtsato.bookstore.core.author.usecase.parameter;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParameters> implements Serializable {
 
-    private static final long serialVersionUID = 2274801916145519647L;
+    private static final long serialVersionUID = 3282575712137530582L;
 
     @NotBlank(message = "validation.author.gender.blank")
     private final String gender;

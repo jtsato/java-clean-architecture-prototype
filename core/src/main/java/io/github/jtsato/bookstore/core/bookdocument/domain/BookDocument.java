@@ -1,7 +1,9 @@
 package io.github.jtsato.bookstore.core.bookdocument.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import io.github.jtsato.bookstore.core.book.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,15 +19,15 @@ import lombok.ToString;
 @ToString
 public class BookDocument implements Serializable {
 
-    private static final long serialVersionUID = 7381595637318371837L;
+    private static final long serialVersionUID = 5224672554477177363L;
 
     private final Long xxx;
-    private final Long bookId;
+    private final Book book;
     private final Long size;
     private final String contentType;
     private final String extension;
     private final String name;
     private final String content;
-    private final LocalDateTime creationDate;
-    private final LocalDateTime lastModifiedDate;
+    private final LocalDate creationDate;
+    private final LocalDate lastModifiedDate;
 }

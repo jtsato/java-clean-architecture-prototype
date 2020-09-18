@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.usecase.parameter;
+package io.github.jtsato.bookstore.core.author.usecase.parameter;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters> implements Serializable {
 
-    private static final long serialVersionUID = -8944248232341061487L;
+    private static final long serialVersionUID = 5551143190240185266L;
 
     private Long aKey;
 

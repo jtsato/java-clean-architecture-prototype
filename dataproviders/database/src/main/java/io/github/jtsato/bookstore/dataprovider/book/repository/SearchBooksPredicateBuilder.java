@@ -46,24 +46,24 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
             booleanExpressions.add(entityPath.available.eq(query.getAvailable()));
         }
 
-        if (StringUtils.isNotBlank(query.getStartCreatedDate())) {
-            final LocalDateTime startCreatedDate = LocalDateTime.parse(query.getStartCreatedDate(), DateTimeFormatter.ISO_DATE_TIME);
-            booleanExpressions.add(entityPath.createdDate.goe(startCreatedDate));
+        if (StringUtils.isNotBlank(query.getStartCreatedDateTime())) {
+            final LocalDateTime startCreatedDateTime = LocalDateTime.parse(query.getStartCreatedDateTime(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.createdDateTime.goe(startCreatedDateTime));
         }
 
-        if (StringUtils.isNotBlank(query.getEndCreatedDate())) {
-            final LocalDateTime endCreatedDate = LocalDateTime.parse(query.getEndCreatedDate(), DateTimeFormatter.ISO_DATE_TIME);
-            booleanExpressions.add(entityPath.createdDate.loe(endCreatedDate));
+        if (StringUtils.isNotBlank(query.getEndCreatedDateTime())) {
+            final LocalDateTime endCreatedDateTime = LocalDateTime.parse(query.getEndCreatedDateTime(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.createdDateTime.loe(endCreatedDateTime));
         }
 
-        if (StringUtils.isNotBlank(query.getStartLastModifiedDate())) {
-            final LocalDateTime startLastModifiedDate = LocalDateTime.parse(query.getStartLastModifiedDate(), DateTimeFormatter.ISO_DATE_TIME);
-            booleanExpressions.add(entityPath.lastModifiedDate.goe(startLastModifiedDate));
+        if (StringUtils.isNotBlank(query.getStartLastModifiedDateTime())) {
+            final LocalDateTime startLastModifiedDateTime = LocalDateTime.parse(query.getStartLastModifiedDateTime(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.lastModifiedDateTime.goe(startLastModifiedDateTime));
         }
 
-        if (StringUtils.isNotBlank(query.getEndLastModifiedDate())) {
-            final LocalDateTime endLastModifiedDate = LocalDateTime.parse(query.getEndLastModifiedDate(), DateTimeFormatter.ISO_DATE_TIME);
-            booleanExpressions.add(entityPath.lastModifiedDate.loe(endLastModifiedDate));
+        if (StringUtils.isNotBlank(query.getEndLastModifiedDateTime())) {
+            final LocalDateTime endLastModifiedDateTime = LocalDateTime.parse(query.getEndLastModifiedDateTime(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.lastModifiedDateTime.loe(endLastModifiedDateTime));
         }
 
         if (query.getStartPrice() != null) {

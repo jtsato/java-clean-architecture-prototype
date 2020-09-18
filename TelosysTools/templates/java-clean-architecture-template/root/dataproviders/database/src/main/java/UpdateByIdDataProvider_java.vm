@@ -27,7 +27,7 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity
 @Transactional
 @Service
 public class Update${entity.name}By${domainId}DataProvider implements Update${entity.name}By${domainId}Gateway {
-    
+
     private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
 
     @Autowired
@@ -41,6 +41,7 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
 
     @Override
     public Optional<${entity.name}> execute(final ${entity.name} ${uncapitalizeEntityName}) {
+
 #if ( $domainLinksToOne.size() > 0 ) 
         final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
         final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${domainId}(${uncapitalizeEntityName}.get${domainId}(), entityGraph);
@@ -53,7 +54,7 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
 
     private ${entity.name} update${entity.name}Entity(final ${entity.name}Entity ${uncapitalizeEntityName}Entity, final ${entity.name} ${uncapitalizeEntityName}) {
 #foreach ( $field in $domainLinks )
-        update${field.fieldType}(${uncapitalizeEntityName}, ${uncapitalizeEntityName}Entity);
+        update${field.fieldType}Entity(${uncapitalizeEntityName}, ${uncapitalizeEntityName}Entity);
 #end
 #foreach ( $field in $domainAttributes )
 #if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
@@ -71,11 +72,24 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
 #set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
 #set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-    private void update${field.fieldType}(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
+    private void update${field.fieldType}Entity(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
         final Long current${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}Entity.get${field.fieldType}().get${fieldClazzId}();
         final Long new${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}.get${field.fieldType}().get${fieldClazzId}();
         if (!new${field.fieldType}${fieldClazzId}.equals(current${field.fieldType}${fieldClazzId})) {
+#set ( $fieldGraphs = [] )
+#foreach( $link in $field.targetEntity.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#if ( $link.isCardinalityManyToOne() || $field.isCardinalityOneToOne() )
+#set ( $x = $fieldGraphs.add($link) )
+#end
+#end
+#end
+#if ( $fieldGraphs.size() > 0 ) 
+            final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $fieldGraphs )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
+            ${uncapitalizeFieldType}Repository.findBy${fieldClazzId}(new${field.fieldType}${fieldClazzId}, entityGraph).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+#else
             ${uncapitalizeFieldType}Repository.findBy${fieldClazzId}(new${field.fieldType}${fieldClazzId}).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+#end
         }
     }
 #end

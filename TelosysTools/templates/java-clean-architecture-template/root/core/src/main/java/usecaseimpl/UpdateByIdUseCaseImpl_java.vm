@@ -42,13 +42,13 @@ import org.apache.commons.lang3.StringUtils;
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Update${entity.name}By${domainId}UseCase") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}By${domainId}Parameters") )
 #foreach( $field in $domainDates )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDate") )
 #break;
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDateTime") )
 #break;
 #end
@@ -95,14 +95,14 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #end
 #end
 #foreach( $field in $domainDates )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
     private final GetLocalDate getLocalDate;
 
 #break
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
     private final GetLocalDateTime getLocalDateTime;
 
 #break
@@ -122,8 +122,8 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #end
 #set ( $statements = [] )
 #set ( $parameters = [] )
-#set ( $x = $statements.add("final Long ${domainId} = parameters.get${domainId}()") )
-#set ( $x = $parameters.add("${domainId} ") )
+#set ( $x = $statements.add("final Long ${uncapitalizedDomainId} = parameters.get${domainId}()") )
+#set ( $x = $parameters.add("${uncapitalizedDomainId} ") )
 #foreach ( $field in $domainLinksToOne )
 #set ( $x = $parameters.add("${field.fieldName}") )
 #end
@@ -150,20 +150,26 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #end
 #foreach ( $field in $domainDates )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
-#set ( $x = $parameters.add("$field.name") )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#set ( $x = $parameters.add("null") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $x = $statements.add("final LocalDate $field.name = getLocalDate.now()") )
+#set ( $x = $parameters.add("$field.name") )
 #else
 #set ( $x = $statements.add("final LocalDate $field.name = LocalDate.parse(parameters.get${fieldName}())") )
+#set ( $x = $parameters.add("$field.name") )
 #end
 #end
 #foreach ( $field in $domainTimestamps )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
-#set ( $x = $parameters.add("$field.name") )
 #if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#set ( $x = $parameters.add("null") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
+#set ( $x = $parameters.add("$field.name") )
 #else
 #set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}())") )
+#set ( $x = $parameters.add("$field.name") )
 #end
 #end
 #foreach ( $field in $domainDecimals )

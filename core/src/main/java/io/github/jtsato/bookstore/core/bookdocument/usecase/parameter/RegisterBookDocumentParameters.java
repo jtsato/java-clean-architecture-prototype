@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
+import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,9 +23,10 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookDocumentParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7352664329551721667L;
+    private static final long serialVersionUID = -6520396295264516635L;
 
-    private final Long bookId;
+    @NotNull(message = "validation.book.document.book.null")
+    private final Long bookBKey;
 
     @NotBlank(message = "validation.book.document.content.type.blank")
     private final String contentType;
@@ -43,13 +44,14 @@ public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookD
     @NotBlank(message = "validation.book.document.content.blank")
     private final String content;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.creation.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.creation.date.invalid")
     private final String creationDate;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.last.modified.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.last.modified.date.invalid")
     private final String lastModifiedDate;
 
-    public RegisterBookDocumentParameters(final Long bookId,
+
+    public RegisterBookDocumentParameters(final Long bookBKey,
                                           final Long size,
                                           final String contentType,
                                           final String extension,
@@ -57,7 +59,7 @@ public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookD
                                           final String content,
                                           final String creationDate,
                                           final String lastModifiedDate) {
-        this.bookId = bookId;
+        this.bookBKey = bookBKey;
         this.size = size;
         this.contentType = contentType;
         this.extension = extension;

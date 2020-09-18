@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.gateway;
+package io.github.jtsato.bookstore.core.author.gateway;
 
 import java.util.List;
 

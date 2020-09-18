@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.dataprovider.author;
+package io.github.jtsato.bookstore.dataprovider.author;
 
 import java.util.Optional;
 

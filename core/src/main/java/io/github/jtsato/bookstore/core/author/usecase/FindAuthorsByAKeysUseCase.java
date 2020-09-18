@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.usecase;
+package io.github.jtsato.bookstore.core.author.usecase;
 
 import java.util.List;
 

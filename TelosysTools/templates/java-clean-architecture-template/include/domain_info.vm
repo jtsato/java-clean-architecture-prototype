@@ -79,11 +79,11 @@
 #set ( $x = $domainIndexes.add($field) )
 #end
 #end
-#foreach( $element in $model.allEntites )## Book, Author, Enum_Gender
+#foreach( $element in $model.allEntites )
 #if ( !$element.name.contains("Enum_") )
-#foreach( $field in $element.selectedLinks )## Book.selectedLinks [Author]
-#if ( $field.fieldType.equalsIgnoreCase($entity.name) ) ## Book.Author = Author 
-#set ( $x = $domainReferencedBy.add($element) ) ## Book
+#foreach( $field in $element.selectedLinks )
+#if ( $field.fieldType.equalsIgnoreCase($entity.name) ) 
+#set ( $x = $domainReferencedBy.add($element) )
 #end
 #end
 #end

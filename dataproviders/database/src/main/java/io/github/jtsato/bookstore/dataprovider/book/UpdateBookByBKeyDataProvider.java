@@ -24,7 +24,7 @@ import io.github.jtsato.bookstore.dataprovider.book.repository.BookRepository;
 @Transactional
 @Service
 public class UpdateBookByBKeyDataProvider implements UpdateBookByBKeyGateway {
-    
+
     private final BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
 
     @Autowired
@@ -35,6 +35,7 @@ public class UpdateBookByBKeyDataProvider implements UpdateBookByBKeyGateway {
 
     @Override
     public Optional<Book> execute(final Book book) {
+
         final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("author");
         final Optional<BookEntity> optional = bookRepository.findByBKey(book.getBKey(), entityGraph);
 
@@ -42,15 +43,15 @@ public class UpdateBookByBKeyDataProvider implements UpdateBookByBKeyGateway {
     }
 
     private Book updateBookEntity(final BookEntity bookEntity, final Book book) {
-        updateAuthor(book, bookEntity);
+        updateAuthorEntity(book, bookEntity);
         bookEntity.setTitle(book.getTitle());
         bookEntity.setAvailable(book.getAvailable());
         bookEntity.setPrice(book.getPrice());
-        bookEntity.setLastModifiedDate(book.getLastModifiedDate());
+        bookEntity.setLastModifiedDateTime(book.getLastModifiedDateTime());
         return bookMapper.of(bookRepository.saveAndFlush(bookEntity));
     }
 
-    private void updateAuthor(final Book book, final BookEntity bookEntity) {
+    private void updateAuthorEntity(final Book book, final BookEntity bookEntity) {
         final Long currentAuthorAKey = bookEntity.getAuthor().getAKey();
         final Long newAuthorAKey = book.getAuthor().getAKey();
         if (!newAuthorAKey.equals(currentAuthorAKey)) {

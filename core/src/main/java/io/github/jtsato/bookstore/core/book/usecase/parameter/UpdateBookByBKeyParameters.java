@@ -24,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateBookByBKeyParameters extends SelfValidating<UpdateBookByBKeyParameters> implements Serializable {
 
-    private static final long serialVersionUID = -9067621415912128130L;
+    private static final long serialVersionUID = 4278584769432863546L;
 
     @NotNull(message = "validation.book.b.key.null")
     private Long bKey;
@@ -42,26 +42,26 @@ public class UpdateBookByBKeyParameters extends SelfValidating<UpdateBookByBKeyP
     @PositiveOrZero(message = "validation.book.price.negative")
     private final BigDecimal price; 
 
-    @LocalDateTimeConstraint(message = "validation.book.created.date.invalid")
-    private final String createdDate;
+    @LocalDateTimeConstraint(message = "validation.book.created.date.time.invalid")
+    private final String createdDateTime;
 
-    @LocalDateTimeConstraint(message = "validation.book.last.modified.date.invalid")
-    private final String lastModifiedDate;
+    @LocalDateTimeConstraint(message = "validation.book.last.modified.date.time.invalid")
+    private final String lastModifiedDateTime;
 
 
     public UpdateBookByBKeyParameters(final Long bKey,
                                       final Long authorAKey,
                                       final String title,
                                       final Boolean available,
-                                      final String createdDate,
-                                      final String lastModifiedDate,
+                                      final String createdDateTime,
+                                      final String lastModifiedDateTime,
                                       final BigDecimal price) {
         this.bKey = bKey;
         this.authorAKey = authorAKey;
         this.title = title;
         this.available = available;
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
+        this.createdDateTime = createdDateTime;
+        this.lastModifiedDateTime = lastModifiedDateTime;
         this.price = price;
         this.validateSelf();
     }

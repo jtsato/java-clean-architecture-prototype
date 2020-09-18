@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.dataprovider.author;
+package io.github.jtsato.bookstore.dataprovider.author;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import io.github.jtsato.bookstore.dataprovider.author.repository.AuthorRepositor
 @Transactional
 @Service
 public class UpdateAuthorByAKeyDataProvider implements UpdateAuthorByAKeyGateway {
-    
+
     private final AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
 
     @Autowired
@@ -27,6 +27,7 @@ public class UpdateAuthorByAKeyDataProvider implements UpdateAuthorByAKeyGateway
 
     @Override
     public Optional<Author> execute(final Author author) {
+
         final Optional<AuthorEntity> optional = authorRepository.findByAKey(author.getAKey());
 
         return optional.map(authorEntity -> updateAuthorEntity(authorEntity, author));

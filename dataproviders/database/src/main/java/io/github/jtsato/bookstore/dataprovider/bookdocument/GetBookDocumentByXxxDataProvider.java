@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 
 import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 import io.github.jtsato.bookstore.core.bookdocument.gateway.GetBookDocumentByXxxGateway;
@@ -29,7 +31,8 @@ public class GetBookDocumentByXxxDataProvider implements GetBookDocumentByXxxGat
 
     @Override
     public Optional<BookDocument> execute(final Long id) {
-        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByXxx(id);
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("book");
+        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByXxx(id, entityGraph);
         return optional.map(bookDocumentMapper::of);
     }
 }

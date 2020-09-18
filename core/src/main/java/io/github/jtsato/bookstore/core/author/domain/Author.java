@@ -1,4 +1,4 @@
-  package io.github.jtsato.bookstore.core.author.domain;
+package io.github.jtsato.bookstore.core.author.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Author implements Serializable {
 
-    private static final long serialVersionUID = 6922690794350529898L;
+    private static final long serialVersionUID = -3685496164790285616L;
 
     private final Long aKey;
     private final String name;

@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
+import io.github.jtsato.bookstore.core.book.usecase.parameter.SearchBooksParameters;
+import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -22,13 +23,11 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocumentsParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7275652456719499110L;
+    private static final long serialVersionUID = -7607278109918412444L;
 
     private Long xxx;
 
-    private Long startBookId;
-
-    private Long endBookId;
+    private SearchBooksParameters searchBooksParameters;
 
     private Long startSize;
 
@@ -42,20 +41,20 @@ public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocu
 
     private String content;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.start.creation.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.start.creation.date.invalid")
     private String startCreationDate;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.end.creation.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.end.creation.date.invalid")
     private String endCreationDate;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.start.last.modified.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.start.last.modified.date.invalid")
     private String startLastModifiedDate;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.end.last.modified.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.end.last.modified.date.invalid")
     private String endLastModifiedDate;
 
     public SearchBookDocumentsParameters(final Long xxx,
-                                         final ImmutablePair<Long, Long> bookIdRange,
+                                         final SearchBooksParameters searchBooksParameters,
                                          final ImmutablePair<Long, Long> sizeRange,
                                          final String contentType,
                                          final String extension,
@@ -64,8 +63,7 @@ public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocu
                                          final ImmutablePair<String, String> creationDateRange,
                                          final ImmutablePair<String, String> lastModifiedDateRange) {
         this.xxx = xxx;
-        this.startBookId = bookIdRange.getLeft();
-        this.endBookId = bookIdRange.getRight();
+        this.searchBooksParameters = searchBooksParameters;
         this.startSize = sizeRange.getLeft();
         this.endSize = sizeRange.getRight();
         this.contentType = contentType;

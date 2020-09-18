@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+
 
 import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 import io.github.jtsato.bookstore.core.bookdocument.gateway.GetBookDocumentByNameIgnoreCaseGateway;
@@ -29,7 +32,8 @@ public class GetBookDocumentByNameIgnoreCaseDataProvider implements GetBookDocum
 
     @Override
     public Optional<BookDocument> execute(final String name) {
-        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByNameIgnoreCase(name);
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("book");
+        final Optional<BookDocumentEntity> optional = bookDocumentRepository.findByNameIgnoreCase(name, entityGraph);
         return optional.map(bookDocumentMapper::of);
     }
 }

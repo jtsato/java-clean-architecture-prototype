@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
+import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,12 +23,13 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateBookDocumentByXxxParameters extends SelfValidating<UpdateBookDocumentByXxxParameters> implements Serializable {
 
-    private static final long serialVersionUID = -6318083414175953343L;
+    private static final long serialVersionUID = 2080961819278852730L;
 
     @NotNull(message = "validation.book.document.xxx.null")
     private Long xxx;
 
-    private final Long bookId;
+    @NotNull(message = "validation.book.document.book.null")
+    private final Long bookBKey;
 
     @NotBlank(message = "validation.book.document.content.type.blank")
     private final String contentType;
@@ -46,14 +47,15 @@ public class UpdateBookDocumentByXxxParameters extends SelfValidating<UpdateBook
     @NotBlank(message = "validation.book.document.content.blank")
     private final String content;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.creation.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.creation.date.invalid")
     private final String creationDate;
 
-    @LocalDateTimeConstraint(message = "validation.book.document.last.modified.date.invalid")
+    @LocalDateConstraint(message = "validation.book.document.last.modified.date.invalid")
     private final String lastModifiedDate;
 
+
     public UpdateBookDocumentByXxxParameters(final Long xxx,
-                                             final Long bookId,
+                                             final Long bookBKey,
                                              final Long size,
                                              final String contentType,
                                              final String extension,
@@ -62,7 +64,7 @@ public class UpdateBookDocumentByXxxParameters extends SelfValidating<UpdateBook
                                              final String creationDate,
                                              final String lastModifiedDate) {
         this.xxx = xxx;
-        this.bookId = bookId;
+        this.bookBKey = bookBKey;
         this.size = size;
         this.contentType = contentType;
         this.extension = extension;

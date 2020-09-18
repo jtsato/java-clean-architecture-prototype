@@ -1,19 +1,24 @@
 package io.github.jtsato.bookstore.dataprovider.bookdocument.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import io.github.jtsato.bookstore.dataprovider.book.domain.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,13 +40,14 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"NAME"}, name = "UN_BOOK_DOCUMENTS_NAME"),
        },
        indexes = {
+            @Index(columnList = "BOOK_ID", name = "IDX_BOOK_DOCUMENTS_BOOK_ID"),
             @Index(columnList = "CREATION_DATE", name = "IDX_BOOK_DOCUMENTS_CREATION_DATE"),
             @Index(columnList = "LAST_MODIFIED_DATE", name = "IDX_BOOK_DOCUMENTS_LAST_MODIFIED_DATE"),
        }
 )
 public class BookDocumentEntity implements Serializable {
 
-    private static final long serialVersionUID = 8080863157854883462L;
+    private static final long serialVersionUID = 7119890474404298971L;
     
     @Access(AccessType.PROPERTY)
     @Id
@@ -49,8 +55,9 @@ public class BookDocumentEntity implements Serializable {
     @Column(name = "BOOK_DOCUMENT_XXX", updatable = false, insertable = false)
     private Long xxx;
 
-    @Column(name = "BOOK_ID", nullable = false)
-    private Long bookId;
+    @JoinColumn(name = "BOOK_ID", foreignKey = @ForeignKey(name = "FK_BOOK_DOCUMENTS_BOOK_ID"))
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private BookEntity book;
 
     @Column(name = "CONTENT_TYPE", nullable = false)
     private String contentType;
@@ -68,8 +75,8 @@ public class BookDocumentEntity implements Serializable {
     private String content;
 
     @Column(name = "CREATION_DATE", nullable = false)
-    private LocalDateTime creationDate;
+    private LocalDate creationDate;
 
     @Column(name = "LAST_MODIFIED_DATE", nullable = false)
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 }

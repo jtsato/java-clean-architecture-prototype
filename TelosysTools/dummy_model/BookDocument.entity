@@ -1,11 +1,11 @@
 BookDocument {
  xxx : long { @Id };
- bookId : long;
+ book : Book { @NotNull };
  contentType : string { @NotBlank };
  extension : string { @NotBlank };
  name : string { @NotBlank, @DbComment("UniqueKey") };
  size : long { @NotNull, @DbComment("Positive") };
  content : string { @NotBlank };
- creationDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
- lastModifiedDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
+ creationDate : date { @DbComment("CurrentDateOnUpdate, Index") } ;
+ lastModifiedDate : date { @DbComment("CurrentDateOnUpdate, Index") } ;
 }
