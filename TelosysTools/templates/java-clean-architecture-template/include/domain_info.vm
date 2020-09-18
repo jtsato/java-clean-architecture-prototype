@@ -25,6 +25,15 @@
 #foreach( $field in $entity.keyAttributes )
 #set ( $x = $domainKeys.add($field) )
 #end
+#if ( $domainKeys.size() > 0 )
+#set ( $domainId = $wordUtils.capitalize($domainKeys.get(0).name) )
+#set ( $uncapitalizedDomainId = $wordUtils.uncapitalize($domainId) )
+#set ( $pluralDomainId = $inflector.getInstance().pluralize($domainId) )
+#set ( $uncapitalizePluralDomainId = $wordUtils.uncapitalize($pluralDomainId) )
+#else
+#set ( $domainId = $wordUtils.capitalize("idNotSet") )
+#set ( $pluralDomainId = "idsNotSet" )
+#end
 #foreach( $field in $entity.selectedLinks )
 #if ( $field.fieldType.contains("Enum_") )
 #set ( $x = $domainEnumerators.add($field) )
@@ -33,7 +42,7 @@
 #if ( $field.isCardinalityManyToMany() )
 #set ( $x = $domainLinksToMany.add($field) )
 #set ( $x = $domainLinksManyToMany.add($field) )
-#elseif ( $field.isCardinalityOneToMany() )
+#elseif ( $field.isCardinalityOneToMany() )domainLinks
 #set ( $x = $domainLinksToMany.add($field) )
 #set ( $x = $domainLinksOneToMany.add($field) )
 #elseif ( $field.isCardinalityManyToOne() )
@@ -70,11 +79,11 @@
 #set ( $x = $domainIndexes.add($field) )
 #end
 #end
-#foreach( $element in $model.allEntites )
+#foreach( $element in $model.allEntites )## Book, Author, Enum_Gender
 #if ( !$element.name.contains("Enum_") )
-#foreach( $field in $element.selectedLinks )
-#if ( $field.fieldType.equalsIgnoreCase($entity.name) )
-#set ( $x = $domainReferencedBy.add($element) )
+#foreach( $field in $element.selectedLinks )## Book.selectedLinks [Author]
+#if ( $field.fieldType.equalsIgnoreCase($entity.name) ) ## Book.Author = Author 
+#set ( $x = $domainReferencedBy.add($element) ) ## Book
 #end
 #end
 #end

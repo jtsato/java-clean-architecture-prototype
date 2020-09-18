@@ -2,8 +2,6 @@ package io.github.jtsato.bookstore.dataprovider.bookdocument.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +16,8 @@ import io.github.jtsato.bookstore.dataprovider.bookdocument.domain.BookDocumentE
 
 @Repository
 public interface BookDocumentRepository extends EntityGraphJpaRepository<BookDocumentEntity, Long>, EntityGraphQuerydslPredicateExecutor<BookDocumentEntity> {
+
+    Optional<BookDocumentEntity> findByXxx(final Long xxx);
 
     Optional<BookDocumentEntity> findByContentTypeIgnoreCase(final String contentType);
 

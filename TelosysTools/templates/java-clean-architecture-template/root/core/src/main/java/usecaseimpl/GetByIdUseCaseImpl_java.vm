@@ -7,8 +7,8 @@ import java.util.Optional;
 import javax.inject.Named;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}ByIdGateway;
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Get${entity.name}ByIdUseCase;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}By${domainId}Gateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Get${entity.name}By${domainId}UseCase;
 import ${ROOT_PKG}.core.exception.InvalidParameterException;
 import ${ROOT_PKG}.core.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +25,21 @@ import lombok.RequiredArgsConstructor;
 
 @Named
 @RequiredArgsConstructor
-public class Get${entity.name}ByIdUseCaseImpl implements Get${entity.name}ByIdUseCase {
+public class Get${entity.name}By${domainId}UseCaseImpl implements Get${entity.name}By${domainId}UseCase {
 
-    private final Get${entity.name}ByIdGateway get${entity.name}ByIdGateway;
+    private final Get${entity.name}By${domainId}Gateway get${entity.name}By${domainId}Gateway;
 
     @Override
-    public ${entity.name} execute(final Long id) {
+    public ${entity.name} execute(final Long ${uncapitalizedDomainId}) {
 
-        if (id == null) {
+        if (${uncapitalizedDomainId} == null) {
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.id.null");
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null");
         }
 
-        final Optional<${entity.name}> optional = get${entity.name}ByIdGateway.execute(id);
+        final Optional<${entity.name}> optional = get${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
 
-        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.id.notfound", String.valueOf(id)));
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound", String.valueOf(${uncapitalizedDomainId})));
     }
 }

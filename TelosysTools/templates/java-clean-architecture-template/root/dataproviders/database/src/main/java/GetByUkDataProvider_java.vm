@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 #end
+
 #if ( $target.file.contains("IgnoreCase") )
 #set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "IgnoreCaseDataProvider") )
 #set ( $ignoreCase = "IgnoreCase" )

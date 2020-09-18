@@ -1,3 +1,4 @@
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
 
 import java.util.Optional;
@@ -7,7 +8,7 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 #include ( "/include/author.vm" )
 
 @FunctionalInterface
-public interface Remove${entity.name}ByIdGateway {
+public interface Remove${entity.name}By${domainId}Gateway {
 
-    Optional<${entity.name}> execute(final Long id);
+    Optional<${entity.name}> execute(final Long ${domainId});
 }

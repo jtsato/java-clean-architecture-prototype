@@ -3,8 +3,10 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository;
 
 import java.util.Optional;
 
+#if ( $domainLinksManyToOne.size() > 0 )
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+#end
 
 import org.springframework.stereotype.Repository;
 
@@ -20,14 +22,24 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.nam
 
 @Repository
 public interface ${entity.name}Repository extends EntityGraphJpaRepository<${entity.name}Entity, Long>, EntityGraphQuerydslPredicateExecutor<${entity.name}Entity> {
-#foreach( $link in $domainLinksManyToOne )
+#foreach( $field in $domainKeys )
 
-    Page<${entity.name}Entity> findBy${wordUtils.capitalize($link.fieldName)}Id(final Long ${link.fieldName}Id, final PageRequest pageRequest);
+#if ( $field.isLongType() )
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final Long $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
+#else
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final $field.type $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
-#foreach( $link in $domainEnumerators )
-#if ($link.isCardinalityManyToOne())
+#end
+#foreach( $field in $domainLinksManyToOne )
+#set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($link.fieldName)(final String $link.fieldName#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
+    Page<${entity.name}Entity> findBy${fieldName}${fieldClazzId}(final Long ${field.fieldName}${fieldClazzId}#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end, final PageRequest pageRequest);
+#end
+#foreach( $field in $domainEnumerators )
+#if ($field.isCardinalityManyToOne())
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.fieldName)(final String $field.fieldName#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
 #end
 #foreach( $field in $domainStrings )

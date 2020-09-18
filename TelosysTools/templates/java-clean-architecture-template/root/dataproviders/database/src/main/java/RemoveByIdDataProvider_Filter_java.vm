@@ -1,3 +1,4 @@
 #if ( !$entity.name.contains("Enum_") )
-$generator.generate($target.entityName, "Remove${entity.name}ByIdDataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/RemoveByIdDataProvider_java.vm" )
+#parse ( "include/domain_info.vm" )
+$generator.generate($target.entityName, "Remove${entity.name}By${domainId}DataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/RemoveByIdDataProvider_java.vm" )
 #end

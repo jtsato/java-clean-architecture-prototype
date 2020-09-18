@@ -10,12 +10,14 @@ import org.apache.commons.collections.CollectionUtils;
 #end
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Remove${entity.name}ByIdGateway;
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Remove${entity.name}ByIdUseCase;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Remove${entity.name}By${domainId}Gateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Remove${entity.name}By${domainId}UseCase;
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+
 import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.domain.${dependent.name};
-import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.gateway.Search${pluralType}By${entity.name}IdGateway;
+import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.gateway.Search${pluralType}By${entity.name}${domainId}Gateway;
 #end
 #if ( $domainReferencedBy.size() > 0 )
 import ${ROOT_PKG}.core.common.paging.Page;
@@ -39,40 +41,45 @@ import lombok.RequiredArgsConstructor;
 
 @Named
 @RequiredArgsConstructor
-public class Remove${entity.name}ByIdUseCaseImpl implements Remove${entity.name}ByIdUseCase {
+public class Remove${entity.name}By${domainId}UseCaseImpl implements Remove${entity.name}By${domainId}UseCase {
 
-    private final Remove${entity.name}ByIdGateway remove${entity.name}ByIdGateway;
+    private final Remove${entity.name}By${domainId}Gateway remove${entity.name}By${domainId}Gateway;
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
-    private final Search${pluralType}By${entity.name}IdGateway search${pluralType}By${entity.name}IdGateway;
+    private final Search${pluralType}By${entity.name}${domainId}Gateway search${pluralType}By${entity.name}${domainId}Gateway;
 #end
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
 
     @Override
-    public ${entity.name} execute(final Long id) {
+    public ${entity.name} execute(final Long ${uncapitalizedDomainId}) {
 
-        if (id == null) {
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.id.null");
+        if (${uncapitalizedDomainId} == null) {
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null");
         }
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
-        avoidRemoving${entity.name}With${pluralType}(id);
+        avoidRemoving${entity.name}With${pluralType}(${uncapitalizedDomainId});
 #end
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
 
-        final Optional<${entity.name}> optional = remove${entity.name}ByIdGateway.execute(id);
+        final Optional<${entity.name}> optional = remove${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
 
-        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.id.notfound", String.valueOf(id)));
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound", String.valueOf(${uncapitalizedDomainId})));
     }
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
 #set ( $dependentLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
+#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
-    private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizeEntityName}Id) {
+    private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizedDomainId}) {
 
-        final Page<Book> pageOf${pluralType} = search${pluralType}By${entity.name}IdGateway.execute(${uncapitalizeEntityName}Id, 0, 1, null);
+        final Page<Book> pageOf${pluralType} = search${pluralType}By${entity.name}${domainId}Gateway.execute(${uncapitalizedDomainId}, 0, 1, null);
 
         if (CollectionUtils.isNotEmpty(pageOf${pluralType}.getContent())) {
             throw new ParentConstraintException("validation.${entityNameLowerCaseWithSeparator}.with.${dependentLowerCaseWithSeparator}.removal");

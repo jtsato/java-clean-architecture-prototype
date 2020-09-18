@@ -8,7 +8,7 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 #include ( "/include/author.vm" )
 
 @FunctionalInterface
-public interface Update${entity.name}ByIdGateway {
+public interface Update${entity.name}By${domainId}Gateway {
 
     Optional<${entity.name}> execute(final ${entity.name} ${uncapitalizeEntityName});
 }

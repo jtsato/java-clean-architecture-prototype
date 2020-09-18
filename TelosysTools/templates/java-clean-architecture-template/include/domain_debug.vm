@@ -1,32 +1,36 @@
 #parse ( "include/domain_info.vm" )
-$entity.name
+$entity.name [$domainId]
+##
 #foreach( $field in $domainKeys )
 ${field.name} [domainKeys]
 #end
-#foreach( $field in $domainLinks )
-${field.fieldName} [domainLinks]
+##
+#foreach( $link in $domainLinks )
+$link.fieldName $link.fieldType  $wordUtils.capitalize($link.targetEntity.keyAttributes[0].name)
 #end
+##
 #foreach( $field in $domainEnumerators )
 ${field.fieldName} [domainEnumerators]
 #end
+##
 #foreach( $field in $domainStrings )
 ${field.name} [domainStrings]
 #end
+##
 #foreach( $field in $domainBooleans )
 ${field.name} [domainBooleans]
 #end
+##
 #foreach( $field in $domainDecimals )
 ${field.name} [domainDecimals]
 #end
+##
 #foreach( $field in $domainDates )
 ${field.name} [domainDates]
 #end
+##
 #foreach( $field in $domainTimestamps )
 ${field.name} [domainTimestamps]
-#end
-#if ( $entity.name.contains("Enum_") )
-#set ( $entityName = $entity.name.replace("Enum_", "") )
-$target.forceEntityName(${entityName})
 #end
 
 $capitalizedEntityName [capitalize] 
@@ -37,10 +41,21 @@ $wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [u
 #foreach( $field in $domainUkKeys )
 $field.name [Unique Keys]
 #end
+##
 #foreach( $field in $domainIndexes )
 $field.name [Indexes]: $field.isNotNull()
 #end
-
-#foreach( $element in $domainReferencedBy )
-References [The $entity.name is referenced by $element]
+##
+#foreach( $dependent in $domainReferencedBy )
+#set ( $dependentKeys = $dependent.keyAttributes )
+#if ( $dependentKeys.size() == 1 )
+#set ( $referenceId = $wordUtils.capitalize($dependentKeys.get(0).name) )
+#set ( $pluralReferenceId = $inflector.getInstance().pluralize($referenceId) )
+References [The $entity.name is referenced by the $dependent and the $dependent.name key is $referenceId]
+#end
+#end
+##
+#if ( $entity.name.contains("Enum_") )
+#set ( $entityName = $entity.name.replace("Enum_", "") )
+$target.forceEntityName(${entityName})
 #end

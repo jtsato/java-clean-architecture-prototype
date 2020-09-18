@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.dataprovider.author.mapper;
+  package io.github.jtsato.bookstore.dataprovider.author.mapper;
 
 import org.mapstruct.Mapper;
 

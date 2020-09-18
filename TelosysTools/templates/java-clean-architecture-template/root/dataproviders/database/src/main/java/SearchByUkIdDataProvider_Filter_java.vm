@@ -2,8 +2,7 @@
 #parse ( "/include/domain_info.vm" )
 #foreach( $field in $domainLinks )
 #set ( $fieldType = $field.fieldType )
-#if ( !$fieldType.contains("Enum_") )
-$generator.generate($target.entityName, "Search${pluralEntityName}By${fieldType}IdDataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/SearchByUkIdDataProvider_java.vm" )
-#end
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+$generator.generate($target.entityName, "Search${pluralEntityName}By${fieldType}${fieldKey}DataProvider.java", $target.folder, "root/dataproviders/database/src/main/java/SearchByUkIdDataProvider_java.vm" )
 #end
 #end

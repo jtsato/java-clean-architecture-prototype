@@ -1,9 +1,7 @@
-package io.github.jtsato.bookstore.dataprovider.author.repository;
+  package io.github.jtsato.bookstore.dataprovider.author.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +16,8 @@ import io.github.jtsato.bookstore.dataprovider.author.domain.AuthorEntity;
 
 @Repository
 public interface AuthorRepository extends EntityGraphJpaRepository<AuthorEntity, Long>, EntityGraphQuerydslPredicateExecutor<AuthorEntity> {
+
+    Optional<AuthorEntity> findByAKey(final Long aKey);
 
     Optional<AuthorEntity> findByGender(final String gender);
 

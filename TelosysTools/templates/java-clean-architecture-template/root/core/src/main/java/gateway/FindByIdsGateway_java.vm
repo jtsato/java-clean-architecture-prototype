@@ -9,7 +9,7 @@ import ${ROOT_PKG}.core.common.paging.Page;
 #include ( "/include/author.vm" )
 
 @FunctionalInterface
-public interface Find${pluralEntityName}ByIdsGateway {
+public interface Find${pluralEntityName}By${pluralDomainId}Gateway {
 
-    Page<${entity.name}> execute(final List<Long> ids);
+    Page<${entity.name}> execute(final List<Long> ${uncapitalizePluralDomainId});
 }

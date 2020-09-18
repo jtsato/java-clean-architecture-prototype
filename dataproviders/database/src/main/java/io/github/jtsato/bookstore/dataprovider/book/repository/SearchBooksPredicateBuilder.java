@@ -29,8 +29,8 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
 
         final List<BooleanExpression> booleanExpressions = new LinkedList<>();
 
-        if (query.getId() != null) {
-            booleanExpressions.add(entityPath.id.eq(query.getId()));
+        if (query.getBKey() != null) {
+            booleanExpressions.add(entityPath.bKey.eq(query.getBKey()));
         }
 
         if (query.getSearchAuthorsParameters() != null) {

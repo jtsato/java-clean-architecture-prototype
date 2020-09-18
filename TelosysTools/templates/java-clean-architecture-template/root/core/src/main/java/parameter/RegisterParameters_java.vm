@@ -68,10 +68,12 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 
 #parse ( "/include/serial_version.vm" )
 #foreach( $field in $domainLinksToOne )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-    @NotNull(message = "validation.${fieldNameLowerCaseWithSeparator}.id.null")
-    private final Long ${wordUtils.uncapitalize($field.fieldName)}Id;
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    private final Long ${field.fieldName}${fieldKey};
 #end
 #foreach( $field in $domainEnumerators )
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
@@ -132,8 +134,12 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 #set ( $constructorParameters = [] )
 #set ( $setParameters = [] )
 #foreach ( $field in $domainLinks )
-#set ( $x = $constructorParameters.add("final Long ${field.fieldName}Id") )
-#set ( $x = $setParameters.add("this.${field.fieldName}Id = ${field.fieldName}Id;") )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+
+#set ( $x = $constructorParameters.add("final Long ${field.fieldName}${fieldKey}") )
+#set ( $x = $setParameters.add("this.${field.fieldName}${fieldKey} = ${field.fieldName}${fieldKey};") )
 #end
 #foreach ( $field in $domainLongs )
 #set ( $x = $constructorParameters.add("final Long ${field.name}") )

@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.dataprovider.author.repository;
+  package io.github.jtsato.bookstore.dataprovider.author.repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,8 +30,8 @@ public class SearchAuthorsPredicateBuilder extends AbstractPredicateBuilderImpl<
 
         final List<BooleanExpression> booleanExpressions = new LinkedList<>();
 
-        if (query.getId() != null) {
-            booleanExpressions.add(entityPath.id.eq(query.getId()));
+        if (query.getAKey() != null) {
+            booleanExpressions.add(entityPath.aKey.eq(query.getAKey()));
         }
 
         if (StringUtils.isNotBlank(query.getName())) {

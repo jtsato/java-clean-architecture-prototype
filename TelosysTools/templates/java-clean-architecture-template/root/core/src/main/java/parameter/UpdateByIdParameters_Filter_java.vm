@@ -1,3 +1,4 @@
 #if ( !$entity.name.contains("Enum_") )
-$generator.generate($target.entityName, "Update${entity.name}ByIdParameters.java", $target.folder, "root/core/src/main/java/parameter/UpdateByIdParameters_java.vm" )
+#parse ( "include/domain_info.vm" )
+$generator.generate($target.entityName, "Update${entity.name}By${domainId}Parameters.java", $target.folder, "root/core/src/main/java/parameter/UpdateByIdParameters_java.vm" )
 #end

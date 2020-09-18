@@ -49,13 +49,13 @@ import lombok.ToString;
 )
 public class BookEntity implements Serializable {
 
-    private static final long serialVersionUID = -7298170068109537868L;
+    private static final long serialVersionUID = -1003344416568555249L;
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOK_ID", updatable = false, insertable = false)
-    private Long id;
+    @Column(name = "BOOK_B_KEY", updatable = false, insertable = false)
+    private Long bKey;
 
     @JoinColumn(name = "AUTHOR_ID", foreignKey = @ForeignKey(name = "FK_BOOKS_AUTHOR_ID"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

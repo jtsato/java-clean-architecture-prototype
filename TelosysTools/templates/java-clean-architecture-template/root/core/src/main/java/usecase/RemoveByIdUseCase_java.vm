@@ -1,3 +1,4 @@
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
@@ -5,7 +6,7 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 #include ( "/include/author.vm" )
 
 @FunctionalInterface
-public interface Remove${entity.name}ByIdUseCase {
+public interface Remove${entity.name}By${domainId}UseCase {
 
-    ${entity.name} execute(final Long id);
+    ${entity.name} execute(final Long ${domainId});
 }

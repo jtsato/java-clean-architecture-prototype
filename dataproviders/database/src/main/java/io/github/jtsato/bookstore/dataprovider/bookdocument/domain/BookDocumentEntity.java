@@ -41,13 +41,13 @@ import lombok.ToString;
 )
 public class BookDocumentEntity implements Serializable {
 
-    private static final long serialVersionUID = -3407010412022116419L;
+    private static final long serialVersionUID = 8080863157854883462L;
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOK_DOCUMENT_ID", updatable = false, insertable = false)
-    private Long id;
+    @Column(name = "BOOK_DOCUMENT_XXX", updatable = false, insertable = false)
+    private Long xxx;
 
     @Column(name = "BOOK_ID", nullable = false)
     private Long bookId;

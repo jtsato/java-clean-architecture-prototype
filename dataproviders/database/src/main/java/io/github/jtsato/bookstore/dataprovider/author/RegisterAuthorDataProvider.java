@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.dataprovider.author;
+  package io.github.jtsato.bookstore.dataprovider.author;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;

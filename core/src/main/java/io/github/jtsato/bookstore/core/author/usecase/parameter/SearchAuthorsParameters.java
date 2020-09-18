@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.core.author.usecase.parameter;
+  package io.github.jtsato.bookstore.core.author.usecase.parameter;
 
 import java.io.Serializable;
 
@@ -22,9 +22,9 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParameters> implements Serializable {
 
-    private static final long serialVersionUID = 703343936810927904L;
+    private static final long serialVersionUID = -8944248232341061487L;
 
-    private Long id;
+    private Long aKey;
 
     private String name;
 
@@ -36,11 +36,11 @@ public class SearchAuthorsParameters extends SelfValidating<SearchAuthorsParamet
     @LocalDateConstraint(message = "validation.author.end.birthdate.invalid")
     private String endBirthdate;
 
-    public SearchAuthorsParameters(final Long id,
+    public SearchAuthorsParameters(final Long aKey,
                                    final String name,
                                    final String gender,
                                    final ImmutablePair<String, String> birthdateRange) {
-        this.id = id;
+        this.aKey = aKey;
         this.name = name;
         this.gender = gender;
         this.startBirthdate = birthdateRange.getLeft();

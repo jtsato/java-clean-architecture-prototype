@@ -14,7 +14,7 @@ import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 #end
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}ByIdGateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}By${domainId}Gateway;
 import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
 import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.mapper.${entity.name}Mapper;
 import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity.name}Repository;
@@ -23,7 +23,7 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity
 
 @Transactional(readOnly = true)
 @Service
-public class Get${entity.name}ByIdDataProvider implements Get${entity.name}ByIdGateway {
+public class Get${entity.name}By${domainId}DataProvider implements Get${entity.name}By${domainId}Gateway {
 
     private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
     
@@ -34,9 +34,9 @@ public class Get${entity.name}ByIdDataProvider implements Get${entity.name}ByIdG
     public Optional<${entity.name}> execute(final Long id) {
 #if ( $domainLinksToOne.size() > 0 )
         final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
-        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(id, entityGraph);
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${domainId}(id, entityGraph);
 #else
-        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(id);
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${domainId}(id);
 #end
         return optional.map(${uncapitalizeEntityName}Mapper::of);
     }

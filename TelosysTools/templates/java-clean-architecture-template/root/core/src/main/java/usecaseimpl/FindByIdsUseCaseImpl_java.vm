@@ -1,4 +1,3 @@
-#parse ( "include/loader_stringutils.vm" )
 #parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
 
@@ -9,8 +8,8 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Find${pluralEntityName}ByIdsGateway;
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Find${pluralEntityName}ByIdsUseCase;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Find${pluralEntityName}By${pluralDomainId}Gateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Find${pluralEntityName}By${pluralDomainId}UseCase;
 import ${ROOT_PKG}.core.common.paging.Page;
 import ${ROOT_PKG}.core.exception.InvalidParameterException;
 import lombok.RequiredArgsConstructor;
@@ -27,22 +26,24 @@ import lombok.RequiredArgsConstructor;
 
 @Named
 @RequiredArgsConstructor
-public class Find${pluralEntityName}ByIdsUseCaseImpl implements Find${pluralEntityName}ByIdsUseCase {
+public class Find${pluralEntityName}By${pluralDomainId}UseCaseImpl implements Find${pluralEntityName}By${pluralDomainId}UseCase {
 
-    private final Find${pluralEntityName}ByIdsGateway find${pluralEntityName}ByIdsGateway;
+    private final Find${pluralEntityName}By${pluralDomainId}Gateway find${pluralEntityName}By${pluralDomainId}Gateway;
 
     @Override
-    public Page<${entity.name}> execute(final List<Long> ids) {
+    public Page<${entity.name}> execute(final List<Long> ${uncapitalizePluralDomainId}) {
 
-        if (CollectionUtils.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(${uncapitalizePluralDomainId})) {
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.ids.null");
+#set ( $domainIdsLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${domainIdsLowerCaseWithSeparator}.null");
         }
 
-        if (ids.size() > 1000) {
-            throw new InvalidParameterException("validation.get.by.ids.limit");
+        if (${uncapitalizePluralDomainId}.size() > 1000) {
+#set ( $domainIdsLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.get.by.${domainIdsLowerCaseWithSeparator}.limit");
         }
 
-        return find${pluralEntityName}ByIdsGateway.execute(ids);
+        return find${pluralEntityName}By${pluralDomainId}Gateway.execute(${uncapitalizePluralDomainId});
     }
 }

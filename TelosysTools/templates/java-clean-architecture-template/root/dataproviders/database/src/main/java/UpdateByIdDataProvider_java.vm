@@ -7,9 +7,14 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+#if ( $domainLinksToOne.size() > 0  && ( $domainEnumerators.size() > 0 || $domainStrings.size() > 0 || $domainBooleans.size() > 0 ) )
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+
+#end
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Update${entity.name}ByIdGateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Update${entity.name}By${domainId}Gateway;
 #foreach ( $field in $domainLinks )
 import ${ROOT_PKG}.dataprovider.${field.fieldType.toLowerCase()}.repository.${field.fieldType}Repository;
 #end
@@ -21,7 +26,7 @@ import ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.repository.${entity
 
 @Transactional
 @Service
-public class Update${entity.name}ByIdDataProvider implements Update${entity.name}ByIdGateway {
+public class Update${entity.name}By${domainId}DataProvider implements Update${entity.name}By${domainId}Gateway {
     
     private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
 
@@ -36,7 +41,13 @@ public class Update${entity.name}ByIdDataProvider implements Update${entity.name
 
     @Override
     public Optional<${entity.name}> execute(final ${entity.name} ${uncapitalizeEntityName}) {
-        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findById(${uncapitalizeEntityName}.getId());
+#if ( $domainLinksToOne.size() > 0 ) 
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${domainId}(${uncapitalizeEntityName}.get${domainId}(), entityGraph);
+#else
+        final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${domainId}(${uncapitalizeEntityName}.get${domainId}());
+#end
+
         return optional.map(${uncapitalizeEntityName}Entity -> update${entity.name}Entity(${uncapitalizeEntityName}Entity, ${uncapitalizeEntityName}));
     }
 
@@ -56,14 +67,15 @@ public class Update${entity.name}ByIdDataProvider implements Update${entity.name
 #end
         return ${uncapitalizeEntityName}Mapper.of(${uncapitalizeEntityName}Repository.saveAndFlush(${uncapitalizeEntityName}Entity));
     }
-#foreach ( $field in $domainLinks )
+#foreach ( $field in $domainLinksToOne )
 #set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
+#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
     private void update${field.fieldType}(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
-        final Long current${field.fieldType}Id = ${uncapitalizeEntityName}Entity.get${field.fieldType}().getId();
-        final Long new${field.fieldType}Id = ${uncapitalizeEntityName}.get${field.fieldType}().getId();
-        if (!new${field.fieldType}Id.equals(current${field.fieldType}Id)) {
-            ${uncapitalizeFieldType}Repository.findById(new${field.fieldType}Id).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+        final Long current${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}Entity.get${field.fieldType}().get${fieldClazzId}();
+        final Long new${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}.get${field.fieldType}().get${fieldClazzId}();
+        if (!new${field.fieldType}${fieldClazzId}.equals(current${field.fieldType}${fieldClazzId})) {
+            ${uncapitalizeFieldType}Repository.findBy${fieldClazzId}(new${field.fieldType}${fieldClazzId}).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
         }
     }
 #end

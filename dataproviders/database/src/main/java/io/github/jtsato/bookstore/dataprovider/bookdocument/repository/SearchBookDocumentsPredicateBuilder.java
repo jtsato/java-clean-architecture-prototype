@@ -28,8 +28,8 @@ public class SearchBookDocumentsPredicateBuilder extends AbstractPredicateBuilde
 
         final List<BooleanExpression> booleanExpressions = new LinkedList<>();
 
-        if (query.getId() != null) {
-            booleanExpressions.add(entityPath.id.eq(query.getId()));
+        if (query.getXxx() != null) {
+            booleanExpressions.add(entityPath.xxx.eq(query.getXxx()));
         }
 
         if (query.getStartBookId() != null) {

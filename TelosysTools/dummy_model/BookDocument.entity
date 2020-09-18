@@ -1,5 +1,5 @@
 BookDocument {
- id : long { @Id };
+ xxx : long { @Id };
  bookId : long;
  contentType : string { @NotBlank };
  extension : string { @NotBlank };

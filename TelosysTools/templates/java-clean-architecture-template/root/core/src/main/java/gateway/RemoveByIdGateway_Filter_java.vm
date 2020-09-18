@@ -1,3 +1,4 @@
 #if ( !$entity.name.contains("Enum_") )
-$generator.generate($target.entityName, "Remove${entity.name}ByIdGateway.java", $target.folder, "root/core/src/main/java/gateway/RemoveByIdGateway_java.vm" )
+#parse ( "include/domain_info.vm" )
+$generator.generate($target.entityName, "Remove${entity.name}By${domainId}Gateway.java", $target.folder, "root/core/src/main/java/gateway/RemoveByIdGateway_java.vm" )
 #end

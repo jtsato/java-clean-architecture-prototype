@@ -1,12 +1,13 @@
+#parse ( "include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}ByIdParameters;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}By${domainId}Parameters;
 
 #include ( "/include/author.vm" )
 
 @FunctionalInterface
-public interface Update${entity.name}ByIdUseCase {
+public interface Update${entity.name}By${domainId}UseCase {
 
-    ${entity.name} execute(final Update${entity.name}ByIdParameters parameters);
+    ${entity.name} execute(final Update${entity.name}By${domainId}Parameters parameters);
 }

@@ -64,7 +64,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Update${entity.name}ByIdParameters extends SelfValidating<Update${entity.name}ByIdParameters> implements Serializable {
+public class Update${entity.name}By${domainId}Parameters extends SelfValidating<Update${entity.name}By${domainId}Parameters> implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
 #foreach ( $field in $domainKeys )
@@ -81,10 +81,12 @@ public class Update${entity.name}ByIdParameters extends SelfValidating<Update${e
 #end
 #end
 #foreach( $field in $domainLinksToOne )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-    @NotNull(message = "validation.${fieldNameLowerCaseWithSeparator}.id.null")
-    private final Long ${wordUtils.uncapitalize($field.fieldName)}Id;
+    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    private final Long ${field.fieldName}${fieldKey};
 #end
 #foreach( $field in $domainEnumerators )
 #set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
@@ -154,8 +156,12 @@ public class Update${entity.name}ByIdParameters extends SelfValidating<Update${e
 #end
 #end
 #foreach ( $field in $domainLinks )
-#set ( $x = $constructorParameters.add("final Long ${field.fieldName}Id") )
-#set ( $x = $setParameters.add("this.${field.fieldName}Id = ${field.fieldName}Id;") )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+
+#set ( $x = $constructorParameters.add("final Long ${field.fieldName}${fieldKey}") )
+#set ( $x = $setParameters.add("this.${field.fieldName}${fieldKey} = ${field.fieldName}${fieldKey};") )
 #end
 #foreach ( $field in $domainLongs )
 #set ( $x = $constructorParameters.add("final Long ${field.name}") )
@@ -189,7 +195,7 @@ public class Update${entity.name}ByIdParameters extends SelfValidating<Update${e
 #set ( $x = $constructorParameters.add("final BigDecimal ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
-#set ( $signature = "    public Update${entity.name}ByIdParameters(" )
+#set ( $signature = "    public Update${entity.name}By${domainId}Parameters(" )
 #set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
 
 ${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ),#end
