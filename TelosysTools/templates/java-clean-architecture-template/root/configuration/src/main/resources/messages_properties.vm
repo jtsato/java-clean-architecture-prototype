@@ -1,19 +1,50 @@
-enum-gender-female=Female
-enum-gender-male=Male
+#parse ( "include/loader_stringutils.vm" )
+#parse ( "/include/loader_inflector.vm" )
+#foreach( $entitie in $model.allEntites )
+#if ( $entitie.name.contains("Enum_") )
+#set ( $entitieName = $entitie.name.replace("Enum_", "") )
+#foreach( $field in $entitie.attributes )
+enum-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitieName), "-").toLowerCase()-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "-").toLowerCase()=$field.name
+#end
+#end
+#end
+#foreach( $entitie in $model.allEntites )
+#if ( !$entitie.name.contains("Enum_") )
+#foreach( $field in $entitie.keyAttributes )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $pluralEntityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $pluralFieldNameLowerCaseWithSeparator = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase()) )
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSeparator}''s identifier is required!
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound=The ${entityNameLowerCaseWithSeparator} with identifier: ''{0}'' has not been found!
+validation.${pluralEntityNameLowerCaseWithSeparator}.${pluralFieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSeparator}''s identifiers are required!
+#end
+#foreach( $field in $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $pluralEntityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $pluralFieldNameLowerCaseWithSeparator = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase()) )
+#if ( $field.isNotBlank() )
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank=The ${entityNameLowerCaseWithSeparator}''s ${fieldNameLowerCaseWithSeparator} is required!
+#end
+#if ( $field.isNotNull() )
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSeparator}''s ${fieldNameLowerCaseWithSeparator} is required!
+#end
+#if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey") )
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.already.exists=There is already a ${entityNameLowerCaseWithSeparator} with the ${fieldNameLowerCaseWithSeparator} ''{0}'' registered!
+#end
+#if ( $field.isDateType() )
+validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSeparator}''s ${fieldNameLowerCaseWithSeparator} is invalid!
+validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSeparator}''s initial ${fieldNameLowerCaseWithSeparator} is invalid!
+validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSeparator}''s final ${fieldNameLowerCaseWithSeparator} is invalid!
+#end
+#end
+#end
+#end
+validation.enumerator.value.invalid=The value ''{0}'' is invalid for ''{1}'', valid values are: {2}!
+validation.get.by.ids.limit=The requested quantity exceeds the limit of 1000 items!
 exception.unexpected=An unexpected error has occurred, please try again later!
 exception.request.body.is.invalid.or.missing=The required request body is invalid!
 exception.field.format=The ''{0}'' field provided is not in an expected format!
 exception.access.denied=Access denied!
 exception.database.constraint.violation=An unexpected error occurred while updating the data, please try again later!
-validation.entity.id.null=The entity''s identifier is required!
-validation.entity.id.notfound=The entity with identifier: ''{0}'' has not been found!
-validation.entity.title.blank=The entity''s title is required!
-validation.entity.title.already.exists=There is already a entity with the title ''{0}'' registered!
-validation.entity.start.creation.date.invalid=The entity''s initial registration date is invalid!
-validation.entity.end.creation.date.invalid=The entity''s final registration date is invalid!
-validation.entity.price.null=The entity''s price is required!
-validation.entity.price.negative=The price of the entity cannot be negative!
-validation.entity.available.null=The entity availability is required!
-validation.entitys.ids.null=The entitys'' identifiers are required!
-validation.get.by.ids.limit=The requested quantity exceeds the limit of 1000 items!
-validation.enumerator.value.invalid=The value ''{0}'' is invalid for ''{1}'', valid values are: {2}!

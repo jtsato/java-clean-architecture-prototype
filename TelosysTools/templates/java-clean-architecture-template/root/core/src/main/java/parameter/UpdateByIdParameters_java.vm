@@ -81,11 +81,11 @@ public class Update${entity.name}By${domainId}Parameters extends SelfValidating<
 #end
 #end
 #foreach( $field in $domainLinksToOne )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.name), ".").toLowerCase() )
 #set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldKeyLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldKey), ".").toLowerCase() )
 
-    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    @NotNull(message = "validation.${fieldNameLowerCaseWithSeparator}.${fieldKeyLowerCaseWithSeparator}.null")
     private final Long ${field.fieldName}${fieldKey};
 #end
 #foreach( $field in $domainEnumerators )

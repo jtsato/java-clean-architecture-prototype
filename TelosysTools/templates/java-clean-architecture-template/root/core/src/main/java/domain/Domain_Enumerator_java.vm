@@ -19,7 +19,7 @@ public enum ${entityName} {
 
             @Override
             public String getMessageKey() {
-                return "enum-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($entityName), "-").toLowerCase()-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($$field.name), "-").toLowerCase()";
+                return "enum-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($entityName), "-").toLowerCase()-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "-").toLowerCase()";
             }
 #if( $foreach.hasNext )
         },

@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.jtsato.bookstore.core.author.domain.Author;
-import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByAaKeyGateway;
+import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByIdGateway;
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByTitleIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.RegisterBookGateway;
@@ -38,7 +38,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
     private final RegisterBookGateway registerBookGateway;
 
-    private final GetAuthorByAaKeyGateway getAuthorByAaKeyGateway ;
+    private final GetAuthorByIdGateway getAuthorByIdGateway ;
 
     private final GetBookByTitleIgnoreCaseGateway getBookByTitleIgnoreCaseGateway;
 
@@ -47,7 +47,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
     @Override
     public Book execute(final RegisterBookParameters parameters) {
 
-        final Author author = getAuthorAndValidate(parameters.getAuthorAaKey());
+        final Author author = getAuthorAndValidate(parameters.getAuthorId());
 
         checkDuplicatedTitleViolation(parameters.getTitle());
 
@@ -68,9 +68,9 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
         return registerBookGateway.execute(book);
     }
 
-    private Author getAuthorAndValidate(final Long authorAaKey) {
-        final Optional<Author> optional = getAuthorByAaKeyGateway.execute(authorAaKey);
-        return optional.orElseThrow(() -> new NotFoundException("validation.author.aa.key.notfound", String.valueOf(authorAaKey)));
+    private Author getAuthorAndValidate(final Long authorId) {
+        final Optional<Author> optional = getAuthorByIdGateway.execute(authorId);
+        return optional.orElseThrow(() -> new NotFoundException("validation.author.id.notfound", String.valueOf(authorId)));
     }
 
     private void checkDuplicatedTitleViolation(final String title) {
