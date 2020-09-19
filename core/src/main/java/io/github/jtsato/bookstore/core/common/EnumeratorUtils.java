@@ -34,3 +34,4 @@ public class EnumeratorUtils {
         return () -> new InvalidEnumeratorException("validation.enumerator.value.invalid", actual, enumClass, String.join(", ", values));
     }
 }
+

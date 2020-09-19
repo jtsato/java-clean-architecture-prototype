@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.jtsato.bookstore.core.author.domain.Author;
-import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByAKeyGateway;
+import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByAaKeyGateway;
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByTitleIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.RegisterBookGateway;
@@ -38,7 +38,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
     private final RegisterBookGateway registerBookGateway;
 
-    private final GetAuthorByAKeyGateway getAuthorByAKeyGateway ;
+    private final GetAuthorByAaKeyGateway getAuthorByAaKeyGateway ;
 
     private final GetBookByTitleIgnoreCaseGateway getBookByTitleIgnoreCaseGateway;
 
@@ -47,7 +47,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
     @Override
     public Book execute(final RegisterBookParameters parameters) {
 
-        final Author author = getAuthorAndValidate(parameters.getAuthorAKey());
+        final Author author = getAuthorAndValidate(parameters.getAuthorAaKey());
 
         checkDuplicatedTitleViolation(parameters.getTitle());
 
@@ -68,9 +68,9 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
         return registerBookGateway.execute(book);
     }
 
-    private Author getAuthorAndValidate(final Long authorAKey) {
-        final Optional<Author> optional = getAuthorByAKeyGateway.execute(authorAKey);
-        return optional.orElseThrow(() -> new NotFoundException("validation.author.a.key.notfound", String.valueOf(authorAKey)));
+    private Author getAuthorAndValidate(final Long authorAaKey) {
+        final Optional<Author> optional = getAuthorByAaKeyGateway.execute(authorAaKey);
+        return optional.orElseThrow(() -> new NotFoundException("validation.author.aa.key.notfound", String.valueOf(authorAaKey)));
     }
 
     private void checkDuplicatedTitleViolation(final String title) {

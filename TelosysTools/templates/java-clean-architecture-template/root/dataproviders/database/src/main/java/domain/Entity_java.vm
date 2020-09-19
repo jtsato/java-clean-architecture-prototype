@@ -22,15 +22,20 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 #if ( $domainUkKeys.size() > 0 )
        },
 #end
-#if ( $domainIndexes.size() > 0 )
+#if ( $domainIndexes.size() > 0 || $domainLinksToOne > 0 || $domainEnumerators > 0 )
        indexes = {
-#foreach( $field in $domainIndexes )
-#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() )
-#if ( $strUtils.isBlank( $field.databaseComment) )
-            @Index(columnList = "${columnName}_ID", name = "IDX_${tableName}_${columnName}_ID"),
-#else 
+#foreach( $field in $domainLinksToOne )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() )
+#set ( $fieldId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
+            @Index(columnList = "${columnName}_${fieldId}", name = "IDX_${tableName}_${columnName}_${fieldId}"),
+#end
+#foreach( $field in $domainEnumerators )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() )
             @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
 #end
+#foreach( $field in $domainIndexes )
+#set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), "_").toUpperCase() )
+            @Index(columnList = "${columnName}", name = "IDX_${tableName}_${columnName}"),
 #end
        }
 #end
@@ -55,8 +60,9 @@ public class ${entity.name}Entity implements Serializable {
 #foreach( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne() )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase() )  
+#set ( $fieldId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
 
-    @JoinColumn(name = "${columnName}_ID", foreignKey = @ForeignKey(name = "FK_${tableName}_${columnName}_ID"))
+    @JoinColumn(name = "${columnName}_${fieldId}", foreignKey = @ForeignKey(name = "FK_${tableName}_${columnName}_${fieldId}"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ${link.fieldType}Entity $link.fieldName;
 #elseif ( $link.isCardinalityOneToMany() )

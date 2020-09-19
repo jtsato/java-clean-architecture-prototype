@@ -8,7 +8,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.jtsato.bookstore.core.book.domain.Book;
-import io.github.jtsato.bookstore.core.book.gateway.GetBookByBKeyGateway;
+import io.github.jtsato.bookstore.core.book.gateway.GetBookByBbKeyGateway;
 import io.github.jtsato.bookstore.core.bookdocument.domain.BookDocument;
 import io.github.jtsato.bookstore.core.bookdocument.gateway.GetBookDocumentByNameIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.bookdocument.gateway.RegisterBookDocumentGateway;
@@ -36,14 +36,14 @@ public class RegisterBookDocumentUseCaseImpl implements RegisterBookDocumentUseC
 
     private final RegisterBookDocumentGateway registerBookDocumentGateway;
 
-    private final GetBookByBKeyGateway getBookByBKeyGateway ;
+    private final GetBookByBbKeyGateway getBookByBbKeyGateway ;
 
     private final GetBookDocumentByNameIgnoreCaseGateway getBookDocumentByNameIgnoreCaseGateway;
 
     @Override
     public BookDocument execute(final RegisterBookDocumentParameters parameters) {
 
-        final Book book = getBookAndValidate(parameters.getBookBKey());
+        final Book book = getBookAndValidate(parameters.getBookBbKey());
 
         checkDuplicatedNameViolation(parameters.getName());
 
@@ -68,9 +68,9 @@ public class RegisterBookDocumentUseCaseImpl implements RegisterBookDocumentUseC
         return registerBookDocumentGateway.execute(bookDocument);
     }
 
-    private Book getBookAndValidate(final Long bookBKey) {
-        final Optional<Book> optional = getBookByBKeyGateway.execute(bookBKey);
-        return optional.orElseThrow(() -> new NotFoundException("validation.book.b.key.notfound", String.valueOf(bookBKey)));
+    private Book getBookAndValidate(final Long bookBbKey) {
+        final Optional<Book> optional = getBookByBbKeyGateway.execute(bookBbKey);
+        return optional.orElseThrow(() -> new NotFoundException("validation.book.bb.key.notfound", String.valueOf(bookBbKey)));
     }
 
     private void checkDuplicatedNameViolation(final String name) {

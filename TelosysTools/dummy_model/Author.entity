@@ -1,5 +1,5 @@
 Author {
- aKey : long { @Id } ;
+ aaKey : long { @Id } ;
  name: string { @NotBlank, @DbComment("UniqueKey") } ;
  gender: Enum_Gender;
  birthdate: date { @NotBlank, @DbComment("Index") } ;

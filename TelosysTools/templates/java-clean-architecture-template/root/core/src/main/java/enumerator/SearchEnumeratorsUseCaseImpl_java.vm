@@ -1,4 +1,3 @@
-#parse ( "/include/loader_stringutils.vm" )
 package ${ROOT_PKG}.core.enumerator.usecase.impl;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 #foreach( $element in $model.allEntites )
 #foreach( $field in $element.selectedLinks )
 #if ( $field.fieldType.contains("Enum_") )
-#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
-import ${ROOT_PKG}.core.${element.name.toLowerCase()}.domain.${fieldType};
+#set ( $enumerator = $field.fieldType.replace("Enum_", "") )
+import ${ROOT_PKG}.core.${element.name.toLowerCase()}.domain.${enumerator};
 #end
 #end
 #end
@@ -50,23 +49,24 @@ public class SearchEnumeratorsUseCaseImpl implements SearchEnumeratorsUseCase {
         return domainNotProvidedOrSameDomain && keyNotProvidedOrSameKey;
     }
 
-    private List<Enumerator> getAllEnumerators() {
-        final List<Enumerator> enumerators = new ArrayList<>(0);
+#set ( $enumerators = [] )
 #foreach( $entity in $model.allEntites )
 #if ( $entity.name.contains("Enum_") )
-#set ( $entityName = $entity.name.replace("Enum_", "") )
-        enumerators.addAll(Arrays.asList(${entityName}.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
+#set ( $enumerator = $entity.name.replace("Enum_", "") )
+#set ( $x = $enumerators.add($enumerator) )
 #end
+#end
+    private List<Enumerator> getAllEnumerators() {
+        final List<Enumerator> enumerators = new ArrayList<>(0);
+#foreach( $enumerator in $enumerators )
+        enumerators.addAll(Arrays.asList(${enumerator}.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
 #end
         return enumerators;
     }
-#foreach( $entity in $model.allEntites )
-#if ( $entity.name.contains("Enum_") )
-#set ( $entityName = $entity.name.replace("Enum_", "") )
+#foreach( $enumerator in $enumerators )
 
-    private Enumerator buildEnumerator(final $entityName enumerator) {
-        return new Enumerator("$entityName", enumerator.name(), enumerator.getMessageKey());
+    private Enumerator buildEnumerator(final $enumerator enumerator) {
+        return new Enumerator("$enumerator", enumerator.name(), enumerator.getMessageKey());
     }
-#end
 #end
 }

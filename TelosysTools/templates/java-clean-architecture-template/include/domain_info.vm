@@ -42,7 +42,7 @@
 #if ( $field.isCardinalityManyToMany() )
 #set ( $x = $domainLinksToMany.add($field) )
 #set ( $x = $domainLinksManyToMany.add($field) )
-#elseif ( $field.isCardinalityOneToMany() )domainLinks
+#elseif ( $field.isCardinalityOneToMany() )
 #set ( $x = $domainLinksToMany.add($field) )
 #set ( $x = $domainLinksOneToMany.add($field) )
 #elseif ( $field.isCardinalityManyToOne() )
@@ -54,10 +54,7 @@
 #end
 #end
 #end
-#set ( $domainLinkAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
-#foreach( $field in $domainLinkAttributes )
-#set ( $x = $domainIndexes.add($field) )
-#end
+#set ( $tableName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralEntityName), "_").toUpperCase() ) 
 #set ( $domainAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
 #foreach( $field in $domainAttributes )
 #if ( $field.isLongType() )

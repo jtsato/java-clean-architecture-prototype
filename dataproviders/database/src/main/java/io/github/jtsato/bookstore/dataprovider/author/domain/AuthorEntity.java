@@ -35,19 +35,19 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"NAME"}, name = "UN_AUTHORS_NAME"),
        },
        indexes = {
-            @Index(columnList = "GENDER_ID", name = "IDX_AUTHORS_GENDER_ID"),
+            @Index(columnList = "GENDER", name = "IDX_AUTHORS_GENDER"),
             @Index(columnList = "BIRTHDATE", name = "IDX_AUTHORS_BIRTHDATE"),
        }
 )
 public class AuthorEntity implements Serializable {
 
-    private static final long serialVersionUID = 8527205736834549996L;
+    private static final long serialVersionUID = -1764629821810392752L;
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AUTHOR_A_KEY", updatable = false, insertable = false)
-    private Long aKey;
+    @Column(name = "AUTHOR_AA_KEY", updatable = false, insertable = false)
+    private Long aaKey;
 
     @Column(name = "GENDER", nullable = false)
     private String gender;

@@ -30,8 +30,8 @@ public class SearchAuthorsPredicateBuilder extends AbstractPredicateBuilderImpl<
 
         final List<BooleanExpression> booleanExpressions = new LinkedList<>();
 
-        if (query.getAKey() != null) {
-            booleanExpressions.add(entityPath.aKey.eq(query.getAKey()));
+        if (query.getAaKey() != null) {
+            booleanExpressions.add(entityPath.aaKey.eq(query.getAaKey()));
         }
 
         if (StringUtils.isNotBlank(query.getName())) {

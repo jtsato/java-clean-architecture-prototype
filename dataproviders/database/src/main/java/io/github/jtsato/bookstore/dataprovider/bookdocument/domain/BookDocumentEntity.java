@@ -40,22 +40,22 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"NAME"}, name = "UN_BOOK_DOCUMENTS_NAME"),
        },
        indexes = {
-            @Index(columnList = "BOOK_ID", name = "IDX_BOOK_DOCUMENTS_BOOK_ID"),
+            @Index(columnList = "BOOK_BB_KEY", name = "IDX_BOOK_DOCUMENTS_BOOK_BB_KEY"),
             @Index(columnList = "CREATION_DATE", name = "IDX_BOOK_DOCUMENTS_CREATION_DATE"),
             @Index(columnList = "LAST_MODIFIED_DATE", name = "IDX_BOOK_DOCUMENTS_LAST_MODIFIED_DATE"),
        }
 )
 public class BookDocumentEntity implements Serializable {
 
-    private static final long serialVersionUID = 7119890474404298971L;
+    private static final long serialVersionUID = 5687186221959431159L;
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOK_DOCUMENT_XXX", updatable = false, insertable = false)
-    private Long xxx;
+    @Column(name = "BOOK_DOCUMENT_XX_KEY", updatable = false, insertable = false)
+    private Long xxKey;
 
-    @JoinColumn(name = "BOOK_ID", foreignKey = @ForeignKey(name = "FK_BOOK_DOCUMENTS_BOOK_ID"))
+    @JoinColumn(name = "BOOK_BB_KEY", foreignKey = @ForeignKey(name = "FK_BOOK_DOCUMENTS_BOOK_BB_KEY"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private BookEntity book;
 

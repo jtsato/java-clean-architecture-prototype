@@ -16,11 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ${ROOT_PKG}.api.http.response.Enumerator;
-#foreach( $entity in $model.allEntites )
-#if ( $entity.name.contains("Enum_") )
-#set ( $entityName = $entity.name.replace("Enum_", "") )
-import ${ROOT_PKG}.domain.$entityName;
-#end
+#foreach( $field in $domainEnumerators )
+import ${ROOT_PKG}.domain.$field.fieldName;
 #end
 import ${ROOT_PKG}.service.EnumeratorService;
 

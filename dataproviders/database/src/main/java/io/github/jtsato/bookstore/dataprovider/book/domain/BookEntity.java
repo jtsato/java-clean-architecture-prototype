@@ -41,7 +41,7 @@ import lombok.ToString;
             @UniqueConstraint(columnNames = {"TITLE"}, name = "UN_BOOKS_TITLE"),
        },
        indexes = {
-            @Index(columnList = "AUTHOR_ID", name = "IDX_BOOKS_AUTHOR_ID"),
+            @Index(columnList = "AUTHOR_AA_KEY", name = "IDX_BOOKS_AUTHOR_AA_KEY"),
             @Index(columnList = "AVAILABLE", name = "IDX_BOOKS_AVAILABLE"),
             @Index(columnList = "CREATED_DATE_TIME", name = "IDX_BOOKS_CREATED_DATE_TIME"),
             @Index(columnList = "LAST_MODIFIED_DATE_TIME", name = "IDX_BOOKS_LAST_MODIFIED_DATE_TIME"),
@@ -49,15 +49,15 @@ import lombok.ToString;
 )
 public class BookEntity implements Serializable {
 
-    private static final long serialVersionUID = -382642056850815751L;
+    private static final long serialVersionUID = 7493217616108273956L;
     
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOOK_B_KEY", updatable = false, insertable = false)
-    private Long bKey;
+    @Column(name = "BOOK_BB_KEY", updatable = false, insertable = false)
+    private Long bbKey;
 
-    @JoinColumn(name = "AUTHOR_ID", foreignKey = @ForeignKey(name = "FK_BOOKS_AUTHOR_ID"))
+    @JoinColumn(name = "AUTHOR_AA_KEY", foreignKey = @ForeignKey(name = "FK_BOOKS_AUTHOR_AA_KEY"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AuthorEntity author;
 

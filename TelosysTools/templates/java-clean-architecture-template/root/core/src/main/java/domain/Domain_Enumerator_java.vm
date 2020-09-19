@@ -1,11 +1,8 @@
 #parse ( "include/loader_stringutils.vm" )
 #foreach( $element in $model.allEntites )
 #foreach( $field in $element.selectedLinks )
-#if ( $field.fieldType.contains("Enum_") )
-#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
-#if ( $field.fieldType.equalsIgnoreCase($entity.name) )
+#if ( $field.fieldType.contains("Enum_") && $field.fieldType.equalsIgnoreCase($entity.name) )
 package ${ROOT_PKG}.core.${element.name.toLowerCase()}.domain;
-#end
 #end
 #end
 #end
@@ -33,19 +30,19 @@ public enum ${entityName} {
 
     public abstract String getMessageKey();
 
-    public boolean is(final Gender other) {
+    public boolean is(final ${entityName} other) {
         return equals(other);
     }
 
-    public boolean isNot(final Gender other) {
+    public boolean isNot(final ${entityName} other) {
         return !is(other);
     }
 
-    public boolean in(final Gender... others) {
+    public boolean in(final ${entityName}... others) {
         return Arrays.asList(others).contains(this);
     }
 
-    public boolean notIn(final Gender... others) {
+    public boolean notIn(final ${entityName}... others) {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }

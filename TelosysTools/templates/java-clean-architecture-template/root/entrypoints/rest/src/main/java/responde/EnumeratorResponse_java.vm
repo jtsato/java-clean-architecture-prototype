@@ -1,0 +1,22 @@
+package ${ROOT_PKG}.entrypoint.rest.enumerator.domain.response;
+
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@AllArgsConstructor
+public class EnumeratorResponse implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private final String domain;
+
+    private final String key;
+
+    private final String value;
+}
+#parse ( "/include/enumerator_filter.vm" )

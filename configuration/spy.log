@@ -1,0 +1,1 @@
+1600484255105|2|statement|connection 0|url jdbc:p6spy:h2:mem:datajpa;DB_CLOSE_ON_EXIT=FALSE|select * from INFORMATION_SCHEMA.SEQUENCES|select * from INFORMATION_SCHEMA.SEQUENCES

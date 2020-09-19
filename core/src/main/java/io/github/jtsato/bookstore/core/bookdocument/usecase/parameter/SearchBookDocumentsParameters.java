@@ -23,9 +23,9 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocumentsParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7607278109918412444L;
+    private static final long serialVersionUID = 1315805981937584025L;
 
-    private Long xxx;
+    private Long xxKey;
 
     private SearchBooksParameters searchBooksParameters;
 
@@ -53,7 +53,7 @@ public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocu
     @LocalDateConstraint(message = "validation.book.document.end.last.modified.date.invalid")
     private String endLastModifiedDate;
 
-    public SearchBookDocumentsParameters(final Long xxx,
+    public SearchBookDocumentsParameters(final Long xxKey,
                                          final SearchBooksParameters searchBooksParameters,
                                          final ImmutablePair<Long, Long> sizeRange,
                                          final String contentType,
@@ -62,7 +62,7 @@ public class SearchBookDocumentsParameters extends SelfValidating<SearchBookDocu
                                          final String content,
                                          final ImmutablePair<String, String> creationDateRange,
                                          final ImmutablePair<String, String> lastModifiedDateRange) {
-        this.xxx = xxx;
+        this.xxKey = xxKey;
         this.searchBooksParameters = searchBooksParameters;
         this.startSize = sizeRange.getLeft();
         this.endSize = sizeRange.getRight();

@@ -23,10 +23,10 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookDocumentParameters> implements Serializable {
 
-    private static final long serialVersionUID = -6520396295264516635L;
+    private static final long serialVersionUID = 8622919225092294371L;
 
     @NotNull(message = "validation.book.document.book.null")
-    private final Long bookBKey;
+    private final Long bookBbKey;
 
     @NotBlank(message = "validation.book.document.content.type.blank")
     private final String contentType;
@@ -51,7 +51,7 @@ public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookD
     private final String lastModifiedDate;
 
 
-    public RegisterBookDocumentParameters(final Long bookBKey,
+    public RegisterBookDocumentParameters(final Long bookBbKey,
                                           final Long size,
                                           final String contentType,
                                           final String extension,
@@ -59,7 +59,7 @@ public class RegisterBookDocumentParameters extends SelfValidating<RegisterBookD
                                           final String content,
                                           final String creationDate,
                                           final String lastModifiedDate) {
-        this.bookBKey = bookBKey;
+        this.bookBbKey = bookBbKey;
         this.size = size;
         this.contentType = contentType;
         this.extension = extension;

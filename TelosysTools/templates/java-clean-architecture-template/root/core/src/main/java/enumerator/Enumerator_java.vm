@@ -21,3 +21,4 @@ public class Enumerator implements Serializable {
     private final String key;
     private final String messageKey;
 }
+#parse ( "/include/enumerator_filter.vm" )

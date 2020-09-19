@@ -1,0 +1,10 @@
+#set ( $enumeratorFound = "false" )
+#foreach( $element in $model.allEntites )
+#if ( $element.name.contains("Enum_") )
+#set ( $enumeratorFound = "true" )
+#break
+#end
+#end
+#if ( $enumeratorFound == "true" )
+$target.forceEntityName("${target.targetName}.ignore")
+#end

@@ -1,5 +1,5 @@
 Book {
- bKey : long { @Id };
+ bbKey : long { @Id };
  author : Author { @NotNull };
  title : string { @NotBlank, @DbComment("UniqueKey") };
  available : boolean { @NotNull, @DbComment("Index") } ;
