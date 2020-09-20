@@ -24,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookParameters extends SelfValidating<RegisterBookParameters> implements Serializable {
 
-    private static final long serialVersionUID = 6561199571147899753L;
+    private static final long serialVersionUID = 6620579827259163297L;
 
     @NotNull(message = "validation.author.id.null")
     private final Long authorId;
@@ -35,16 +35,15 @@ public class RegisterBookParameters extends SelfValidating<RegisterBookParameter
     @NotNull(message = "validation.book.available.null")
     private final Boolean available;
 
-    @NotNull(message = "validation.book.price.null")
-    @PositiveOrZero(message = "validation.book.price.negative")
-    private final BigDecimal price; 
-
     @LocalDateTimeConstraint(message = "validation.book.created.date.time.invalid")
     private final String createdDateTime;
 
     @LocalDateTimeConstraint(message = "validation.book.last.modified.date.time.invalid")
     private final String lastModifiedDateTime;
 
+    @NotNull(message = "validation.book.price.null")
+    @PositiveOrZero(message = "validation.book.price.negative")
+    private final BigDecimal price; 
 
     public RegisterBookParameters(final Long authorId,
                                   final String title,

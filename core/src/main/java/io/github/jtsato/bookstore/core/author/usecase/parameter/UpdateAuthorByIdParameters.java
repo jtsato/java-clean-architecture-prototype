@@ -22,16 +22,16 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateAuthorByIdParameters extends SelfValidating<UpdateAuthorByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = 8953090940636646804L;
+    private static final long serialVersionUID = -7627304014761082488L;
 
     @NotNull(message = "validation.author.id.null")
     private Long id;
 
-    @NotBlank(message = "validation.author.gender.blank")
-    private final String gender;
-
     @NotBlank(message = "validation.author.name.blank")
     private final String name;
+
+    @NotBlank(message = "validation.author.gender.blank")
+    private final String gender;
 
     @NotBlank(message = "validation.author.birthdate.blank")
     @LocalDateConstraint(message = "validation.author.birthdate.invalid")
