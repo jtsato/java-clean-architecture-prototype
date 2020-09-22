@@ -1,0 +1,56 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request;
+
+import java.io.Serializable;
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+#end
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Update${entity.name}By${domainId}Request implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private Long ${uncapitalizedDomainId};
+#foreach( $field in $domainLinksToOne )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private Long ${wordUtils.uncapitalize($field.fieldName)}${fieldKey};
+#end
+#foreach( $field in $domainLongs )
+    private Long $field.name;
+#end
+#foreach( $field in $domainStrings )
+    private String $field.name;
+#end
+#foreach( $field in $domainEnumerators )
+#if ( $field.isCardinalityManyToOne() || $field.isCardinalityOneToMany() )
+    private String $field.fieldName;
+#end
+#end
+#foreach( $field in $domainBooleans )
+    private Boolean $field.name;
+#end
+#foreach( $field in $domainDates )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+    private String $field.name;
+#end
+#end
+#foreach( $field in $domainTimestamps )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+    private String $field.name;
+#end
+#end
+#foreach( $field in $domainDecimals )
+    private BigDecimal $field.name;
+#end
+}

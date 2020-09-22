@@ -1,0 +1,4 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+$generator.generate($target.entityName, "Update${entity.name}By${domainId}Request.java", $target.folder, "root/entrypoints/rest/src/main/java/request/UpdateByIdRequest_java.vm" )
+#end

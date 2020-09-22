@@ -1,0 +1,63 @@
+#parse ( "/include/domain_info.vm" )
+#set ( $prefix = $strUtils.substringBefore($target.file, "Request") )
+#set ( $uncapitalizedPrefix = $wordUtils.uncapitalize($prefix) )
+#set ( $package = $strUtils.substringBetween($target.folder, "entrypoint/rest/", "/domain") )
+package ${ROOT_PKG}.entrypoint.rest.${package}.domain.request;
+
+import java.io.Serializable;
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+#end
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+#include ( "/include/author.vm" )
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public final class ${prefix}Request implements Serializable {
+
+#parse ( "/include/serial_version.vm" )
+
+    private Long ${uncapitalizedDomainId};
+#foreach ( $field in $domainLinks )
+#if ( $field.isCardinalityManyToOne())
+#set ( $fieldName = $wordUtils.capitalize($field.fieldName) )
+    private ${prefix}${fieldName}Request ${uncapitalizedPrefix}${fieldName}Request;$generator.generate($field.targetEntity.name, "${prefix}${fieldName}Request.java", $target.folder, "root/entrypoints/rest/src/main/java/request/SearchRequest_java.vm" )
+#end
+#end
+#foreach ( $field in $domainLongs )
+    private Long start$wordUtils.capitalize($field.name);
+    private Long end$wordUtils.capitalize($field.name);
+#end
+#foreach ( $field in $domainStrings )
+    private String $field.name;
+#end
+#foreach ( $link in $domainEnumerators )
+#if ( $link.isCardinalityManyToOne())
+    private String $link.fieldName;
+#end
+#end
+#foreach ( $field in $domainBooleans )
+    private Boolean $field.name;
+#end
+#foreach ( $field in $domainDates )
+    private String start$wordUtils.capitalize($field.name);
+    private String end$wordUtils.capitalize($field.name);
+#end
+#foreach ( $field in $domainTimestamps )
+    private String start$wordUtils.capitalize($field.name);
+    private String end$wordUtils.capitalize($field.name);
+#end
+#foreach ( $field in $domainDecimals )
+    private BigDecimal start$wordUtils.capitalize($field.name);
+    private BigDecimal end$wordUtils.capitalize($field.name);
+#end
+}

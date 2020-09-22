@@ -2,7 +2,9 @@
 package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request;
 
 import java.io.Serializable;
+#if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
+#end
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,40 +17,39 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RegisterBookRequest implements Serializable {
+public class Register${entity.name}Request implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
 
-    private Long authorId;
-    private String title;
-    private BigDecimal price;
-    private Boolean available;
-
-#foreach( $link in $domainLinks )
-#if ( $link.isCardinalityManyToOne() )
-    private final ${link.fieldType} $link.fieldName;
+#foreach( $field in $domainLinksToOne )
+#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private Long ${wordUtils.uncapitalize($field.fieldName)}${fieldKey};
+#end
+#foreach( $field in $domainLongs )
+    private Long $field.name;
+#end
+#foreach( $field in $domainStrings )
+    private String $field.name;
+#end
+#foreach( $field in $domainEnumerators )
+#if ( $field.isCardinalityManyToOne() || $field.isCardinalityOneToMany() )
+    private String $field.fieldName;
 #end
 #end
-#foreach( $link in $domainEnumerators )
-#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToMany() )
-    private final $link.fieldType.replace("Enum_", "") $link.fieldName;
+#foreach( $field in $domainBooleans )
+    private Boolean $field.name;
+#end
+#foreach( $field in $domainDates )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+    private String $field.name;
 #end
 #end
-#foreach( $field in $domainAttributes )
-#if ( $field.type.contains("Enum_") )
-    private final $field.type.replace("Enum_", "") $field.name;
-#elseif ( $field.isLongType() )
-    private final Long $field.name;
-#elseif ( $field.isDecimalType() )
-    private final BigDecimal $field.name;
-#elseif ( $field.isBooleanType() )
-    private final Boolean $field.name;
-#elseif ( $field.isDateType() )
-    private final LocalDate $field.name;
-#elseif ( $field.isTimestampType() )
-    private final LocalDateTime $field.name;
-#else
-    private final $field.type $field.name;
+#foreach( $field in $domainTimestamps )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+    private String $field.name;
 #end
+#end
+#foreach( $field in $domainDecimals )
+    private BigDecimal $field.name;
 #end
 }

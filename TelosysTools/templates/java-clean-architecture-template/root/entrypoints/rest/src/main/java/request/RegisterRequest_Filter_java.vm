@@ -1,0 +1,4 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+$generator.generate($target.entityName, "Register${entity.name}Request.java", $target.folder, "root/entrypoints/rest/src/main/java/request/RegisterRequest_java.vm" )
+#end

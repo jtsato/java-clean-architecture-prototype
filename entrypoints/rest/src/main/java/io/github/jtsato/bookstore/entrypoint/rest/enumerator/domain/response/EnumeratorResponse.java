@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EnumeratorResponse implements Serializable {
 
-    private static final long serialVersionUID = -6108691177234021508L;
+    private static final long serialVersionUID = -7902122672734912326L;
 
     private final String domain;
 
