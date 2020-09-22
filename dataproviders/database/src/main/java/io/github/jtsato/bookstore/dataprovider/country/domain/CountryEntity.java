@@ -34,7 +34,7 @@ import lombok.ToString;
        })
 public class CountryEntity implements Serializable {
 
-    private static final long serialVersionUID = -3286217541363675646L;
+    private static final long serialVersionUID = -438552849485707018L;
     
     @Access(AccessType.PROPERTY)
     @Id

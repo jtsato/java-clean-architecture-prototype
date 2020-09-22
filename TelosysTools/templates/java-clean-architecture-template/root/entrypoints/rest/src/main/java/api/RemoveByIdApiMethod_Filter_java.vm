@@ -1,0 +1,4 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+$generator.generate($target.entityName, "Remove${entity.name}By${domainId}ApiMethod.java", $target.folder, "root/entrypoints/rest/src/main/java/api/RemoveByIdApiMethod_java.vm" )
+#end

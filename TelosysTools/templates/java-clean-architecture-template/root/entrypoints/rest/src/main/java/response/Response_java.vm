@@ -4,7 +4,6 @@
 #set ( $package = $strUtils.substringBetween($target.folder, "entrypoint/rest/", "/domain") )
 package ${ROOT_PKG}.entrypoint.rest.${package}.domain.response;
 
-
 import java.io.Serializable;
 #if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
