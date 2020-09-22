@@ -3,4 +3,5 @@ Author {
  name: string { @NotBlank, @DbComment("UniqueKey") } ;
  gender: Enum_Gender { @NotNull };
  birthdate: date { @NotBlank, @DbComment("Index") } ;
+ country: Country { @NotNull };
 }

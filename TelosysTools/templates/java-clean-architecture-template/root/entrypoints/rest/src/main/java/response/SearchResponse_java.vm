@@ -1,0 +1,16 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response;
+
+import java.util.List;
+
+import ${ROOT_PKG}.core.common.paging.PageImpl;
+import ${ROOT_PKG}.core.common.paging.Pageable;
+
+#include ( "/include/author.vm" )
+
+public class Search${pluralEntityName}Response extends PageImpl<Search${pluralEntityName}InnerResponse> {
+
+    public Search${pluralEntityName}Response(final List<Search${pluralEntityName}InnerResponse> content, final Pageable pageable) {
+        super(content, pageable);
+    }
+}

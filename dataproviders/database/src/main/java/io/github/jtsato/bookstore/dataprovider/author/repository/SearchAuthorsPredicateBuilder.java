@@ -11,6 +11,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 
 import io.github.jtsato.bookstore.core.author.domain.Gender;
 import io.github.jtsato.bookstore.core.author.usecase.parameter.SearchAuthorsParameters;
+import io.github.jtsato.bookstore.dataprovider.country.repository.SearchCountriesPredicateBuilder;
 import io.github.jtsato.bookstore.core.common.EnumeratorUtils;
 import io.github.jtsato.bookstore.dataprovider.author.domain.QAuthorEntity;
 import io.github.jtsato.bookstore.dataprovider.common.predicate.AbstractPredicateBuilderImpl;
@@ -32,6 +33,11 @@ public class SearchAuthorsPredicateBuilder extends AbstractPredicateBuilderImpl<
 
         if (query.getId() != null) {
             booleanExpressions.add(entityPath.id.eq(query.getId()));
+        }
+
+        if (query.getSearchCountriesParameters() != null) {
+            final SearchCountriesPredicateBuilder searchCountryPredicateBuilder = new SearchCountriesPredicateBuilder(entityPath.country);
+            booleanExpressions.addAll(searchCountryPredicateBuilder.buildBooleanExpressions(query.getSearchCountriesParameters()));
         }
 
         if (StringUtils.isNotBlank(query.getName())) {

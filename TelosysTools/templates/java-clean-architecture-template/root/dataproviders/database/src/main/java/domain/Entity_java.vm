@@ -20,7 +20,7 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
             @UniqueConstraint(columnNames = {"${columnName}"}, name = "UN_${tableName}_${columnName}"),
 #end
 #if ( $domainUkKeys.size() > 0 )
-       },
+       }#if ( $domainIndexes.size() > 0 || $domainLinksToOne > 0 || $domainEnumerators > 0 ),#end
 #end
 #if ( $domainIndexes.size() > 0 || $domainLinksToOne > 0 || $domainEnumerators > 0 )
        indexes = {

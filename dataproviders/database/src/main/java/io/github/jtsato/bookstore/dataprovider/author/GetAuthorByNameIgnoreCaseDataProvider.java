@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
+
 
 import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByNameIgnoreCaseGateway;
@@ -29,7 +32,8 @@ public class GetAuthorByNameIgnoreCaseDataProvider implements GetAuthorByNameIgn
 
     @Override
     public Optional<Author> execute(final String name) {
-        final Optional<AuthorEntity> optional = authorRepository.findByNameIgnoreCase(name);
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("country");
+        final Optional<AuthorEntity> optional = authorRepository.findByNameIgnoreCase(name, entityGraph);
         return optional.map(authorMapper::of);
     }
 }

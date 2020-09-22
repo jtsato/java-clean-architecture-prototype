@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import io.github.jtsato.bookstore.core.author.domain.Author;
@@ -39,7 +41,8 @@ public class FindAuthorsByIdsDataProvider implements FindAuthorsByIdsGateway {
 
         final BooleanExpression predicate = QAuthorEntity.authorEntity.id.in(ids);
         final PageRequest pageRequest = PageRequestHelper.buildPageRequest(0, 1000, "id:asc");
-        final org.springframework.data.domain.Page<AuthorEntity> page = authorRepository.findAll(predicate, pageRequest);
+        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("country");
+        final org.springframework.data.domain.Page<AuthorEntity> page = authorRepository.findAll(predicate, pageRequest, entityGraph);
     
         return pageMapper.of(page, authorMapper::of);
     }

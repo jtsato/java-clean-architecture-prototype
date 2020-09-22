@@ -24,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBookParameters extends SelfValidating<RegisterBookParameters> implements Serializable {
 
-    private static final long serialVersionUID = 6620579827259163297L;
+    private static final long serialVersionUID = -2678552801728249363L;
 
     @NotNull(message = "validation.author.id.null")
     private final Long authorId;

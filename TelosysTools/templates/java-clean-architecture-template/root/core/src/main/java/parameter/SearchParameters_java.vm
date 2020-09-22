@@ -5,7 +5,7 @@ import java.io.Serializable;
 #if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
 #end
-#if ( $domainLongs.size() || $domainDates.size() > 0 || $domainTimestamps.size() > 0 || $domainDecimals.size() > 0 )
+#if ( $domainLongs.size() > 0 || $domainDates.size() > 0 || $domainTimestamps.size() > 0 || $domainDecimals.size() > 0 )
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
