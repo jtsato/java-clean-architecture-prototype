@@ -12,12 +12,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SearchAuthorsInnerResponse implements Serializable {
+public class FindAuthorsByIdsResponse implements Serializable {
 
-    private static final long serialVersionUID = -8410523541039985845L;
+    private static final long serialVersionUID = 4342951756989153533L;
 
     private final Long id;
-    private final SearchAuthorsCountryInnerResponse country;
+    private final FindAuthorsByIdsCountryResponse country;
     private final String name;
     private final String gender;
     private final LocalDate birthdate;

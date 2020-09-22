@@ -19,13 +19,13 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Search${pluralEntityName}InnerResponse implements Serializable {
+public class Find${pluralEntityName}By${pluralDomainId}Response implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
 
     private final Long ${uncapitalizedDomainId};
 #foreach( $field in $domainLinksToOne )
-    private final Search${pluralEntityName}${field.fieldType}InnerResponse ${wordUtils.uncapitalize($field.fieldName)};$generator.generate($field.targetEntity.name, "Search${pluralEntityName}${field.fieldType}InnerResponse.java", $target.folder, "root/entrypoints/rest/src/main/java/response/FieldInnerResponse_java.vm" )
+    private final Find${pluralEntityName}By${pluralDomainId}${field.fieldType}Response ${wordUtils.uncapitalize($field.fieldName)};$generator.generate($field.targetEntity.name, "Find${pluralEntityName}By${pluralDomainId}${field.fieldType}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/FieldResponse_java.vm" )
 #end
 #foreach( $field in $domainLongs )
     private final Long $field.name;

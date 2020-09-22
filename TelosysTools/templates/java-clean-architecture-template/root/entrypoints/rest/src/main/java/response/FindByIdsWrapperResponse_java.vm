@@ -1,0 +1,16 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response;
+
+import java.util.List;
+
+import ${ROOT_PKG}.core.common.paging.PageImpl;
+import ${ROOT_PKG}.core.common.paging.Pageable;
+
+#include ( "/include/author.vm" )
+
+public class Find${pluralEntityName}By${pluralDomainId}WrapperResponse extends PageImpl<Find${pluralEntityName}By${pluralDomainId}Response> {
+
+    public Find${pluralEntityName}By${pluralDomainId}WrapperResponse(final List<Find${pluralEntityName}By${pluralDomainId}Response> content, final Pageable pageable) {
+        super(content, pageable);
+    }
+}

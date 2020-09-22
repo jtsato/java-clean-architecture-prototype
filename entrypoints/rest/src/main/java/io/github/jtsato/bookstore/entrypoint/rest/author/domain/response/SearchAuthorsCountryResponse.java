@@ -11,9 +11,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RegisterAuthorCountryResponse implements Serializable {
+public class SearchAuthorsCountryResponse implements Serializable {
 
-    private static final long serialVersionUID = -7078281443428972380L;
+    private static final long serialVersionUID = -5582888586202363030L;
 
     private final Long id;
     private final String name;

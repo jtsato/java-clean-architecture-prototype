@@ -1,17 +1,20 @@
 package io.github.jtsato.bookstore.entrypoint.rest.country.domain.response;
 
-import java.util.List;
+import java.io.Serializable;
 
-import io.github.jtsato.bookstore.core.common.paging.PageImpl;
-import io.github.jtsato.bookstore.core.common.paging.Pageable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author Jorge Takeshi Sato
  */
 
-public class SearchCountriesResponse extends PageImpl<SearchCountriesInnerResponse> {
+@Getter
+@AllArgsConstructor
+public class SearchCountriesResponse implements Serializable {
 
-    public SearchCountriesResponse(final List<SearchCountriesInnerResponse> content, final Pageable pageable) {
-        super(content, pageable);
-    }
+    private static final long serialVersionUID = -3328599594196185721L;
+
+    private final Long id;
+    private final String name;
 }

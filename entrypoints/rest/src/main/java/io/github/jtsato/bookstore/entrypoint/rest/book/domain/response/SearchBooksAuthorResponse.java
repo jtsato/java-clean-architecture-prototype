@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.entrypoint.rest.author.domain.response;
+package io.github.jtsato.bookstore.entrypoint.rest.book.domain.response;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,12 +12,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RegisterAuthorResponse implements Serializable {
+public class SearchBooksAuthorResponse implements Serializable {
 
-    private static final long serialVersionUID = 6577630863531461474L;
+    private static final long serialVersionUID = -4710724866908664649L;
 
     private final Long id;
-    private final RegisterAuthorCountryResponse country;
+    private final SearchBooksAuthorCountryResponse country;
     private final String name;
     private final String gender;
     private final LocalDate birthdate;
