@@ -1,6 +1,7 @@
 package io.github.jtsato.bookstore.entrypoint.rest.country.domain.request;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +16,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UpdateCountryByIdRequest implements Serializable {
+public final class FindCountriesByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = 1144022027216964479L;
+    private static final long serialVersionUID = -9084972153705839468L;
 
-    private Long id;
-    private String name;
+    private List<Long> ids;
 }

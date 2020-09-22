@@ -1,5 +1,6 @@
 package io.github.jtsato.bookstore.entrypoint.rest.book.domain.response;
 
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindBooksByIdsResponse implements Serializable {
 
-    private static final long serialVersionUID = -2873056086581688248L;
+    private static final long serialVersionUID = -8701096891991306838L;
 
     private final Long id;
     private final FindBooksByIdsAuthorResponse author;

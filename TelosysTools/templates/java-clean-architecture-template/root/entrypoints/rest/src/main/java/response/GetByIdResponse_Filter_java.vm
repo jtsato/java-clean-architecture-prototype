@@ -1,4 +1,4 @@
 #if ( !$entity.name.contains("Enum_") )
 #parse ( "/include/domain_info.vm" )
-$generator.generate($target.entityName, "Get${entity.name}By${domainId}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/GetByIdResponse_java.vm" )
+$generator.generate($target.entityName, "Get${entity.name}By${domainId}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/Response_java.vm" )
 #end

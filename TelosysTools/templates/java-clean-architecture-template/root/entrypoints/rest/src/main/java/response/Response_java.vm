@@ -1,5 +1,9 @@
 #parse ( "/include/domain_info.vm" )
-package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response;
+#set ( $prefix = $strUtils.substringBefore($target.file, "Response") )
+#set ( $uncapitalizedPrefix = $wordUtils.uncapitalize($prefix) )
+#set ( $package = $strUtils.substringBetween($target.folder, "entrypoint/rest/", "/domain") )
+package ${ROOT_PKG}.entrypoint.rest.${package}.domain.response;
+
 
 import java.io.Serializable;
 #if ( $domainDecimals.size() > 0 )
@@ -19,13 +23,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Register${entity.name}Response implements Serializable {
+public class ${prefix}Response implements Serializable {
 
 #parse ( "/include/serial_version.vm" )
 
     private final Long ${uncapitalizedDomainId};
 #foreach( $field in $domainLinksToOne )
-    private final Register${entity.name}${field.fieldType}Response ${wordUtils.uncapitalize($field.fieldName)};$generator.generate($field.targetEntity.name, "Register${entity.name}${field.fieldType}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/FieldResponse_java.vm" )
+#set ( $fieldName = $wordUtils.capitalize($field.fieldName) )
+    private final ${prefix}${field.fieldType}Response $field.fieldName;$generator.generate($field.targetEntity.name, "${prefix}${field.fieldType}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/Response_java.vm" )
 #end
 #foreach( $field in $domainLongs )
     private final Long $field.name;

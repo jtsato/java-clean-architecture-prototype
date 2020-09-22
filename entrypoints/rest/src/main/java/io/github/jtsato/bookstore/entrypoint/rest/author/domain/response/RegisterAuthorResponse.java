@@ -1,5 +1,6 @@
 package io.github.jtsato.bookstore.entrypoint.rest.author.domain.response;
 
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,7 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterAuthorResponse implements Serializable {
 
-    private static final long serialVersionUID = 3159085475205500066L;
+    private static final long serialVersionUID = 8935997985822756439L;
 
     private final Long id;
     private final RegisterAuthorCountryResponse country;

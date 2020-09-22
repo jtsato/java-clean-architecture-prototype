@@ -1,11 +1,11 @@
 package io.github.jtsato.bookstore.entrypoint.rest.author.domain.request;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -13,14 +13,12 @@ import lombok.ToString;
  */
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public final class SearchAuthorsCountryRequest implements Serializable {
+public final class FindAuthorsByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = 5587163325967978172L;
+    private static final long serialVersionUID = -1968776897759787963L;
 
-    private Long id;
-    private String name;
+    private List<Long> ids;
 }
