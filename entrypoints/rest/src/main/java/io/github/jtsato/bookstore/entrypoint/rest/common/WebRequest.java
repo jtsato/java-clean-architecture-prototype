@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class WebRequest implements Serializable {
 
-    private static final long serialVersionUID = -3271709494450893980L;
+    private static final long serialVersionUID = -7926788022747902151L;
 
     protected String path;
 }

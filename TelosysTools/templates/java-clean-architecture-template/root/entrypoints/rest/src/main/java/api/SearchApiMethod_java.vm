@@ -5,7 +5,7 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Pageable;
 
 import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Search${pluralEntityName}Request;
-import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Search${pluralEntityName}Response;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Search${pluralEntityName}WrapperResponse;
 import ${ROOT_PKG}.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -112,5 +112,5 @@ public interface Search${pluralEntityName}ApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                          description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    Search${pluralEntityName}Response execute(@Parameter(hidden = true) final Pageable pageable, @Parameter(hidden = true) final Search${pluralEntityName}Request request);
+    Search${pluralEntityName}WrapperResponse execute(@Parameter(hidden = true) final Pageable pageable, @Parameter(hidden = true) final Search${pluralEntityName}Request request);
 }
