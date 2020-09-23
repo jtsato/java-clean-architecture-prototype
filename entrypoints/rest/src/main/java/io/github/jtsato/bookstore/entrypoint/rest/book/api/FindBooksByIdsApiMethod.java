@@ -33,5 +33,5 @@ public interface FindBooksByIdsApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                         description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    FindBooksByIdsResponse execute(final FindBooksByIdsRequest findBooksByIdsRequest);
+    FindBooksByIdsResponse execute(final FindBooksByIdsRequest request);
 }

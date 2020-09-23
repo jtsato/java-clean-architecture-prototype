@@ -1,0 +1,58 @@
+#foreach ( $field in $domainLongs )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $fieldName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), " ").toLowerCase() )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "start${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} greater than or equal to the specified value.",
+               content = @Content(schema = @Schema(type = "long")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "end${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} less than or equal to the specified value.",
+               content = @Content(schema = @Schema(type = "long")))
+#end
+#foreach ( $field in $domainStrings )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $fieldName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), " ").toLowerCase() )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "${field.name}",
+               description = "${entity.name} ${fieldName} that need to be considered for filter.",
+               content = @Content(schema = @Schema(type = "string")))
+#end
+#foreach ( $link in $domainEnumerators )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${link.fieldName}) )
+#set ( $fieldName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), " ").toLowerCase() )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "${link.fieldName}",
+               description = "${entity.name} ${fieldName} that need to be considered for filter.",
+               content = @Content(schema = @Schema(type = "string")))
+#end
+#foreach ( $field in $domainBooleans )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $fieldName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), " ").toLowerCase() )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "${field.name}",
+               description = "If TRUE, retrieve only the ${fieldName} ${pluralEntityName}; if FALSE, the opposite.",
+               content = @Content(schema = @Schema(type = "boolean")))
+#end
+#foreach ( $field in $domainDates )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "start${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} after the specified date. Format: YYYY-MM-DD",
+               content = @Content(schema = @Schema(type = "string")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "end${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} before the specified date. Format: YYYY-MM-DD",
+               content = @Content(schema = @Schema(type = "string")))
+#end
+#foreach ( $field in $domainTimestamps )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+    @Parameter(in = ParameterIn.QUERY,
+               name = "start${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} after the specified date. Format: ISO DATETIME",
+               content = @Content(schema = @Schema(type = "string")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "end${capitalizeFieldName}",
+               description = "Filters ${uncapitalizedEntityName}'s ${fieldName} before the specified date. Format: ISO DATETIME",
+               content = @Content(schema = @Schema(type = "string")))
+#end

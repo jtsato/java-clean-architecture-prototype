@@ -30,7 +30,7 @@ public final class ${prefix}Request implements Serializable {
 #foreach ( $field in $domainLinksToOne )
 #if ( $field.isCardinalityManyToOne())
 #set ( $fieldName = $wordUtils.capitalize($field.fieldName) )
-    private ${prefix}${fieldName}Request ${uncapitalizedPrefix}${fieldName}Request;$generator.generate($field.targetEntity.name, "${prefix}${fieldName}Request.java", $target.folder, "root/entrypoints/rest/src/main/java/request/SearchRequest_java.vm" )
+    private ${prefix}${fieldName}Request ${field.fieldName};$generator.generate($field.targetEntity.name, "${prefix}${fieldName}Request.java", $target.folder, "root/entrypoints/rest/src/main/java/request/SearchRequest_java.vm" )
 #end
 #end
 #foreach ( $field in $domainLongs )

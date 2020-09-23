@@ -59,3 +59,22 @@ References [The $entity.name is referenced by the $dependent and the $dependent.
 #set ( $entityName = $entity.name.replace("Enum_", "") )
 $target.forceEntityName(${entityName})
 #end
+
+#macro( printEntityFields $params )
+#set ( $entitie = $params.param1 )
+#set ( $prefix = $params.param2 )
+#set ( $entitieAttributes = $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach ( $field in $entitieAttributes )
+${prefix}${field.type} ${field.name};
+#end
+#foreach( $link in $entitie.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#set($params = {"param1" : $link.targetEntity, "param2": "${link.fieldName} "})
+#printEntityFields($params)
+#end
+#end
+#end
+
+#set( $params = {"param1" : $entity, "param2": ""} )
+#printEntityFields($params)
+
