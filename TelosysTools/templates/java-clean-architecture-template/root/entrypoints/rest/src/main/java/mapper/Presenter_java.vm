@@ -1,0 +1,148 @@
+#parse ( "/include/domain_info.vm" )
+#set ( $prefix = $strUtils.substringBefore($target.file, "Presenter") )
+#set ( $package = $strUtils.substringBetween($target.folder, "entrypoint/rest/", "/mapper") )
+package ${ROOT_PKG}.entrypoint.rest.${package}.mapper;
+
+#set ( $plural = "false" )
+#if ( $prefix.contains("${pluralEntityName}") )
+#set ( $plural = "true" )
+#end
+#if ( $plural == "true" )
+import java.util.ArrayList;
+import java.util.List;
+
+#end
+#macro( importEntity $entitie )
+import ${ROOT_PKG}.core.${entitie.name.toLowerCase()}.domain.${entitie.name};
+#foreach( $link in $entitie.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#importEntity($link.targetEntity)
+#end
+#end
+#end
+#if ( $plural == "true" )
+import ${ROOT_PKG}.core.common.paging.Page;
+#end
+#importEntity($entity)
+#macro( importResponses $parameters )
+#set ( $entitie = $parameters.param1 )
+#set ( $suffix = $parameters.param2 )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.${prefix}${suffix}Response;
+#foreach( $link in $entitie.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#set ( $suffix = "${suffix}${link.targetEntity.name}" )  
+#set( $parameters = {"param1": $link.targetEntity, "param2": "${suffix}"} )
+#importResponses($parameters)
+#end
+#end
+#end
+#set( $parameters = {"param1": $entity, "param2": ""} )
+#importResponses($parameters)
+#if ( $plural == "true" )
+import ${ROOT_PKG}.entrypoint.rest.${package}.domain.response.${prefix}WrapperResponse;
+#end
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+#include ( "/include/author.vm" )
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ${prefix}Presenter {
+#if ( $plural == "true" )
+
+    public static ${prefix}WrapperResponse of(final Page<${entity.name}> page) {
+        final List<${entity.name}> ${uncapitalizePluralEntityName} = page.getContent();
+        final List<${prefix}Response> content = new ArrayList<>(${uncapitalizePluralEntityName}.size());
+        ${uncapitalizePluralEntityName}.forEach(element -> content.add(of(element)));
+        return new ${prefix}WrapperResponse(content, page.getPageable());
+    }
+#end
+#macro( buildMethod $parameters )
+#set ( $entitie = $parameters.param1 )
+#set ( $suffix = $parameters.param2 )
+#set ( $uncapitalizedEntityName = $wordUtils.uncapitalize($entitie.name) )
+#set ( $parameters = [] )
+#foreach( $field in $entitie.keyAttributes )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach( $field in $entitie.selectedLinks )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#if ( !$field.fieldType.contains("Enum_") )
+#set ( $x = $parameters.add("of(${uncapitalizedEntityName}.get${capitalizeFieldName}())") )
+#end
+#end
+#set ( $entitieLongs      = [] )
+#set ( $entitieStrings    = [] )
+#set ( $entitieBooleans   = [] )
+#set ( $entitieDates      = [] )
+#set ( $entitieTimestamps = [] )
+#set ( $entitieDecimals   = [] )
+#set ( $entitieAttributes = $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $entitieAttributes )
+#if ( $field.isLongType() )
+#set ( $x = $entitieLongs.add(${field}) )
+#elseif ( $field.isStringType() )
+#set ( $x = $entitieStrings.add(${field}) )
+#elseif ( $field.isBooleanType() )
+#set ( $x = $entitieBooleans.add(${field}) )
+#elseif ( $field.isDateType() )
+#set ( $x = $entitieDates.add(${field}) )
+#elseif ( $field.isTimestampType() )
+#set ( $x = $entitieTimestamps.add(${field}) )
+#elseif ( $field.isDecimalType() )
+#set ( $x = $entitieDecimals.add(${field}) )
+#end
+#end
+#foreach ( $field in $entitieLongs )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $entitieStrings )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach( $field in $entitie.selectedLinks )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#if ( $field.fieldType.contains("Enum_") )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}().name()") )
+#end
+#end
+#foreach ( $field in $entitieBooleans )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $entitieDates )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $entitieTimestamps )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $entitieDecimals )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("   ${uncapitalizedEntityName}.get${capitalizeFieldName}()") )
+#end
+#set ( $entitieId = $wordUtils.capitalize($entitie.keyAttributes.get(0).name) )
+#set ( $signature = "        return new ${prefix}${suffix}Response(" )
+#set ( $spaces = $signature.length() - 3)
+#set ( $filler = $strUtils.repeat(" ", $spaces) )
+
+    public static ${prefix}${suffix}Response of(final ${entitie.name} ${uncapitalizedEntityName}) {
+${signature}${parameters[0]}#if( $parameters.size() > 1 ),#end
+#foreach ( $parameter in $parameters )#if ( $velocityCount > 1 )
+
+${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
+#end);
+    }
+#foreach( $field in $entitie.selectedLinks )
+#if ( !$field.fieldType.contains("Enum_") )
+#set( $parameters = {"param1": $field.targetEntity, "param2": "${suffix}${field.targetEntity.name}"} )
+#buildMethod($parameters)
+#end
+#end
+#end
+#set( $parameters = {"param1": $entity, "param2": ""} )
+#buildMethod($parameters)
+}

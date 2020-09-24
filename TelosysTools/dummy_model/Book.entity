@@ -6,4 +6,5 @@ Book {
  price : decimal { @NotNull, @DbComment("PositiveOrZero") } ;
  createdDateTime : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
  lastModifiedDateTime : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
+ isbn : string { @NotBlank, @DbComment("UniqueKey") };
 }

@@ -33,7 +33,6 @@ ${field.name} [domainDates]
 ${field.name} [domainTimestamps]
 #end
 
-$capitalizedEntityName [capitalize] 
 $uncapitalizeEntityName [uncapitalize] 
 $pluralEntityName [capitalize plural]
 $wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [uncapitalize plural]

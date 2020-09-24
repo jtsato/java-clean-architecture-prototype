@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateAuthorByIdCountryResponse implements Serializable {
 
-    private static final long serialVersionUID = -424008586595450500L;
+    private static final long serialVersionUID = -5380462392107906056L;
 
     private final Long id;
     private final String name;

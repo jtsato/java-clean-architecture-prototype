@@ -38,9 +38,9 @@ public class UpdateAuthorByIdUseCaseImpl implements UpdateAuthorByIdUseCase {
 
     private final UpdateAuthorByIdGateway updateAuthorByIdGateway;
 
-    private final GetCountryByIdGateway getCountryByIdGateway ;
-
     private final GetAuthorByNameIgnoreCaseGateway getAuthorByNameIgnoreCaseGateway;
+
+    private final GetCountryByIdGateway getCountryByIdGateway ;
 
     @Override
     public Author execute(final UpdateAuthorByIdParameters parameters) {

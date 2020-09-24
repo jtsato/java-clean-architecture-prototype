@@ -42,6 +42,10 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
             booleanExpressions.add(entityPath.title.like(addLikeOperator(query.getTitle())));
         }
 
+        if (StringUtils.isNotBlank(query.getIsbn())) {
+            booleanExpressions.add(entityPath.isbn.like(addLikeOperator(query.getIsbn())));
+        }
+
         if (query.getAvailable() != null) {
             booleanExpressions.add(entityPath.available.eq(query.getAvailable()));
         }

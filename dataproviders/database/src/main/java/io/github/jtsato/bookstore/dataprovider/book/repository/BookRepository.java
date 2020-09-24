@@ -26,5 +26,7 @@ public interface BookRepository extends EntityGraphJpaRepository<BookEntity, Lon
 
     Optional<BookEntity> findByTitleIgnoreCase(final String title, final EntityGraph entityGraph);
 
+    Optional<BookEntity> findByIsbnIgnoreCase(final String isbn, final EntityGraph entityGraph);
+
     Optional<BookEntity> findByAvailable(final Boolean available, final EntityGraph entityGraph);
 }

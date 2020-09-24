@@ -12,6 +12,7 @@ import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByIdGateway;
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByTitleIgnoreCaseGateway;
+import io.github.jtsato.bookstore.core.book.gateway.GetBookByIsbnIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.UpdateBookByIdGateway;
 import io.github.jtsato.bookstore.core.book.usecase.UpdateBookByIdUseCase;
 import io.github.jtsato.bookstore.core.book.usecase.parameter.UpdateBookByIdParameters;
@@ -38,9 +39,11 @@ public class UpdateBookByIdUseCaseImpl implements UpdateBookByIdUseCase {
 
     private final UpdateBookByIdGateway updateBookByIdGateway;
 
-    private final GetAuthorByIdGateway getAuthorByIdGateway ;
-
     private final GetBookByTitleIgnoreCaseGateway getBookByTitleIgnoreCaseGateway;
+
+    private final GetBookByIsbnIgnoreCaseGateway getBookByIsbnIgnoreCaseGateway;
+
+    private final GetAuthorByIdGateway getAuthorByIdGateway ;
 
     private final GetLocalDateTime getLocalDateTime;
 
@@ -51,8 +54,11 @@ public class UpdateBookByIdUseCaseImpl implements UpdateBookByIdUseCase {
 
         checkDuplicatedTitleViolation(parameters.getId(), parameters.getTitle());
 
+        checkDuplicatedIsbnViolation(parameters.getId(), parameters.getIsbn());
+
         final Long id = parameters.getId();
         final String title = StringUtils.stripToEmpty(parameters.getTitle());
+        final String isbn = StringUtils.stripToEmpty(parameters.getIsbn());
         final Boolean available = parameters.getAvailable();
         final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
         final BigDecimal price = parameters.getPrice();
@@ -60,6 +66,7 @@ public class UpdateBookByIdUseCaseImpl implements UpdateBookByIdUseCase {
         final Book book = new Book(id ,
                                    author,
                                    title,
+                                   isbn,
                                    available,
                                    null,
                                    lastModifiedDateTime,
@@ -85,6 +92,20 @@ public class UpdateBookByIdUseCaseImpl implements UpdateBookByIdUseCase {
         final Book book = optional.get();
         if (!book.getId().equals(id)) {
             throw new UniqueConstraintException("validation.book.title.already.exists", book.getTitle());
+        }
+    }
+
+    private void checkDuplicatedIsbnViolation(final Long id, final String isbn) {
+
+        final Optional<Book> optional = getBookByIsbnIgnoreCaseGateway.execute(isbn);
+
+        if (optional.isEmpty()) {
+            return;
+        }
+
+        final Book book = optional.get();
+        if (!book.getId().equals(id)) {
+            throw new UniqueConstraintException("validation.book.isbn.already.exists", book.getIsbn());
         }
     }
 }

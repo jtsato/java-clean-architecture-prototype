@@ -12,6 +12,7 @@ import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByIdGateway;
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByTitleIgnoreCaseGateway;
+import io.github.jtsato.bookstore.core.book.gateway.GetBookByIsbnIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.RegisterBookGateway;
 import io.github.jtsato.bookstore.core.book.usecase.RegisterBookUseCase;
 import io.github.jtsato.bookstore.core.book.usecase.parameter.RegisterBookParameters;
@@ -42,6 +43,8 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
     private final GetBookByTitleIgnoreCaseGateway getBookByTitleIgnoreCaseGateway;
 
+    private final GetBookByIsbnIgnoreCaseGateway getBookByIsbnIgnoreCaseGateway;
+
     private final GetLocalDateTime getLocalDateTime;
 
     @Override
@@ -51,7 +54,10 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
         checkDuplicatedTitleViolation(parameters.getTitle());
 
+        checkDuplicatedIsbnViolation(parameters.getIsbn());
+
         final String title = StringUtils.stripToEmpty(parameters.getTitle());
+        final String isbn = StringUtils.stripToEmpty(parameters.getIsbn());
         final Boolean available = parameters.getAvailable();
         final LocalDateTime createdDateTime = getLocalDateTime.now();
         final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
@@ -60,6 +66,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
         final Book book = new Book(null,
                                    author,
                                    title,
+                                   isbn,
                                    available,
                                    createdDateTime,
                                    lastModifiedDateTime,
@@ -80,5 +87,14 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
     private void throwUniqueConstraintExceptionForTitle(final Book book) {
         throw new UniqueConstraintException("validation.book.title.already.exists", book.getTitle());
+    }
+
+    private void checkDuplicatedIsbnViolation(final String isbn) {
+        final Optional<Book> optional = getBookByIsbnIgnoreCaseGateway.execute(isbn);
+        optional.ifPresent(this::throwUniqueConstraintExceptionForIsbn);
+    }
+
+    private void throwUniqueConstraintExceptionForIsbn(final Book book) {
+        throw new UniqueConstraintException("validation.book.isbn.already.exists", book.getIsbn());
     }
 }

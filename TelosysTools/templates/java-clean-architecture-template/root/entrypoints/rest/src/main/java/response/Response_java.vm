@@ -1,6 +1,5 @@
 #parse ( "/include/domain_info.vm" )
 #set ( $prefix = $strUtils.substringBefore($target.file, "Response") )
-#set ( $uncapitalizedPrefix = $wordUtils.uncapitalize($prefix) )
 #set ( $package = $strUtils.substringBetween($target.folder, "entrypoint/rest/", "/domain") )
 package ${ROOT_PKG}.entrypoint.rest.${package}.domain.response;
 

@@ -24,13 +24,15 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBooksParameters extends SelfValidating<SearchBooksParameters> implements Serializable {
 
-    private static final long serialVersionUID = 5225471794003659388L;
+    private static final long serialVersionUID = 2056967292507013902L;
 
     private Long id;
 
     private SearchAuthorsParameters searchAuthorsParameters;
 
     private String title;
+
+    private String isbn;
 
     private Boolean available;
 
@@ -53,6 +55,7 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
     public SearchBooksParameters(final Long id,
                                  final SearchAuthorsParameters searchAuthorsParameters,
                                  final String title,
+                                 final String isbn,
                                  final Boolean available,
                                  final ImmutablePair<String, String> createdDateTimeRange,
                                  final ImmutablePair<String, String> lastModifiedDateTimeRange,
@@ -60,6 +63,7 @@ public class SearchBooksParameters extends SelfValidating<SearchBooksParameters>
         this.id = id;
         this.searchAuthorsParameters = searchAuthorsParameters;
         this.title = title;
+        this.isbn = isbn;
         this.available = available;
         this.startCreatedDateTime = createdDateTimeRange.getLeft();
         this.endCreatedDateTime = createdDateTimeRange.getRight();

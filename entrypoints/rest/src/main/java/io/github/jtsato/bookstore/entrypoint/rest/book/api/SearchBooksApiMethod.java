@@ -61,6 +61,10 @@ public interface SearchBooksApiMethod {
                description = "Filters book's last modified date time before the specified datetime. Format: ISO DATETIME",
                content = @Content(schema = @Schema(type = "string")))
     @Parameter(in = ParameterIn.QUERY,
+               name = "isbn",
+               description = "Book isbn that need to be considered for filter.",
+               content = @Content(schema = @Schema(type = "string")))
+    @Parameter(in = ParameterIn.QUERY,
                name = "author.id",
                description = "Author id that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "long")))

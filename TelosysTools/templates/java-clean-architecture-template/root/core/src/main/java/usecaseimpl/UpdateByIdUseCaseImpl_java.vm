@@ -79,11 +79,6 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 
     private final Update${entity.name}By${domainId}Gateway update${entity.name}By${domainId}Gateway;
 
-#foreach ( $field in $domainLinksToOne )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway ;
-
-#end
 #foreach( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
 #if ( $field.isStringType() )
@@ -93,6 +88,11 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
     private final Get${entity.name}By${fieldName}Gateway get${entity.name}By${fieldName}Gateway;
 
 #end
+#end
+#foreach ( $field in $domainLinksToOne )
+#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway ;
+
 #end
 #foreach( $field in $domainDates )
 #if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
