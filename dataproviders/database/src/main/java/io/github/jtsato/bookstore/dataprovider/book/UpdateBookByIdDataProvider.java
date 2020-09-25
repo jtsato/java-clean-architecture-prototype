@@ -56,8 +56,7 @@ public class UpdateBookByIdDataProvider implements UpdateBookByIdGateway {
         final Long currentAuthorId = bookEntity.getAuthor().getId();
         final Long newAuthorId = book.getAuthor().getId();
         if (!newAuthorId.equals(currentAuthorId)) {
-            final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("country");
-            authorRepository.findById(newAuthorId, entityGraph).ifPresent(bookEntity::setAuthor);
+            authorRepository.findById(newAuthorId).ifPresent(bookEntity::setAuthor);
         }
     }
 }

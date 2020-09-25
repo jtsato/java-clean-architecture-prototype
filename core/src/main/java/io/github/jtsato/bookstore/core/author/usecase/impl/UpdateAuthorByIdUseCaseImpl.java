@@ -7,9 +7,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.github.jtsato.bookstore.core.country.domain.Country;
 import io.github.jtsato.bookstore.core.author.domain.Gender;
-import io.github.jtsato.bookstore.core.country.gateway.GetCountryByIdGateway;
 import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByNameIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.author.gateway.UpdateAuthorByIdGateway;
@@ -40,12 +38,8 @@ public class UpdateAuthorByIdUseCaseImpl implements UpdateAuthorByIdUseCase {
 
     private final GetAuthorByNameIgnoreCaseGateway getAuthorByNameIgnoreCaseGateway;
 
-    private final GetCountryByIdGateway getCountryByIdGateway ;
-
     @Override
     public Author execute(final UpdateAuthorByIdParameters parameters) {
-
-        final Country country = getCountryAndValidate(parameters.getCountryId());
 
         checkDuplicatedNameViolation(parameters.getId(), parameters.getName());
 
@@ -55,18 +49,12 @@ public class UpdateAuthorByIdUseCaseImpl implements UpdateAuthorByIdUseCase {
         final LocalDate birthdate = LocalDate.parse(parameters.getBirthdate());
 
         final Author author = new Author(id ,
-                                         country,
                                          name,
                                          gender,
                                          birthdate);
 
         final Optional<Author> optional = updateAuthorByIdGateway.execute(author);
         return optional.orElseThrow(() -> new NotFoundException("validation.author.id.notfound", String.valueOf(parameters.getId())));
-    }
-
-    private Country getCountryAndValidate(final Long countryId) {
-        final Optional<Country> optional = getCountryByIdGateway.execute(countryId);
-        return optional.orElseThrow(() -> new NotFoundException("validation.country.id.notfound", String.valueOf(countryId)));
     }
 
     private void checkDuplicatedNameViolation(final Long id, final String name) {

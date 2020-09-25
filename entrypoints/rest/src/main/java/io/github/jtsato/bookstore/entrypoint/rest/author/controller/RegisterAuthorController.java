@@ -53,8 +53,7 @@ public class RegisterAuthorController implements RegisterAuthorApiMethod {
         final String jsonRequest = JsonConverter.of(request);
         log.info("Starting Controller -> RegisterAuthorController with {}", jsonRequest);
 
-        final RegisterAuthorParameters parameters = new RegisterAuthorParameters(request.getCountryId(),
-                                                                                 request.getName(),
+        final RegisterAuthorParameters parameters = new RegisterAuthorParameters(request.getName(),
                                                                                  request.getGender(),
                                                                                  request.getBirthdate());
 

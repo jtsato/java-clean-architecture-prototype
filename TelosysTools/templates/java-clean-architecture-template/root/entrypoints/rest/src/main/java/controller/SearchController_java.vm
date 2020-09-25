@@ -1,0 +1,188 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.controller;
+
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+
+#end
+#if ( $domainLongs.size() > 0 || $domainDates.size() > 0 || $domainTimestamps.size() > 0 || $domainDecimals.size() > 0 )
+import org.apache.commons.lang3.tuple.ImmutablePair;
+#end
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+#macro( importSearchParameters $entitie )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($entitie.name)) )
+import ${ROOT_PKG}.core.${entitie.name.toLowerCase()}.usecase.parameter.Search${pluralType}Parameters;
+#foreach( $link in $entitie.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#importSearchParameters($link.targetEntity)
+#end
+#end
+#end
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+#importSearchParameters($entity)
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Search${pluralEntityName}UseCase;
+import ${ROOT_PKG}.core.common.paging.Page;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.api.Search${pluralEntityName}ApiMethod;
+#macro( importSearchRequests $entitie )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Search${pluralEntityName}${suffix}Request;
+#foreach( $link in $entitie.selectedLinks )
+#if ( !$link.fieldType.contains("Enum_") )
+#set ( $suffix = "${suffix}${link.targetEntity.name}" )
+#importSearchRequests($link.targetEntity)
+#end
+#end
+#end
+#set ( $suffix = "" )
+#importSearchRequests($entity)
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Search${pluralEntityName}WrapperResponse;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.mapper.Search${pluralEntityName}Presenter;
+import ${ROOT_PKG}.entrypoint.rest.common.JsonConverter;
+import ${ROOT_PKG}.entrypoint.rest.common.metric.LogExecutionTime;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A EntryPoint follows these steps:
+ *
+ * - Maps HTTP requests to Java objects
+ * - Performs authorization checks
+ * - Maps input to the input model of the use case
+ * - Calls the use case
+ * - Maps the output of the use case back to HTTP Returns an HTTP response
+ */
+
+#include ( "/include/author.vm" )
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/${entityNameAsUrl}")
+public class Search${pluralEntityName}Controller implements Search${pluralEntityName}ApiMethod {
+
+    private static final Logger log = LoggerFactory.getLogger(Search${pluralEntityName}Controller.class);
+
+    private final Search${pluralEntityName}UseCase search${pluralEntityName}UseCase;
+
+    @Override
+    @LogExecutionTime
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public Search${pluralEntityName}WrapperResponse execute(final Pageable pageable, @DefaultValue final Search${pluralEntityName}Request request) {
+
+        final String jsonRequest = JsonConverter.of(request);
+        log.info("Starting Controller -> Search${pluralEntityName}Controller with {}", jsonRequest);
+
+        final Search${pluralEntityName}Parameters parameters = buildSearch${pluralEntityName}Parameters(request);
+        final Page<${entity.name}> ${uncapitalizePluralEntityName} = search${pluralEntityName}UseCase.execute(parameters, pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
+
+        return Search${pluralEntityName}Presenter.of(${uncapitalizePluralEntityName});
+    }
+#macro( buildMethod $parameters )
+#set ( $entitie = $parameters.param1 )
+#set ( $suffix = $parameters.param2 )
+#set ( $uncapitalizedEntityName = $wordUtils.uncapitalize($entitie.name) )
+#set ( $pluralEntitieName = $wordUtils.capitalize( $inflector.getInstance().pluralize( $entitie.name ) ) )
+#set ( $statments = [] )
+#set ( $constructorParameters = [] )
+#foreach( $field in $entitie.keyAttributes )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final Long $field.name = search${pluralEntitieName}Request.get${capitalizeFieldName}()") )
+#set ( $x = $constructorParameters.add("${field.name}") )
+#end
+#foreach( $field in $entitie.selectedLinks )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#if ( !$field.fieldType.contains("Enum_") )
+#set ( $fieldEntityName = $field.fieldType )
+#set ( $pluralFieldEntityName = $wordUtils.capitalize( $inflector.getInstance().pluralize( $field.targetEntity.name ) ) )
+#set ( $x = $statments.add("        final Search${pluralFieldEntityName}Parameters search${pluralFieldEntityName}Parameters = buildSearch${pluralFieldEntityName}Parameters(search${pluralEntitieName}Request.get${fieldEntityName}())") )
+#set ( $x = $constructorParameters.add("search${pluralFieldEntityName}Parameters") )
+#end
+#end
+#set ( $entitieLongs      = [] )
+#set ( $entitieStrings    = [] )
+#set ( $entitieBooleans   = [] )
+#set ( $entitieDates      = [] )
+#set ( $entitieTimestamps = [] )
+#set ( $entitieDecimals   = [] )
+#set ( $entitieAttributes = $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $entitieAttributes )
+#if ( $field.isLongType() )
+#set ( $x = $entitieLongs.add(${field}) )
+#elseif ( $field.isStringType() )
+#set ( $x = $entitieStrings.add(${field}) )
+#elseif ( $field.isBooleanType() )
+#set ( $x = $entitieBooleans.add(${field}) )
+#elseif ( $field.isDateType() )
+#set ( $x = $entitieDates.add(${field}) )
+#elseif ( $field.isTimestampType() )
+#set ( $x = $entitieTimestamps.add(${field}) )
+#elseif ( $field.isDecimalType() )
+#set ( $x = $entitieDecimals.add(${field}) )
+#end
+#end
+#foreach ( $field in $entitieLongs )
+#set ( $capitalizeFieldName = $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final ImmutablePair<Long, Long> ${field.name}Range = new ImmutablePair<>(search${pluralEntitieName}Request.getStart${capitalizeFieldName}(), search${pluralEntitieName}Request.getEnd${capitalizeFieldName}())") )
+#set ( $x = $constructorParameters.add("${field.name}Range") )
+#end
+#foreach ( $field in $entitieStrings )
+#set ( $capitalizeFieldName = $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final String $field.name = search${pluralEntitieName}Request.get${capitalizeFieldName}()") )
+#set ( $x = $constructorParameters.add("${field.name}") )
+#end
+#foreach( $field in $entitie.selectedLinks )
+#set ( $capitalizeFieldName = $wordUtils.capitalize(${field.fieldName}) )
+#if ( $field.fieldType.contains("Enum_") )
+#set ( $x = $statments.add("        final String $field.fieldName = search${pluralEntitieName}Request.get${capitalizeFieldName}()") )
+#set ( $x = $constructorParameters.add("${field.fieldName}") )
+#end
+#end
+#foreach ( $field in $entitieBooleans )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final Boolean $field.name = search${pluralEntitieName}Request.get${capitalizeFieldName}()") )
+#set ( $x = $constructorParameters.add("${field.name}") )
+#end
+#foreach ( $field in $entitieDates )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final ImmutablePair<String, String> ${field.name}Range = new ImmutablePair<>(search${pluralEntitieName}Request.getStart${capitalizeFieldName}(), search${pluralEntitieName}Request.getEnd${capitalizeFieldName}())") )
+#set ( $x = $constructorParameters.add("${field.name}Range") )
+#end
+#foreach ( $field in $entitieTimestamps )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final ImmutablePair<String, String> ${field.name}Range = new ImmutablePair<>(search${pluralEntitieName}Request.getStart${capitalizeFieldName}(), search${pluralEntitieName}Request.getEnd${capitalizeFieldName}())") )
+#set ( $x = $constructorParameters.add("${field.name}Range") )
+#end
+#foreach ( $field in $entitieDecimals )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statments.add("        final ImmutablePair<BigDecimal, BigDecimal> ${field.name}Range = new ImmutablePair<>(search${pluralEntitieName}Request.getStart${capitalizeFieldName}(), search${pluralEntitieName}Request.getEnd${capitalizeFieldName}())") )
+#set ( $x = $constructorParameters.add("${field.name}Range") )
+#end
+#set ( $entitieId = $wordUtils.capitalize($entitie.keyAttributes.get(0).name) )
+#set ( $signature = "        return new Search${pluralEntitieName}Parameters(" )
+#set ( $spaces = $signature.length())
+
+    private Search${pluralEntitieName}Parameters buildSearch${pluralEntitieName}Parameters(final Search${pluralEntityName}${suffix}Request search${pluralEntitieName}Request) {
+
+#foreach ( $statment in $statments )
+${statment};
+#end
+${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ), #end
+#foreach ( $parameter in $constructorParameters )#if ( $velocityCount > 1 )${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ), #end#end); 
+    }
+#foreach( $field in $entitie.selectedLinks )
+#if ( !$field.fieldType.contains("Enum_") )
+#set( $parameters = {"param1": $field.targetEntity, "param2": "${suffix}${field.targetEntity.name}"} )
+#buildMethod($parameters)
+#end
+#end
+#end
+#set( $parameters = {"param1": $entity, "param2": ""} )
+#buildMethod($parameters)
+}

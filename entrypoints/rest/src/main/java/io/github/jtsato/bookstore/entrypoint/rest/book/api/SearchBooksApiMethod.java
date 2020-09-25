@@ -84,14 +84,6 @@ public interface SearchBooksApiMethod {
                name = "author.endBirthdate",
                description = "Filters author's birthdate before the specified date. Format: YYYY-MM-DD",
                content = @Content(schema = @Schema(type = "string")))
-    @Parameter(in = ParameterIn.QUERY,
-               name = "country.id",
-               description = "Country id that need to be considered for filter.",
-               content = @Content(schema = @Schema(type = "long")))
-    @Parameter(in = ParameterIn.QUERY,
-               name = "country.name",
-               description = "Country name that need to be considered for filter.",
-               content = @Content(schema = @Schema(type = "string")))
 
     @ApiResponses(value = {@ApiResponse(responseCode = HttpStatusConstants.OK_200, description = HttpStatusConstants.OK_200_MESSAGE),
                            @ApiResponse(responseCode = HttpStatusConstants.BAD_REQUEST_400, description = HttpStatusConstants.BAD_REQUEST_400_MESSAGE),

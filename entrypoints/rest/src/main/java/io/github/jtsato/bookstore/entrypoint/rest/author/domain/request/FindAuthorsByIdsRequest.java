@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public final class FindAuthorsByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = -9125892082078826356L;
+    private static final long serialVersionUID = -2577071643084175553L;
 
     private List<Long> ids;
 }

@@ -6,7 +6,7 @@ package io.github.jtsato.bookstore.core.exception;
 
 public class UniqueConstraintException extends CoreException {
 
-    private static final long serialVersionUID = 6809169915606811041L;
+    private static final long serialVersionUID = -8267223857936905756L;
 
     public UniqueConstraintException(final String message, final Object... args) {
         super(message, args);

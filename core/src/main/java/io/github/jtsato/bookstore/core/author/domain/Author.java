@@ -2,8 +2,6 @@ package io.github.jtsato.bookstore.core.author.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
-import io.github.jtsato.bookstore.core.country.domain.Country;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,10 +17,9 @@ import lombok.ToString;
 @ToString
 public class Author implements Serializable {
 
-    private static final long serialVersionUID = -4020478848956543064L;
+    private static final long serialVersionUID = 6885686817333463037L;
 
     private final Long id;
-    private final Country country;
     private final String name;
     private final Gender gender;
     private final LocalDate birthdate;

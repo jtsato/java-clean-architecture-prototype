@@ -2,10 +2,8 @@ package io.github.jtsato.bookstore.entrypoint.rest.book.mapper;
 
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.author.domain.Author;
-import io.github.jtsato.bookstore.core.country.domain.Country;
 import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.RegisterBookResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.RegisterBookAuthorResponse;
-import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.RegisterBookAuthorCountryResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -29,14 +27,8 @@ public final class RegisterBookPresenter {
 
     public static RegisterBookAuthorResponse of(final Author author) {
         return new RegisterBookAuthorResponse(author.getId(),
-                                           of(author.getCountry()),
                                               author.getName(),
                                               author.getGender().name(),
                                               author.getBirthdate());
-    }
-
-    public static RegisterBookAuthorCountryResponse of(final Country country) {
-        return new RegisterBookAuthorCountryResponse(country.getId(),
-                                                     country.getName());
     }
 }

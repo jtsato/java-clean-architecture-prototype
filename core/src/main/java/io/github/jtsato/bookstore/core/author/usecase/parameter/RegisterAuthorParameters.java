@@ -2,7 +2,6 @@ package io.github.jtsato.bookstore.core.author.usecase.parameter;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
@@ -22,10 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParameters> implements Serializable {
 
-    private static final long serialVersionUID = 6034335476405063296L;
-
-    @NotNull(message = "validation.country.id.null")
-    private final Long countryId;
+    private static final long serialVersionUID = -830974961130454558L;
 
     @NotBlank(message = "validation.author.name.blank")
     private final String name;
@@ -37,11 +33,9 @@ public class RegisterAuthorParameters extends SelfValidating<RegisterAuthorParam
     @LocalDateConstraint(message = "validation.author.birthdate.invalid")
     private final String birthdate;
 
-    public RegisterAuthorParameters(final Long countryId,
-                                    final String name,
+    public RegisterAuthorParameters(final String name,
                                     final String gender,
                                     final String birthdate) {
-        this.countryId = countryId;
         this.name = name;
         this.gender = gender;
         this.birthdate = birthdate;

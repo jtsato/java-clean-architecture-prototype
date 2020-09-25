@@ -6,10 +6,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
-import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
-
 import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.RemoveAuthorByIdGateway;
 import io.github.jtsato.bookstore.dataprovider.author.domain.AuthorEntity;
@@ -32,8 +28,7 @@ public class RemoveAuthorByIdDataProvider implements RemoveAuthorByIdGateway {
     @Override
     public Optional<Author> execute(final Long id) {
 
-        final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("country");
-        final Optional<AuthorEntity> optional = authorRepository.findById(id, entityGraph);
+        final Optional<AuthorEntity> optional = authorRepository.findById(id);
 
         return optional.map(this::removeAuthorEntity);
     }

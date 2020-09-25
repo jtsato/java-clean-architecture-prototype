@@ -6,10 +6,8 @@ import java.util.List;
 import io.github.jtsato.bookstore.core.common.paging.Page;
 import io.github.jtsato.bookstore.core.book.domain.Book;
 import io.github.jtsato.bookstore.core.author.domain.Author;
-import io.github.jtsato.bookstore.core.country.domain.Country;
 import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.FindBooksByIdsResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.FindBooksByIdsAuthorResponse;
-import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.FindBooksByIdsAuthorCountryResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.book.domain.response.FindBooksByIdsWrapperResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -41,14 +39,8 @@ public final class FindBooksByIdsPresenter {
 
     public static FindBooksByIdsAuthorResponse of(final Author author) {
         return new FindBooksByIdsAuthorResponse(author.getId(),
-                                             of(author.getCountry()),
                                                 author.getName(),
                                                 author.getGender().name(),
                                                 author.getBirthdate());
-    }
-
-    public static FindBooksByIdsAuthorCountryResponse of(final Country country) {
-        return new FindBooksByIdsAuthorCountryResponse(country.getId(),
-                                                       country.getName());
     }
 }
