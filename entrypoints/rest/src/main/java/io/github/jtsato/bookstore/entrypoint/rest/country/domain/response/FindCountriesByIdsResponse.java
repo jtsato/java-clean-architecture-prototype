@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindCountriesByIdsResponse implements Serializable {
 
-    private static final long serialVersionUID = 5206693196094653545L;
+    private static final long serialVersionUID = -8291911542645043621L;
 
     private final Long id;
     private final String name;

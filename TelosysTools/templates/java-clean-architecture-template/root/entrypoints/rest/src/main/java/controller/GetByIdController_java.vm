@@ -1,0 +1,53 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Get${entity.name}By${domainId}UseCase;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.api.Get${entity.name}By${domainId}ApiMethod;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Get${entity.name}By${domainId}Response;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.mapper.Get${entity.name}By${domainId}Presenter;
+import ${ROOT_PKG}.entrypoint.rest.common.metric.LogExecutionTime;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A EntryPoint follows these steps:
+ *
+ * - Maps HTTP requests to Java objects
+ * - Performs authorization checks
+ * - Maps input to the input model of the use case
+ * - Calls the use case
+ * - Maps the output of the use case back to HTTP Returns an HTTP response
+ */
+
+#include ( "/include/author.vm" )
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/${entityNameAsUrl}")
+public class Get${entity.name}By${domainId}Controller implements Get${entity.name}By${domainId}ApiMethod {
+
+    private static final Logger log = LoggerFactory.getLogger(Get${entity.name}By${domainId}Controller.class);
+
+    private final Get${entity.name}By${domainId}UseCase get${entity.name}By${domainId}UseCase;
+
+    @Override
+    @LogExecutionTime
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{${uncapitalizedDomainId}}")
+    public Get${entity.name}By${domainId}Response execute(@PathVariable final Long ${uncapitalizedDomainId}) {
+
+        log.info("Starting Controller -> Get${entity.name}By${domainId}Controller with {}", ${uncapitalizedDomainId});
+
+        final ${entity.name} ${uncapitalizeEntityName} = get${entity.name}By${domainId}UseCase.execute(${uncapitalizedDomainId});
+        return Get${entity.name}By${domainId}Presenter.of(${uncapitalizeEntityName});
+    }
+}

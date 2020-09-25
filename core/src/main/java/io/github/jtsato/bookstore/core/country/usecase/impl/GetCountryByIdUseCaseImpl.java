@@ -35,9 +35,7 @@ public class GetCountryByIdUseCaseImpl implements GetCountryByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.country.id.null");
         }
-
         final Optional<Country> optional = getCountryByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.country.id.notfound", String.valueOf(id)));
     }
 }

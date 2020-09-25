@@ -14,7 +14,7 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Remove${entity.name
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Remove${entity.name}By${domainId}UseCase;
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
-#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
 import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.domain.${dependent.name};
 import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.gateway.Search${pluralType}By${entity.name}${domainId}Gateway;
@@ -46,43 +46,41 @@ public class Remove${entity.name}By${domainId}UseCaseImpl implements Remove${ent
     private final Remove${entity.name}By${domainId}Gateway remove${entity.name}By${domainId}Gateway;
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
-#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
     private final Search${pluralType}By${entity.name}${domainId}Gateway search${pluralType}By${entity.name}${domainId}Gateway;
 #end
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
 
     @Override
     public ${entity.name} execute(final Long ${uncapitalizedDomainId}) {
 
         if (${uncapitalizedDomainId} == null) {
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null");
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null");
         }
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
-#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
         avoidRemoving${entity.name}With${pluralType}(${uncapitalizedDomainId});
 #end
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
 
         final Optional<${entity.name}> optional = remove${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
 
-        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound", String.valueOf(${uncapitalizedDomainId})));
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizedDomainId})));
     }
 #foreach ( $dependent in $domainReferencedBy )
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $dependentLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
-#set ( $fieldKey = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+#set ( $dependentLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
 
     private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizedDomainId}) {
 
         final Page<${dependent.name}> pageOf${pluralType} = search${pluralType}By${entity.name}${domainId}Gateway.execute(${uncapitalizedDomainId}, 0, 1, null);
 
         if (CollectionUtils.isNotEmpty(pageOf${pluralType}.getContent())) {
-            throw new ParentConstraintException("validation.${entityNameLowerCaseWithSeparator}.with.${dependentLowerCaseWithSeparator}.removal");
+            throw new ParentConstraintException("validation.${entityNameLowerCaseWithDot}.with.${dependentLowerCaseWithDot}.removal");
         }
     }
 #end

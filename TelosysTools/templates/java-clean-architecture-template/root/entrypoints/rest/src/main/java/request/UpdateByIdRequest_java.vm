@@ -23,8 +23,8 @@ public class Update${entity.name}By${domainId}Request implements Serializable {
 
     private Long ${uncapitalizedDomainId};
 #foreach( $field in $domainLinksToOne )
-#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-    private Long ${wordUtils.uncapitalize($field.fieldName)}${fieldKey};
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private Long ${wordUtils.uncapitalize($field.fieldName)}${fieldEntityId};
 #end
 #foreach( $field in $domainLongs )
     private Long $field.name;

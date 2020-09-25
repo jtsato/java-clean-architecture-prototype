@@ -70,12 +70,12 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
     }
 #foreach ( $field in $domainLinksToOne )
 #set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
     private void update${field.fieldType}Entity(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
-        final Long current${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}Entity.get${field.fieldType}().get${fieldClazzId}();
-        final Long new${field.fieldType}${fieldClazzId} = ${uncapitalizeEntityName}.get${field.fieldType}().get${fieldClazzId}();
-        if (!new${field.fieldType}${fieldClazzId}.equals(current${field.fieldType}${fieldClazzId})) {
+        final Long current${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}Entity.get${field.fieldType}().get${fieldEntityId}();
+        final Long new${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}.get${field.fieldType}().get${fieldEntityId}();
+        if (!new${field.fieldType}${fieldEntityId}.equals(current${field.fieldType}${fieldEntityId})) {
 #set ( $fieldGraphs = [] )
 #foreach( $link in $field.targetEntity.selectedLinks )
 #if ( !$link.fieldType.contains("Enum_") )
@@ -86,9 +86,9 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
 #end
 #if ( $fieldGraphs.size() > 0 ) 
             final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $fieldGraphs )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
-            ${uncapitalizeFieldType}Repository.findBy${fieldClazzId}(new${field.fieldType}${fieldClazzId}, entityGraph).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+            ${uncapitalizeFieldType}Repository.findBy${fieldEntityId}(new${field.fieldType}${fieldEntityId}, entityGraph).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
 #else
-            ${uncapitalizeFieldType}Repository.findBy${fieldClazzId}(new${field.fieldType}${fieldClazzId}).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+            ${uncapitalizeFieldType}Repository.findBy${fieldEntityId}(new${field.fieldType}${fieldEntityId}).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
 #end
         }
     }

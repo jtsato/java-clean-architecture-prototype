@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class UpdateCountryByIdRequest implements Serializable {
 
-    private static final long serialVersionUID = -3467718607098329655L;
+    private static final long serialVersionUID = -7556947190587830551L;
 
     private Long id;
     private String name;

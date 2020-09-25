@@ -11,43 +11,42 @@ enum-$strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitieName), "-").
 #end
 #foreach( $entitie in $model.allEntites )
 #if ( !$entitie.name.contains("Enum_") ) 
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
-#set ( $entityNameLowerCaseWithSpace = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
-#set ( $pluralEntityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
-#set ( $pluralEntityNameLowerCaseWithSpace = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), " ").toLowerCase() )
+#set ( $entitieNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $entitieNameLowerCaseWithSpace = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
+#set ( $pluralEntitieNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entitie.name), ".").toLowerCase() )
 #foreach( $field in $entitie.keyAttributes )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
-#set ( $pluralFieldNameLowerCaseWithSeparator = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase()) )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSpace}''s identifier is required!
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound=The ${entityNameLowerCaseWithSpace} with identifier: ''{0}'' has not been found!
-validation.${pluralEntityNameLowerCaseWithSeparator}.${pluralFieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSpace}''s identifiers are required!
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $pluralFieldNameLowerCaseWithDot = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase()) )
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null=The ${entitieNameLowerCaseWithSpace}''s identifier is required!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.notfound=The ${entitieNameLowerCaseWithSpace} with identifier: ''{0}'' has not been found!
+validation.${pluralEntitieNameLowerCaseWithDot}.${pluralFieldNameLowerCaseWithDot}.null=The ${entitieNameLowerCaseWithSpace}''s identifiers are required!
 #end
 #foreach( $field in $entitie.selectedLinks )
 #if ( $field.fieldType.contains("Enum_") ) 
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
 #set ( $fieldNameLowerCaseWithSpace = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), " ").toLowerCase() )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank=The ${entityNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank=The ${entitieNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
 #end
 #end
 #foreach( $field in $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 #set ( $fieldNameLowerCaseWithSpace = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), " ").toLowerCase() )
 #if ( $field.isNotBlank() )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank=The ${entityNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank=The ${entitieNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
 #end
 #if ( $field.isNotNull() || $field.type.contains("Enum_") )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null=The ${entityNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null=The ${entitieNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is required!
 #end
 #if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey") )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.already.exists=There is already a ${entityNameLowerCaseWithSpace} with the ${fieldNameLowerCaseWithSpace} ''{0}'' registered!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.already.exists=There is already a ${entitieNameLowerCaseWithSpace} with the ${fieldNameLowerCaseWithSpace} ''{0}'' registered!
 #end
 #if ( $strUtils.split($field.databaseComment, ", ").contains("PositiveOrZero") )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative=The ${fieldNameLowerCaseWithSpace} of the ${entityNameLowerCaseWithSpace} cannot be negative!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.negative=The ${fieldNameLowerCaseWithSpace} of the ${entitieNameLowerCaseWithSpace} cannot be negative!
 #end
 #if ( $field.isDateType() || $field.isTimestampType() )
-validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is invalid!
-validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSpace}''s initial ${fieldNameLowerCaseWithSpace} is invalid!
-validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid=The ${entityNameLowerCaseWithSpace}''s final ${fieldNameLowerCaseWithSpace} is invalid!
+validation.${entitieNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.invalid=The ${entitieNameLowerCaseWithSpace}''s ${fieldNameLowerCaseWithSpace} is invalid!
+validation.${entitieNameLowerCaseWithDot}.start.${fieldNameLowerCaseWithDot}.invalid=The ${entitieNameLowerCaseWithSpace}''s initial ${fieldNameLowerCaseWithSpace} is invalid!
+validation.${entitieNameLowerCaseWithDot}.end.${fieldNameLowerCaseWithDot}.invalid=The ${entitieNameLowerCaseWithSpace}''s final ${fieldNameLowerCaseWithSpace} is invalid!
 #end
 #end
 #end
@@ -56,9 +55,9 @@ validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSepar
 #foreach( $field in $element.selectedLinks )
 #if ( $field.fieldType.equalsIgnoreCase($entitie.name) ) 
 #set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($element.name)) )
-#set ( $dependentLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
-#set ( $pluralFieldNameLowerCaseWithSeparator = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($element.name), ".").toLowerCase()) )
-validation.${entityNameLowerCaseWithSeparator}.with.${dependentLowerCaseWithSeparator}.removal=${entitie.name} with ${pluralFieldNameLowerCaseWithSeparator} cannot be removed!
+#set ( $dependentLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
+#set ( $pluralFieldNameLowerCaseWithDot = $inflector.getInstance().pluralize($strUtils.join($strUtils.splitByCharacterTypeCamelCase($element.name), ".").toLowerCase()) )
+validation.${entitieNameLowerCaseWithDot}.with.${dependentLowerCaseWithDot}.removal=${entitie.name} with ${pluralFieldNameLowerCaseWithDot} cannot be removed!
 #end
 #end
 #end

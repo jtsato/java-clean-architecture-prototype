@@ -73,23 +73,21 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
     private Boolean $field.name;
 #end
 #foreach ( $field in $domainDates )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
-    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithDot}.start.${fieldNameLowerCaseWithDot}.invalid")
     private String start$wordUtils.capitalize($field.name);
 
-    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithDot}.end.${fieldNameLowerCaseWithDot}.invalid")
     private String end$wordUtils.capitalize($field.name);
 #end
 #foreach ( $field in $domainTimestamps )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
-    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.start.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithDot}.start.${fieldNameLowerCaseWithDot}.invalid")
     private String start$wordUtils.capitalize($field.name);
 
-    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.end.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithDot}.end.${fieldNameLowerCaseWithDot}.invalid")
     private String end$wordUtils.capitalize($field.name);
 #end
 #foreach ( $field in $domainDecimals )
@@ -132,15 +130,13 @@ public class Search${pluralEntityName}Parameters extends SelfValidating<Search${
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
 #foreach ( $field in $domainDates )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 #set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
 #set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
 #set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )
 #end
 #foreach ( $field in $domainTimestamps )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 #set ( $x = $constructorParameters.add("final ImmutablePair<String, String> ${field.name}Range") )
 #set ( $x = $setParameters.add("this.start$wordUtils.capitalize(${field.name}) = ${field.name}Range.getLeft();") )
 #set ( $x = $setParameters.add("this.end$wordUtils.capitalize(${field.name}) = ${field.name}Range.getRight();") )

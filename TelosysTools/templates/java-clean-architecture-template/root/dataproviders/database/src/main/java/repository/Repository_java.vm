@@ -32,9 +32,9 @@ public interface ${entity.name}Repository extends EntityGraphJpaRepository<${ent
 #end
 #foreach( $field in $domainLinksManyToOne )
 #set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-    Page<${entity.name}Entity> findBy${fieldName}${fieldClazzId}(final Long ${field.fieldName}${fieldClazzId}#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end, final PageRequest pageRequest);
+    Page<${entity.name}Entity> findBy${fieldName}${fieldEntityId}(final Long ${field.fieldName}${fieldEntityId}#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end, final PageRequest pageRequest);
 #end
 #foreach( $field in $domainEnumerators )
 #if ($field.isCardinalityManyToOne())

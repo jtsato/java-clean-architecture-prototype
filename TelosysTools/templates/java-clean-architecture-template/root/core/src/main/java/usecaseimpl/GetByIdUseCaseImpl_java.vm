@@ -33,13 +33,10 @@ public class Get${entity.name}By${domainId}UseCaseImpl implements Get${entity.na
     public ${entity.name} execute(final Long ${uncapitalizedDomainId}) {
 
         if (${uncapitalizedDomainId} == null) {
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null");
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null");
         }
-
         final Optional<${entity.name}> optional = get${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
-
-        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.notfound", String.valueOf(${uncapitalizedDomainId})));
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizedDomainId})));
     }
 }

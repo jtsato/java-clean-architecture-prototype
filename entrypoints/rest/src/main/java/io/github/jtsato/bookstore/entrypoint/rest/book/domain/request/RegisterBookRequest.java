@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class RegisterBookRequest implements Serializable {
 
-    private static final long serialVersionUID = -4186095352263589394L;
+    private static final long serialVersionUID = 3297522606217708350L;
 
     private Long authorId;
     private String title;

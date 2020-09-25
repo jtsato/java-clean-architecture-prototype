@@ -2,7 +2,7 @@
 #parse ( "/include/domain_info.vm" )
 #foreach( $field in $domainLinks )
 #set ( $fieldType = $field.fieldType )
-#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-$generator.generate($target.entityName, "Search${pluralEntityName}By${fieldType}${fieldKey}Gateway.java", $target.folder, "root/core/src/main/java/gateway/SearchByUkIdGateway_java.vm" )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+$generator.generate($target.entityName, "Search${pluralEntityName}By${fieldType}${fieldEntityId}Gateway.java", $target.folder, "root/core/src/main/java/gateway/SearchByUkIdGateway_java.vm" )
 #end
 #end

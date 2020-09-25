@@ -18,7 +18,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchCountriesParameters extends SelfValidating<SearchCountriesParameters> implements Serializable {
 
-    private static final long serialVersionUID = 2104147766220703528L;
+    private static final long serialVersionUID = 7478961206537047809L;
 
     private Long id;
 

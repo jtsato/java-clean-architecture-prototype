@@ -34,14 +34,13 @@ public class Find${pluralEntityName}By${pluralDomainId}UseCaseImpl implements Fi
     public Page<${entity.name}> execute(final List<Long> ${uncapitalizePluralDomainId}) {
 
         if (CollectionUtils.isEmpty(${uncapitalizePluralDomainId})) {
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $domainIdsLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
-            throw new InvalidParameterException("validation.${entityNameLowerCaseWithSeparator}.${domainIdsLowerCaseWithSeparator}.null");
+#set ( $domainIdsLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithDot}.${domainIdsLowerCaseWithDot}.null");
         }
 
         if (${uncapitalizePluralDomainId}.size() > 1000) {
-#set ( $domainIdsLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
-            throw new InvalidParameterException("validation.get.by.${domainIdsLowerCaseWithSeparator}.limit");
+#set ( $domainIdsLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($uncapitalizePluralDomainId), ".").toLowerCase() )
+            throw new InvalidParameterException("validation.get.by.${domainIdsLowerCaseWithDot}.limit");
         }
 
         return find${pluralEntityName}By${pluralDomainId}Gateway.execute(${uncapitalizePluralDomainId});

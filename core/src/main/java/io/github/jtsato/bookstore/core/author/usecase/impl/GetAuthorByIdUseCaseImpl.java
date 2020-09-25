@@ -35,9 +35,7 @@ public class GetAuthorByIdUseCaseImpl implements GetAuthorByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.author.id.null");
         }
-
         final Optional<Author> optional = getAuthorByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.author.id.notfound", String.valueOf(id)));
     }
 }

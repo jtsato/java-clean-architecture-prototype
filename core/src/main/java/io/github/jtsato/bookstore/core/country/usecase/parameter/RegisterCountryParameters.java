@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterCountryParameters extends SelfValidating<RegisterCountryParameters> implements Serializable {
 
-    private static final long serialVersionUID = 808084159737644099L;
+    private static final long serialVersionUID = -6733599720081895850L;
 
     @NotBlank(message = "validation.country.name.blank")
     private final String name;

@@ -1,0 +1,101 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Register${entity.name}UseCase;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Register${entity.name}Parameters;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.api.Register${entity.name}ApiMethod;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Register${entity.name}Request;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Register${entity.name}Response;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.mapper.Register${entity.name}Presenter;
+import ${ROOT_PKG}.entrypoint.rest.common.JsonConverter;
+import ${ROOT_PKG}.entrypoint.rest.common.metric.LogExecutionTime;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A EntryPoint follows these steps:
+ *
+ * - Maps HTTP requests to Java objects
+ * - Performs authorization checks
+ * - Maps input to the input model of the use case
+ * - Calls the use case
+ * - Maps the output of the use case back to HTTP Returns an HTTP response
+ */
+
+#include ( "/include/author.vm" )
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/${entityNameAsUrl}")
+public class Register${entity.name}Controller implements Register${entity.name}ApiMethod {
+
+    private static final Logger log = LoggerFactory.getLogger(Register${entity.name}Controller.class);
+
+    private final Register${entity.name}UseCase register${entity.name}UseCase;
+
+    @Override
+    @LogExecutionTime
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Register${entity.name}Response execute(@RequestBody @DefaultValue final Register${entity.name}Request request) {
+
+        final String jsonRequest = JsonConverter.of(request);
+        log.info("Starting Controller -> Register${entity.name}Controller with {}", jsonRequest);
+#set ( $parameters = [] )
+#foreach( $field in $domainLinksToOne )
+#set ( $capitalizeFieldName = $wordUtils.capitalize(${field.fieldName}) )
+#set ( $fieldEntityId = $wordUtils.capitalize(${field.targetEntity.keyAttributes[0].name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}${fieldEntityId}()") )
+#end
+#foreach ( $field in $domainLongs )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $domainStrings )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach( $field in $domainEnumerators )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $domainBooleans )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $domainDates )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $domainTimestamps )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#foreach ( $field in $domainDecimals )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#set ( $signature = "        final Register${entity.name}Parameters parameters = new Register${entity.name}Parameters(" )
+#set ( $spaces = $signature.length())
+#set ( $filler = $strUtils.repeat(" ", $spaces) )
+
+${signature}${parameters[0]}#if( $parameters.size() > 1 ),#end
+#foreach ( $parameter in $parameters )#if ( $velocityCount > 1 )
+
+${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
+#end);
+
+        final ${entity.name} ${uncapitalizeEntityName} = register${entity.name}UseCase.execute(parameters);
+        return Register${entity.name}Presenter.of(${uncapitalizeEntityName});
+    }
+}

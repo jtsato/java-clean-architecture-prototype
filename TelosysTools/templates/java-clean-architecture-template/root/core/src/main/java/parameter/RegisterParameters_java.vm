@@ -67,94 +67,86 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
 
 #parse ( "/include/serial_version.vm" )
 #foreach( $field in $domainLinksToOne )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.name), ".").toLowerCase() )
-#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-#set ( $fieldKeyLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldKey), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.name), ".").toLowerCase() )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldEntityIdLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldEntityId), ".").toLowerCase() )
 
-    @NotNull(message = "validation.${fieldNameLowerCaseWithSeparator}.${fieldKeyLowerCaseWithSeparator}.null")
-    private final Long ${field.fieldName}${fieldKey};
+    @NotNull(message = "validation.${fieldNameLowerCaseWithDot}.${fieldEntityIdLowerCaseWithDot}.null")
+    private final Long ${field.fieldName}${fieldEntityId};
 #end
 #foreach ( $field in $domainLongs )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
 
 #if ( $field.isNotNull() )
-    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    @NotNull(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null")
 #end
 #if ( $strUtils.split($field.databaseComment, ", ").contains("Positive") )
-    @Positive(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative.or.zero")
+    @Positive(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.negative.or.zero")
 #end
     private final Long ${wordUtils.uncapitalize($field.name)};
 #end
 #foreach ( $field in $domainStrings )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotBlank() )
-    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+    @NotBlank(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank")
 #end
     private final String ${wordUtils.uncapitalize($field.name)};
 #end
 #foreach ( $field in $domainEnumerators )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
 
-    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+    @NotBlank(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank")
     private final String ${wordUtils.uncapitalize($field.fieldName)};
 #end
 #foreach ( $field in $domainBooleans )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotNull() )
-    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    @NotNull(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null")
 #end
     private final Boolean ${wordUtils.uncapitalize($field.name)};
 #end
 #foreach ( $field in $domainDates )
 #if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotBlank() )
-    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+    @NotBlank(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank")
 #end
-    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateConstraint(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.invalid")
     private final String ${wordUtils.uncapitalize($field.name)};
 #end
 #end
 #foreach ( $field in $domainTimestamps )
 #if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotBlank() )
-    @NotBlank(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.blank")
+    @NotBlank(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.blank")
 #end
-    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.invalid")
+    @LocalDateTimeConstraint(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.invalid")
     private final String ${wordUtils.uncapitalize($field.name)};
 #end
 #end
 #foreach ( $field in $domainDecimals )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotNull() )
-    @NotNull(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.null")
+    @NotNull(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null")
 #end 
 #if ( $strUtils.split($field.databaseComment, ", ").contains("PositiveOrZero") )
-    @PositiveOrZero(message = "validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.negative")
+    @PositiveOrZero(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.negative")
 #end
     private final BigDecimal ${wordUtils.uncapitalize($field.name)}; 
 #end
 #set ( $constructorParameters = [] )
 #set ( $setParameters = [] )
 #foreach ( $field in $domainLinks )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
-#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-#set ( $x = $constructorParameters.add("final Long ${field.fieldName}${fieldKey}") )
-#set ( $x = $setParameters.add("this.${field.fieldName}${fieldKey} = ${field.fieldName}${fieldKey};") )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $x = $constructorParameters.add("final Long ${field.fieldName}${fieldEntityId}") )
+#set ( $x = $setParameters.add("this.${field.fieldName}${fieldEntityId} = ${field.fieldName}${fieldEntityId};") )
 #end
 #foreach ( $field in $domainLongs )
 #set ( $x = $constructorParameters.add("final Long ${field.name}") )

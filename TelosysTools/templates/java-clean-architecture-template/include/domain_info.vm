@@ -4,6 +4,8 @@
 #set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
 #set ( $uncapitalizeEntityName = $wordUtils.uncapitalize($entity.name) )
 #set ( $uncapitalizePluralEntityName = $wordUtils.uncapitalize($pluralEntityName) )
+#set ( $entityNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
+#set ( $entityNameAsUrl = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($inflector.getInstance().pluralize($entity.name)), "-").toLowerCase() )
 #set ( $domainKeys            = [] )
 #set ( $domainUkKeys          = [] )
 #set ( $domainIndexes         = [] )

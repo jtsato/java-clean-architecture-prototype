@@ -26,8 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 #end
 #foreach ( $field in $domainLinksToOne )
 #set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.gateway.Get${fieldName}By${fieldClazzId}Gateway") )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.gateway.Get${fieldName}By${fieldEntityId}Gateway") )
 #end
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name}") )
 #foreach ( $field in $domainUkKeys )
@@ -82,8 +82,8 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
     private final Register${entity.name}Gateway register${entity.name}Gateway;
 
 #foreach ( $field in $domainLinksToOne )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldClazzId}Gateway ;
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway ;
 
 #end
 #foreach( $field in $domainUkKeys )
@@ -113,9 +113,9 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
     @Override
     public ${entity.name} execute(final Register${entity.name}Parameters parameters) {
 #foreach( $field in $domainLinksToOne )
-#set ( $fieldKey = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
-        final ${field.fieldType} ${field.fieldName} = get${field.fieldType}AndValidate(parameters.get${field.fieldType}${fieldKey}());
+        final ${field.fieldType} ${field.fieldName} = get${field.fieldType}AndValidate(parameters.get${field.fieldType}${fieldEntityId}());
 #end
 #foreach ( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
@@ -174,7 +174,6 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 #end
 #set ( $signature = "        final ${entity.name} ${uncapitalizeEntityName} = new ${entity.name}(" )
 #set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
-#set ( $entityNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($entity.name), ".").toLowerCase() )
 
 #foreach ( $statement in $statements )
         ${statement};
@@ -190,20 +189,20 @@ ${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
     }
 #foreach( $field in $domainLinksToOne )
 #set ( $uncapitalizeFieldName = ${wordUtils.uncapitalize($field.fieldName)} )
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
-#set ( $fieldClazzIdLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldClazzId), ".").toLowerCase() )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
+#set ( $fieldEntityIdLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldEntityId), ".").toLowerCase() )
 
-    private ${field.fieldType} get${field.fieldType}AndValidate(final Long ${uncapitalizeFieldName}${fieldClazzId}) {
-#set ( $fieldClazzId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-        final Optional<${field.fieldType}> optional = get${field.fieldType}By${fieldClazzId}Gateway.execute(${uncapitalizeFieldName}${fieldClazzId});
-        return optional.orElseThrow(() -> new NotFoundException("validation.${fieldNameLowerCaseWithSeparator}.${fieldClazzIdLowerCaseWithSeparator}.notfound", String.valueOf(${uncapitalizeFieldName}${fieldClazzId})));
+    private ${field.fieldType} get${field.fieldType}AndValidate(final Long ${uncapitalizeFieldName}${fieldEntityId}) {
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+        final Optional<${field.fieldType}> optional = get${field.fieldType}By${fieldEntityId}Gateway.execute(${uncapitalizeFieldName}${fieldEntityId});
+        return optional.orElseThrow(() -> new NotFoundException("validation.${fieldNameLowerCaseWithDot}.${fieldEntityIdLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizeFieldName}${fieldEntityId})));
     }
 #end
 #foreach( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
 #set ( $uncapitalizeFieldName = ${wordUtils.uncapitalize($fieldName)} )
-#set ( $fieldNameLowerCaseWithSeparator = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 #if ( $field.isStringType() )
 #set ( $ignoreCase =  "IgnoreCase")
 #else
@@ -216,7 +215,7 @@ ${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
     }
 
     private void throwUniqueConstraintExceptionFor${fieldName}(final ${entity.name} ${uncapitalizeEntityName}) {
-        throw new UniqueConstraintException("validation.${entityNameLowerCaseWithSeparator}.${fieldNameLowerCaseWithSeparator}.already.exists", ${uncapitalizeEntityName}.get${fieldName}());
+        throw new UniqueConstraintException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.already.exists", ${uncapitalizeEntityName}.get${fieldName}());
     }
 #end
 }

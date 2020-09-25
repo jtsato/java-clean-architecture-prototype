@@ -26,8 +26,8 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
        indexes = {
 #foreach( $field in $domainLinksToOne )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() )
-#set ( $fieldId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
-            @Index(columnList = "${columnName}_${fieldId}", name = "IDX_${tableName}_${columnName}_${fieldId}"),
+#set ( $fieldEntityId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
+            @Index(columnList = "${columnName}_${fieldEntityId}", name = "IDX_${tableName}_${columnName}_${fieldEntityId}"),
 #end
 #foreach( $field in $domainEnumerators )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), "_").toUpperCase() )
@@ -60,9 +60,9 @@ public class ${entity.name}Entity implements Serializable {
 #foreach( $link in $domainLinks )
 #if ( $link.isCardinalityManyToOne() )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.fieldName), "_").toUpperCase() )  
-#set ( $fieldId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
+#set ( $fieldEntityId = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($link.targetEntity.keyAttributes[0].name), "_").toUpperCase() )
 
-    @JoinColumn(name = "${columnName}_${fieldId}", foreignKey = @ForeignKey(name = "FK_${tableName}_${columnName}_${fieldId}"))
+    @JoinColumn(name = "${columnName}_${fieldEntityId}", foreignKey = @ForeignKey(name = "FK_${tableName}_${columnName}_${fieldEntityId}"))
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ${link.fieldType}Entity $link.fieldName;
 #elseif ( $link.isCardinalityOneToMany() )
