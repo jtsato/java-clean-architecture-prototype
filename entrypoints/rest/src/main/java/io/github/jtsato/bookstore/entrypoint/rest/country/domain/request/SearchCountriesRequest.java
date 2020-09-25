@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.entrypoint.rest.common;
+package io.github.jtsato.bookstore.entrypoint.rest.country.domain.request;
 
 import java.io.Serializable;
 
@@ -17,9 +17,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class WebRequest implements Serializable {
+public final class SearchCountriesRequest implements Serializable {
 
-    private static final long serialVersionUID = 9001601091356348164L;
+    private static final long serialVersionUID = 4093464546449048293L;
 
-    protected String path;
+    private Long id;
+    private String name;
 }

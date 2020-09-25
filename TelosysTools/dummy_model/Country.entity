@@ -1,0 +1,4 @@
+Country {
+ id : long { @Id };
+ name : string { @NotBlank, @DbComment("UniqueKey") };
+}
