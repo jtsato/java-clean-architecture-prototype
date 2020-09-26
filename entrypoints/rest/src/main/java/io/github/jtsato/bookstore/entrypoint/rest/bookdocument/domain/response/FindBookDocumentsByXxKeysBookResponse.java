@@ -15,7 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindBookDocumentsByXxKeysBookResponse implements Serializable {
 
-    private static final long serialVersionUID = -3806375555387996004L;
+    private static final long serialVersionUID = 1160880482456455189L;
 
     private final Long id;
     private final FindBookDocumentsByXxKeysBookAuthorResponse author;

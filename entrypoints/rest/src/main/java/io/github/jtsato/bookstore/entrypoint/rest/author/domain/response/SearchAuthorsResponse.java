@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SearchAuthorsResponse implements Serializable {
 
-    private static final long serialVersionUID = -6015089605919816615L;
+    private static final long serialVersionUID = 4458223697958879881L;
 
     private final Long id;
     private final String name;

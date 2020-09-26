@@ -1,0 +1,4 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+$generator.generate($target.entityName, "Find${pluralEntityName}By${pluralDomainId}Controller.java", $target.folder, "root/entrypoints/rest/src/main/java/controller/FindByIdsController_java.vm" )
+#end

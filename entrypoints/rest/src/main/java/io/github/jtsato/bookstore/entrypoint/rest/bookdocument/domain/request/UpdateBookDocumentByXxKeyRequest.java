@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class UpdateBookDocumentByXxKeyRequest implements Serializable {
 
-    private static final long serialVersionUID = -8583320841829398999L;
+    private static final long serialVersionUID = -1167731623114356856L;
 
     private Long xxKey;
     private Long bookId;

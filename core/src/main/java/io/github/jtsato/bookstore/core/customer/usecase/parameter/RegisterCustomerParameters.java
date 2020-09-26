@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterCustomerParameters extends SelfValidating<RegisterCustomerParameters> implements Serializable {
 
-    private static final long serialVersionUID = 6678405535487378681L;
+    private static final long serialVersionUID = 933370914492203166L;
 
     @NotBlank(message = "validation.customer.name.blank")
     private final String name;

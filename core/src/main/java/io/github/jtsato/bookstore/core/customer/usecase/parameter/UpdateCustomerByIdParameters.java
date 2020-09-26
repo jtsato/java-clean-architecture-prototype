@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateCustomerByIdParameters extends SelfValidating<UpdateCustomerByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -6999737773648032590L;
+    private static final long serialVersionUID = -3748859938743629313L;
 
     @NotNull(message = "validation.customer.id.null")
     private Long id;

@@ -1,7 +1,7 @@
 package io.github.jtsato.bookstore.entrypoint.rest.country.api;
 
 import io.github.jtsato.bookstore.entrypoint.rest.country.domain.request.FindCountriesByIdsRequest;
-import io.github.jtsato.bookstore.entrypoint.rest.country.domain.response.FindCountriesByIdsResponse;
+import io.github.jtsato.bookstore.entrypoint.rest.country.domain.response.FindCountriesByIdsWrapperResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,5 +33,5 @@ public interface FindCountriesByIdsApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                         description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    FindCountriesByIdsResponse execute(final FindCountriesByIdsRequest request);
+    FindCountriesByIdsWrapperResponse execute(final FindCountriesByIdsRequest request);
 }

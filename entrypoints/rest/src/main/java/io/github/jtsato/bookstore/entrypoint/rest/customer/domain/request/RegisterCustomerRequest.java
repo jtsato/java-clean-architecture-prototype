@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class RegisterCustomerRequest implements Serializable {
 
-    private static final long serialVersionUID = 38182083689071436L;
+    private static final long serialVersionUID = -4981156078281273953L;
 
     private String name;
     private String address;

@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterCustomerResponse implements Serializable {
 
-    private static final long serialVersionUID = 8432780671333910994L;
+    private static final long serialVersionUID = -4374782725446087506L;
 
     private final Long id;
     private final String name;

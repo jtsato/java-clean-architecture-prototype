@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateCountryByIdParameters extends SelfValidating<UpdateCountryByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -4791521345816932925L;
+    private static final long serialVersionUID = 1389193193419524136L;
 
     @NotNull(message = "validation.country.id.null")
     private Long id;

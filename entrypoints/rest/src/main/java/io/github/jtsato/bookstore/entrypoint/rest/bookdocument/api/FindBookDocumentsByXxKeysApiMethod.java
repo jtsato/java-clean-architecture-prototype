@@ -1,7 +1,7 @@
 package io.github.jtsato.bookstore.entrypoint.rest.bookdocument.api;
 
 import io.github.jtsato.bookstore.entrypoint.rest.bookdocument.domain.request.FindBookDocumentsByXxKeysRequest;
-import io.github.jtsato.bookstore.entrypoint.rest.bookdocument.domain.response.FindBookDocumentsByXxKeysResponse;
+import io.github.jtsato.bookstore.entrypoint.rest.bookdocument.domain.response.FindBookDocumentsByXxKeysWrapperResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,5 +33,5 @@ public interface FindBookDocumentsByXxKeysApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                         description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    FindBookDocumentsByXxKeysResponse execute(final FindBookDocumentsByXxKeysRequest request);
+    FindBookDocumentsByXxKeysWrapperResponse execute(final FindBookDocumentsByXxKeysRequest request);
 }

@@ -1,0 +1,60 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Find${pluralEntityName}By${pluralDomainId}UseCase;
+import ${ROOT_PKG}.core.common.paging.Page;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.api.Find${pluralEntityName}By${pluralDomainId}ApiMethod;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Find${pluralEntityName}By${pluralDomainId}Request;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Find${pluralEntityName}By${pluralDomainId}WrapperResponse;
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.mapper.Find${pluralEntityName}By${pluralDomainId}Presenter;
+import ${ROOT_PKG}.entrypoint.rest.common.JsonConverter;
+import ${ROOT_PKG}.entrypoint.rest.common.metric.LogExecutionTime;
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A EntryPoint follows these steps:
+ *
+ * - Maps HTTP requests to Java objects
+ * - Performs authorization checks
+ * - Maps input to the input model of the use case
+ * - Calls the use case
+ * - Maps the output of the use case back to HTTP Returns an HTTP response
+ */
+
+#include ( "/include/author.vm" )
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/${entityNameAsUrl}")
+public class Find${pluralEntityName}By${pluralDomainId}Controller implements Find${pluralEntityName}By${pluralDomainId}ApiMethod {
+
+    private static final Logger log = LoggerFactory.getLogger(Find${pluralEntityName}By${pluralDomainId}Controller.class);
+
+    private final Find${pluralEntityName}By${pluralDomainId}UseCase find${pluralEntityName}By${pluralDomainId}UseCase;
+
+    @Override
+    @LogExecutionTime
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/findBy${pluralDomainId}")
+    public Find${pluralEntityName}By${pluralDomainId}WrapperResponse execute(@RequestBody @DefaultValue final Find${pluralEntityName}By${pluralDomainId}Request request) {
+
+        final String jsonRequest = JsonConverter.of(request);
+        log.info("Starting Controller -> Find${pluralEntityName}By${pluralDomainId}Controller with {}", jsonRequest);
+
+        final Page<${entity.name}> ${uncapitalizePluralEntityName} = find${pluralEntityName}By${pluralDomainId}UseCase.execute(request.get${pluralDomainId}());
+
+        return Find${pluralEntityName}By${pluralDomainId}Presenter.of(${uncapitalizePluralEntityName});
+    }
+}
+

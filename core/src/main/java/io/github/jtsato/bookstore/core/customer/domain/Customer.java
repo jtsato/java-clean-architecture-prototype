@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class Customer implements Serializable {
 
-    private static final long serialVersionUID = -1831809800450257454L;
+    private static final long serialVersionUID = -8949244864288309177L;
 
     private final Long id;
     private final String name;

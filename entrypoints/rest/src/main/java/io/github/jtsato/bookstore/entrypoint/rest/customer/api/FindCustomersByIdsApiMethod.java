@@ -1,7 +1,7 @@
 package io.github.jtsato.bookstore.entrypoint.rest.customer.api;
 
 import io.github.jtsato.bookstore.entrypoint.rest.customer.domain.request.FindCustomersByIdsRequest;
-import io.github.jtsato.bookstore.entrypoint.rest.customer.domain.response.FindCustomersByIdsResponse;
+import io.github.jtsato.bookstore.entrypoint.rest.customer.domain.response.FindCustomersByIdsWrapperResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,5 +33,5 @@ public interface FindCustomersByIdsApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                         description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    FindCustomersByIdsResponse execute(final FindCustomersByIdsRequest request);
+    FindCustomersByIdsWrapperResponse execute(final FindCustomersByIdsRequest request);
 }

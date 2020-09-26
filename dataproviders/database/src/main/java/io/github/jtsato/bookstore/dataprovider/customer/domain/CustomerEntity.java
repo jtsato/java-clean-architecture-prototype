@@ -32,7 +32,7 @@ import lombok.Setter;
        })
 public class CustomerEntity implements Serializable {
 
-    private static final long serialVersionUID = -7318501339998894399L;
+    private static final long serialVersionUID = -3824134904530122873L;
     
     @Access(AccessType.PROPERTY)
     @Id

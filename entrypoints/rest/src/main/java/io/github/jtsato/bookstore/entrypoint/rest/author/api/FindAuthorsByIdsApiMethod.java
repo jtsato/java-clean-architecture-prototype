@@ -1,7 +1,7 @@
 package io.github.jtsato.bookstore.entrypoint.rest.author.api;
 
 import io.github.jtsato.bookstore.entrypoint.rest.author.domain.request.FindAuthorsByIdsRequest;
-import io.github.jtsato.bookstore.entrypoint.rest.author.domain.response.FindAuthorsByIdsResponse;
+import io.github.jtsato.bookstore.entrypoint.rest.author.domain.response.FindAuthorsByIdsWrapperResponse;
 import io.github.jtsato.bookstore.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,5 +33,5 @@ public interface FindAuthorsByIdsApiMethod {
                            @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500,
                                         description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),})
 
-    FindAuthorsByIdsResponse execute(final FindAuthorsByIdsRequest request);
+    FindAuthorsByIdsWrapperResponse execute(final FindAuthorsByIdsRequest request);
 }
