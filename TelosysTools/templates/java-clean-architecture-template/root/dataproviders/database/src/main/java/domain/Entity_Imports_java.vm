@@ -11,9 +11,17 @@ import java.time.LocalDateTime;
 #if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
 import java.util.List;
 #end
-
+#set ( $hasLargeObject = "false" )
+#foreach ( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#set ( $hasLargeObject = "true" )
+#end
+#end
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+#if ( $hasLargeObject == "true" )
+import javax.persistence.Basic;
+#end
 #if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
 import javax.persistence.CascadeType;
 #end
@@ -33,6 +41,9 @@ import javax.persistence.Index;
 #end
 #if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
 import javax.persistence.JoinColumn;
+#if ( $hasLargeObject == "true" )
+import javax.persistence.Lob;
+#end
 import javax.persistence.ManyToOne;
 #end
 #if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
@@ -58,4 +69,3 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;

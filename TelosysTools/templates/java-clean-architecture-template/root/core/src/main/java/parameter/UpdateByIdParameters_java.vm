@@ -88,7 +88,7 @@ public class Update${entity.name}By${domainId}Parameters extends SelfValidating<
     private final Long ${field.fieldName}${fieldEntityId};
 #end
 #foreach ( $field in $domainLongs )
-#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotNull() )
     @NotNull(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null")

@@ -1,6 +1,35 @@
 #parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()};
 
+#if ( $target.file.contains("IgnoreCase") )
+#set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "IgnoreCaseDataProvider") )
+#set ( $ignoreCase = "IgnoreCase" )
+#else
+#set ( $fieldName = $strUtils.substringBetween($target.file, "By", "DataProvider") )
+#set ( $ignoreCase = "" )
+#end
+#set ( $uncapitalizedFieldName =  $wordUtils.uncapitalize($fieldName) )
+#set ( $fieldType = "Invalid-Type" )
+#foreach ( $field in $domainAttributes)
+#if ( $field.name.toLowerCase() == $fieldName.toLowerCase() )
+#if ( $field.isLongType() )
+#set ( $fieldType = "Long" )
+#elseif ( $field.isStringType() )
+#set ( $fieldType = "String" )
+#elseif ( $field.isBooleanType() )
+#set ( $fieldType = "Boolean" )
+#elseif ( $field.isDateType() )
+#set ( $fieldType = "LocalDate" )
+import java.time.LocalDate;
+#elseif ( $field.isTimestampType() )
+#set ( $fieldType = "LocalDateTime" )
+import java.time.LocalDateTime;
+#elseif ( $field.isDecimalType() )
+#set ( $fieldType = "BigDecimal" )
+import java.math.BigDecimal;
+#end
+#end
+#end
 import java.util.Optional;
 
 import org.mapstruct.factory.Mappers;
@@ -12,15 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 #end
-
-#if ( $target.file.contains("IgnoreCase") )
-#set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "IgnoreCaseDataProvider") )
-#set ( $ignoreCase = "IgnoreCase" )
-#else
-#set ( $fieldName = $strUtils.substringBetween($target.file, "By", "DataProvider") )
-#set ( $ignoreCase = "" )
-#end
-#set ( $uncapitalizedFieldName =  $wordUtils.uncapitalize($fieldName) )
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}By${fieldName}${ignoreCase}Gateway;
@@ -40,7 +60,7 @@ public class Get${entity.name}By${fieldName}${ignoreCase}DataProvider implements
     ${entity.name}Repository ${uncapitalizeEntityName}Repository;
 
     @Override
-    public Optional<${entity.name}> execute(final String ${uncapitalizedFieldName}) {
+    public Optional<${entity.name}> execute(final ${fieldType} ${uncapitalizedFieldName}) {
 #if ( $domainLinksToOne.size() > 0 )
         final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $domainLinksToOne )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
         final Optional<${entity.name}Entity> optional = ${uncapitalizeEntityName}Repository.findBy${fieldName}${ignoreCase}(${uncapitalizedFieldName}, entityGraph);

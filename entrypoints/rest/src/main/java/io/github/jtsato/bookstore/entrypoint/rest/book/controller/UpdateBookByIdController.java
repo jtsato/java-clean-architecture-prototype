@@ -56,6 +56,7 @@ public class UpdateBookByIdController implements UpdateBookByIdApiMethod {
 
         final UpdateBookByIdParameters parameters = new UpdateBookByIdParameters(id,
                                                                                  request.getAuthorId(),
+                                                                                 request.getExternalId(),
                                                                                  request.getTitle(),
                                                                                  request.getIsbn(),
                                                                                  request.getAvailable(),

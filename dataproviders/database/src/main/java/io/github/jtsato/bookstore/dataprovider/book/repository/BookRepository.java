@@ -24,6 +24,8 @@ public interface BookRepository extends EntityGraphJpaRepository<BookEntity, Lon
 
     Page<BookEntity> findByAuthorId(final Long authorId, final EntityGraph entityGraph, final PageRequest pageRequest);
 
+    Optional<BookEntity> findByExternalId(final Long externalId, final EntityGraph entityGraph);
+
     Optional<BookEntity> findByTitleIgnoreCase(final String title, final EntityGraph entityGraph);
 
     Optional<BookEntity> findByIsbnIgnoreCase(final String isbn, final EntityGraph entityGraph);

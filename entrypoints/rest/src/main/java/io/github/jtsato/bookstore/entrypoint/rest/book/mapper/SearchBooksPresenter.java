@@ -29,6 +29,7 @@ public final class SearchBooksPresenter {
     public static SearchBooksResponse of(final Book book) {
         return new SearchBooksResponse(book.getId(),
                                     of(book.getAuthor()),
+                                       book.getExternalId(),
                                        book.getTitle(),
                                        book.getIsbn(),
                                        book.getAvailable(),

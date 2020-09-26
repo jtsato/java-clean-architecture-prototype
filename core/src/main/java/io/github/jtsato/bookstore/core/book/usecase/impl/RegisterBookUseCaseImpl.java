@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import io.github.jtsato.bookstore.core.author.domain.Author;
 import io.github.jtsato.bookstore.core.author.gateway.GetAuthorByIdGateway;
 import io.github.jtsato.bookstore.core.book.domain.Book;
+import io.github.jtsato.bookstore.core.book.gateway.GetBookByExternalIdGateway;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByTitleIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.GetBookByIsbnIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.book.gateway.RegisterBookGateway;
@@ -41,6 +42,8 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
     private final GetAuthorByIdGateway getAuthorByIdGateway ;
 
+    private final GetBookByExternalIdGateway getBookByExternalIdGateway;
+
     private final GetBookByTitleIgnoreCaseGateway getBookByTitleIgnoreCaseGateway;
 
     private final GetBookByIsbnIgnoreCaseGateway getBookByIsbnIgnoreCaseGateway;
@@ -52,10 +55,13 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
         final Author author = getAuthorAndValidate(parameters.getAuthorId());
 
+        checkDuplicatedExternalIdViolation(parameters.getExternalId());
+
         checkDuplicatedTitleViolation(parameters.getTitle());
 
         checkDuplicatedIsbnViolation(parameters.getIsbn());
 
+        final Long externalId = parameters.getExternalId();
         final String title = StringUtils.stripToEmpty(parameters.getTitle());
         final String isbn = StringUtils.stripToEmpty(parameters.getIsbn());
         final Boolean available = parameters.getAvailable();
@@ -65,6 +71,7 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
 
         final Book book = new Book(null,
                                    author,
+                                   externalId,
                                    title,
                                    isbn,
                                    available,
@@ -78,6 +85,15 @@ public class RegisterBookUseCaseImpl implements RegisterBookUseCase {
     private Author getAuthorAndValidate(final Long authorId) {
         final Optional<Author> optional = getAuthorByIdGateway.execute(authorId);
         return optional.orElseThrow(() -> new NotFoundException("validation.author.id.notfound", String.valueOf(authorId)));
+    }
+
+    private void checkDuplicatedExternalIdViolation(final Long externalId) {
+        final Optional<Book> optional = getBookByExternalIdGateway.execute(externalId);
+        optional.ifPresent(this::throwUniqueConstraintExceptionForExternalId);
+    }
+
+    private void throwUniqueConstraintExceptionForExternalId(final Book book) {
+        throw new UniqueConstraintException("validation.book.external.id.already.exists", book.getExternalId());
     }
 
     private void checkDuplicatedTitleViolation(final String title) {

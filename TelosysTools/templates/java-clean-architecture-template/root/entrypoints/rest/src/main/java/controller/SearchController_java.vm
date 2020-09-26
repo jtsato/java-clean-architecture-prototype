@@ -1,7 +1,23 @@
 #parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.controller;
 
-#if ( $domainDecimals.size() > 0 )
+#set ( $hasDecimals = "false" )
+#macro ( checkDecimals $entitie )
+#set ( $entityAttributes = $entitie.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+#foreach( $field in $entityAttributes )
+#if ( $field.isDecimalType() )
+#set ( $hasDecimals = "true" )
+#break
+#end
+#end
+#if ( $hasDecimals == "false" )
+#foreach ( $link in $entitie.selectedLinks )
+#checkDecimals( $link.targetEntity )
+#end
+#end
+#end
+#checkDecimals( $entity )
+#if ( $hasDecimals == "true" )
 import java.math.BigDecimal;
 
 #end

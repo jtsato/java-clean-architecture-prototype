@@ -5,7 +5,7 @@ BookDocument {
  extension : string { @NotBlank };
  name : string { @NotBlank, @DbComment("UniqueKey") };
  size : long { @NotNull, @DbComment("Positive") };
- content : string { @NotBlank };
+ content : string { @NotBlank, @DbComment("LargeObject") };
  creationDate : date { @DbComment("CurrentDateOnUpdate, Index") } ;
  lastModifiedDate : date { @DbComment("CurrentDateOnUpdate, Index") } ;
 }

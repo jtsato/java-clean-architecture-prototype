@@ -69,13 +69,14 @@ public class SearchBooksController implements SearchBooksApiMethod {
 
         final Long id = searchBooksRequest.getId();
         final SearchAuthorsParameters searchAuthorsParameters = buildSearchAuthorsParameters(searchBooksRequest.getAuthor());
+        final ImmutablePair<Long, Long> externalIdRange = new ImmutablePair<>(searchBooksRequest.getStartExternalId(), searchBooksRequest.getEndExternalId());
         final String title = searchBooksRequest.getTitle();
         final String isbn = searchBooksRequest.getIsbn();
         final Boolean available = searchBooksRequest.getAvailable();
         final ImmutablePair<String, String> createdDateTimeRange = new ImmutablePair<>(searchBooksRequest.getStartCreatedDateTime(), searchBooksRequest.getEndCreatedDateTime());
         final ImmutablePair<String, String> lastModifiedDateTimeRange = new ImmutablePair<>(searchBooksRequest.getStartLastModifiedDateTime(), searchBooksRequest.getEndLastModifiedDateTime());
         final ImmutablePair<BigDecimal, BigDecimal> priceRange = new ImmutablePair<>(searchBooksRequest.getStartPrice(), searchBooksRequest.getEndPrice());
-        return new SearchBooksParameters(id, searchAuthorsParameters, title, isbn, available, createdDateTimeRange, lastModifiedDateTimeRange, priceRange); 
+        return new SearchBooksParameters(id, searchAuthorsParameters, externalIdRange, title, isbn, available, createdDateTimeRange, lastModifiedDateTimeRange, priceRange); 
     }
 
     private SearchAuthorsParameters buildSearchAuthorsParameters(final SearchBooksAuthorRequest searchAuthorsRequest) {

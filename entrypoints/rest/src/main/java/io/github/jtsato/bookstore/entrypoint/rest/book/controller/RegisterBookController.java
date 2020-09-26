@@ -54,6 +54,7 @@ public class RegisterBookController implements RegisterBookApiMethod {
         log.info("Starting Controller -> RegisterBookController with {}", jsonRequest);
 
         final RegisterBookParameters parameters = new RegisterBookParameters(request.getAuthorId(),
+                                                                             request.getExternalId(),
                                                                              request.getTitle(),
                                                                              request.getIsbn(),
                                                                              request.getAvailable(),

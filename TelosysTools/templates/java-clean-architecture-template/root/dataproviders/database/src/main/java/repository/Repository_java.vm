@@ -36,15 +36,19 @@ public interface ${entity.name}Repository extends EntityGraphJpaRepository<${ent
 
     Page<${entity.name}Entity> findBy${fieldName}${fieldEntityId}(final Long ${field.fieldName}${fieldEntityId}#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end, final PageRequest pageRequest);
 #end
+#foreach( $field in $domainLongs )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)(final Long $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
+#end
+#foreach( $field in $domainStrings )
+
+    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
+#end
 #foreach( $field in $domainEnumerators )
 #if ($field.isCardinalityManyToOne())
 
     Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.fieldName)(final String $field.fieldName#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
-#end
-#foreach( $field in $domainStrings )
-
-    Optional<${entity.name}Entity> findBy$wordUtils.capitalize($field.name)IgnoreCase(final String $field.name#if ( $domainLinksToOne.size() > 0), final EntityGraph entityGraph#end);
 #end
 #foreach( $field in $domainBooleans )
 

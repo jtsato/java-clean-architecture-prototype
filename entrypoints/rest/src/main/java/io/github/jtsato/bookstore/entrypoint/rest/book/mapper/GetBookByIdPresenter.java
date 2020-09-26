@@ -17,6 +17,7 @@ public final class GetBookByIdPresenter {
     public static GetBookByIdResponse of(final Book book) {
         return new GetBookByIdResponse(book.getId(),
                                     of(book.getAuthor()),
+                                       book.getExternalId(),
                                        book.getTitle(),
                                        book.getIsbn(),
                                        book.getAvailable(),

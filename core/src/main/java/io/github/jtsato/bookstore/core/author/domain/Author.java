@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Author implements Serializable {
 
-    private static final long serialVersionUID = 6885686817333463037L;
+    private static final long serialVersionUID = 1187816282961495415L;
 
     private final Long id;
     private final String name;

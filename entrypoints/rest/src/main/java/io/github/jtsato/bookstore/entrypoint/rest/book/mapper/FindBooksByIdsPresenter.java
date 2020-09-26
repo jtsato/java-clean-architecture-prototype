@@ -29,6 +29,7 @@ public final class FindBooksByIdsPresenter {
     public static FindBooksByIdsResponse of(final Book book) {
         return new FindBooksByIdsResponse(book.getId(),
                                        of(book.getAuthor()),
+                                          book.getExternalId(),
                                           book.getTitle(),
                                           book.getIsbn(),
                                           book.getAvailable(),

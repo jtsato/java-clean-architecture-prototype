@@ -75,7 +75,7 @@ public class Register${entity.name}Parameters extends SelfValidating<Register${e
     private final Long ${field.fieldName}${fieldEntityId};
 #end
 #foreach ( $field in $domainLongs )
-#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldName), ".").toLowerCase() )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotNull() )
     @NotNull(message = "validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null")

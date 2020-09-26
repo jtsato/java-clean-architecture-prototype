@@ -1,0 +1,5 @@
+Customer {
+ id : long { @Id };
+ name : string { @NotBlank, @DbComment("UniqueKey") };
+ address: string { @NotBlank, @DbComment("UniqueKey") };
+}

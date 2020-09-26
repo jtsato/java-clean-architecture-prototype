@@ -1,12 +1,6 @@
-#parse ( "include/loader_stringutils.vm" )
-#parse ( "include/loader_wordutils.vm" )
+#parse ( "/include/domain_info.vm" )
 package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway;
 
-import java.util.Optional;
-
-import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
-
-#include ( "/include/author.vm" )
 #if ( $target.file.contains("IgnoreCase") )
 #set ( $fieldName =  $strUtils.substringBetween($target.file, "By", "IgnoreCaseGateway") )
 #set ( $ignoreCase = "IgnoreCase" )
@@ -15,9 +9,35 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 #set ( $ignoreCase = "" )
 #end
 #set ( $uncapitalizedFieldName =  $wordUtils.uncapitalize($fieldName) )
+#set ( $fieldType = "Invalid-Type" )
+#foreach ( $field in $domainAttributes)
+#if ( $field.name.toLowerCase() == $fieldName.toLowerCase() )
+#if ( $field.isLongType() )
+#set ( $fieldType = "Long" )
+#elseif ( $field.isStringType() )
+#set ( $fieldType = "String" )
+#elseif ( $field.isBooleanType() )
+#set ( $fieldType = "Boolean" )
+#elseif ( $field.isDateType() )
+#set ( $fieldType = "LocalDate" )
+import java.time.LocalDate;
+#elseif ( $field.isTimestampType() )
+#set ( $fieldType = "LocalDateTime" )
+import java.time.LocalDateTime;
+#elseif ( $field.isDecimalType() )
+#set ( $fieldType = "BigDecimal" )
+import java.math.BigDecimal;
+#end
+#end
+#end
+import java.util.Optional;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+
+#include ( "/include/author.vm" )
 
 @FunctionalInterface
 public interface Get${entity.name}By${fieldName}${ignoreCase}Gateway {
 
-    Optional<${entity.name}> execute(final String ${uncapitalizedFieldName});
+    Optional<${entity.name}> execute(final ${fieldType} ${uncapitalizedFieldName});
 }

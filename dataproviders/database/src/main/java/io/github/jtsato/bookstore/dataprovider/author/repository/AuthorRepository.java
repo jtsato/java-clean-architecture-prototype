@@ -19,7 +19,7 @@ public interface AuthorRepository extends EntityGraphJpaRepository<AuthorEntity,
 
     Optional<AuthorEntity> findById(final Long id);
 
-    Optional<AuthorEntity> findByGender(final String gender);
-
     Optional<AuthorEntity> findByNameIgnoreCase(final String name);
+
+    Optional<AuthorEntity> findByGender(final String gender);
 }

@@ -208,8 +208,21 @@ ${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
 #else
 #set ( $ignoreCase =  "" )
 #end
+#if ( $field.isLongType() )
+#set ( $fieldType = "Long" )
+#elseif ( $field.isStringType() )
+#set ( $fieldType = "String" )
+#elseif ( $field.isBooleanType() )
+#set ( $fieldType = "Boolean" )
+#elseif ( $field.isDateType() )
+#set ( $fieldType = "LocalDate" )
+#elseif ( $field.isTimestampType() )
+#set ( $fieldType = "LocalDateTime" )
+#elseif ( $field.isDecimalType() )
+#set ( $fieldType = "BigDecimal" )
+#end
 
-    private void checkDuplicated${fieldName}Violation(final String ${uncapitalizeFieldName}) {
+    private void checkDuplicated${fieldName}Violation(final ${fieldType} ${uncapitalizeFieldName}) {
         final Optional<${entity.name}> optional = get${entity.name}By${fieldName}${ignoreCase}Gateway.execute(${uncapitalizeFieldName});
         optional.ifPresent(this::throwUniqueConstraintExceptionFor${fieldName});
     }

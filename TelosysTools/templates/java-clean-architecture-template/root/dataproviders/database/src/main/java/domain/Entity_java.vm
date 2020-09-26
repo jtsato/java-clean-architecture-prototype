@@ -10,7 +10,6 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "${tableName}"#if ( $domainUkKeys.size() > 0 ),
        uniqueConstraints = {
@@ -87,7 +86,13 @@ public class ${entity.name}Entity implements Serializable {
 #foreach( $field in $domainAttributes )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() )  
 
-    @Column(name = "${columnName}", nullable = false)
+#if ( $field.isStringType() )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+#end
+#end
+    @Column(name = "${columnName}"#if ( $field.isNotNull() || $field.isNotBlank() || $field.isNotEmpty() ), nullable = false#end)
 #if ( $field.isLongType() )
     private Long $field.name;
 #elseif ( $field.isBooleanType() )
@@ -102,4 +107,47 @@ public class ${entity.name}Entity implements Serializable {
     private $field.type $field.name;
 #end
 #end
+
+    @Override
+    public int hashCode() {
+        final int prime = 23;
+        int result = 1;
+        result = prime * result + (${uncapitalizedDomainId} == null ? 0 : ${uncapitalizedDomainId}.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ${entity.name}Entity other = (${entity.name}Entity) obj;
+        if (${uncapitalizedDomainId} == null) {
+            if (other.${uncapitalizedDomainId} != null) {
+                return false;
+            }
+        } else if (!${uncapitalizedDomainId}.equals(other.${uncapitalizedDomainId})) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("${entity.name} [${uncapitalizedDomainId}=");
+        builder.append(${uncapitalizedDomainId});
+#foreach ( $field in $domainAttributes )
+        builder.append(", ${field.name}=");
+        builder.append(${field.name});
+#end
+        builder.append("]");
+        return builder.toString();
+    }
 }

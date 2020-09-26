@@ -17,6 +17,7 @@ public final class RegisterBookPresenter {
     public static RegisterBookResponse of(final Book book) {
         return new RegisterBookResponse(book.getId(),
                                      of(book.getAuthor()),
+                                        book.getExternalId(),
                                         book.getTitle(),
                                         book.getIsbn(),
                                         book.getAvailable(),

@@ -1,5 +1,6 @@
 Book {
  id : long { @Id };
+ externalId : long { @NotNull, @DbComment("UniqueKey") };
  author : Author { @NotNull };
  title : string { @NotBlank, @DbComment("UniqueKey") };
  available : boolean { @NotNull, @DbComment("Index") } ;

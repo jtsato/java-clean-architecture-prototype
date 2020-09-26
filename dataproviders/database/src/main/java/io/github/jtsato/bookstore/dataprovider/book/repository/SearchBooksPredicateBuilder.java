@@ -38,6 +38,14 @@ public class SearchBooksPredicateBuilder extends AbstractPredicateBuilderImpl<QB
             booleanExpressions.addAll(searchAuthorPredicateBuilder.buildBooleanExpressions(query.getSearchAuthorsParameters()));
         }
 
+        if (query.getStartExternalId() != null) {
+            booleanExpressions.add(entityPath.externalId.goe(query.getStartExternalId()));
+        }
+
+        if (query.getEndExternalId() != null) {
+            booleanExpressions.add(entityPath.externalId.loe(query.getEndExternalId()));
+        }
+
         if (StringUtils.isNotBlank(query.getTitle())) {
             booleanExpressions.add(entityPath.title.like(addLikeOperator(query.getTitle())));
         }

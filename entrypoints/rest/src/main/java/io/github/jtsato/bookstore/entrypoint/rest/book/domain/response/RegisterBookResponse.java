@@ -15,10 +15,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterBookResponse implements Serializable {
 
-    private static final long serialVersionUID = -680855776806482846L;
+    private static final long serialVersionUID = 7802510117277814731L;
 
     private final Long id;
     private final RegisterBookAuthorResponse author;
+    private final Long externalId;
     private final String title;
     private final String isbn;
     private final Boolean available;

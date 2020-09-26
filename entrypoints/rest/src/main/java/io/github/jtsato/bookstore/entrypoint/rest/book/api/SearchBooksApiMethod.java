@@ -37,6 +37,14 @@ public interface SearchBooksApiMethod {
                description = "Book id that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "long")))
     @Parameter(in = ParameterIn.QUERY,
+               name = "startExternalId",
+               description = "Filters book's external id greater than or equal to the specified value.",
+               content = @Content(schema = @Schema(type = "long")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "endExternalId",
+               description = "Filters book's external id less than or equal to the specified value.",
+               content = @Content(schema = @Schema(type = "long")))
+    @Parameter(in = ParameterIn.QUERY,
                name = "title",
                description = "Book title that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "string")))

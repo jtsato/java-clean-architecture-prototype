@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Enumerator implements Serializable {
 
-    private static final long serialVersionUID = -4371286199973032070L;
+    private static final long serialVersionUID = 741293924576084085L;
 
     private final String domain;
     private final String key;
