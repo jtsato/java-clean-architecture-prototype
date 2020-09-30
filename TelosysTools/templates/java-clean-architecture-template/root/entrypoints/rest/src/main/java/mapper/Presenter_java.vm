@@ -12,32 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 #end
-#macro( importEntity $entitie )
-import ${ROOT_PKG}.core.${entitie.name.toLowerCase()}.domain.${entitie.name};
-#foreach( $link in $entitie.selectedLinks )
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+#foreach( $link in $entity.selectedLinks )
 #if ( !$link.fieldType.contains("Enum_") )
-#importEntity($link.targetEntity)
+import ${ROOT_PKG}.core.${link.targetEntity.name.toLowerCase()}.domain.${link.targetEntity.name};
 #end
 #end
-#end
+
 #if ( $plural == "true" )
 import ${ROOT_PKG}.core.common.paging.Page;
 #end
-#importEntity($entity)
-#macro( importResponses $parameters )
-#set ( $entitie = $parameters.param1 )
-#set ( $suffix = $parameters.param2 )
-import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.${prefix}${suffix}Response;
-#foreach( $link in $entitie.selectedLinks )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.${prefix}Response;
+#foreach( $link in $entity.selectedLinks )
 #if ( !$link.fieldType.contains("Enum_") )
-#set ( $suffix = "${suffix}${link.targetEntity.name}" )  
-#set( $parameters = {"param1": $link.targetEntity, "param2": "${suffix}"} )
-#importResponses($parameters)
+#set ( $fieldName = $wordUtils.capitalize(${link.fieldName}) )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.${prefix}${fieldName}Response;
 #end
 #end
-#end
-#set( $parameters = {"param1": $entity, "param2": ""} )
-#importResponses($parameters)
+
 #if ( $plural == "true" )
 import ${ROOT_PKG}.entrypoint.rest.${package}.domain.response.${prefix}WrapperResponse;
 #end
@@ -136,13 +128,14 @@ ${signature}${parameters[0]}#if( $parameters.size() > 1 ),#end
 ${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
 #end);
     }
-#foreach( $field in $entitie.selectedLinks )
-#if ( !$field.fieldType.contains("Enum_") )
-#set( $parameters = {"param1": $field.targetEntity, "param2": "${suffix}${field.targetEntity.name}"} )
-#buildMethod($parameters)
 #end
-#end
-#end
+
 #set( $parameters = {"param1": $entity, "param2": ""} )
 #buildMethod($parameters)
+#foreach( $field in $entity.selectedLinks )
+#if ( !$field.fieldType.contains("Enum_") )
+#set( $parameters = {"param1": $field.targetEntity, "param2": "$wordUtils.capitalize(${field.fieldName})"} )
+#buildMethod($parameters)
+#end
+#end
 }

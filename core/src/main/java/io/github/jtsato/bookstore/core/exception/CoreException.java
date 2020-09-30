@@ -8,7 +8,7 @@ import lombok.Getter;
 
 public class CoreException extends RuntimeException {
 
-    private static final long serialVersionUID = -2916052298133780372L;
+    private static final long serialVersionUID = -8933920251169519310L;
 
     @Getter
     private final String message;

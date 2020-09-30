@@ -82,7 +82,9 @@
 #if ( !$element.name.contains("Enum_") )
 #foreach( $field in $element.selectedLinks )
 #if ( $field.fieldType.equalsIgnoreCase($entity.name) ) 
+#if ( !$domainReferencedBy.contains($element) )
 #set ( $x = $domainReferencedBy.add($element) )
+#end
 #end
 #end
 #end

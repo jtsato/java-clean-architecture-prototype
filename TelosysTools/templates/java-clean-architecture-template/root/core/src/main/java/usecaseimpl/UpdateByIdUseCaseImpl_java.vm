@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 #foreach ( $field in $domainLinksToOne )
 #set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.gateway.Get${fieldName}By${fieldEntityId}Gateway") )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.gateway.Get${field.fieldType}By${fieldEntityId}Gateway") )
 #end
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name}") )
 #foreach ( $field in $domainUkKeys )
@@ -57,7 +57,9 @@ import org.apache.commons.lang3.StringUtils;
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.EnumeratorUtils") )
 #end
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.exception.NotFoundException") )
+#if ( $domainUkKeys.size() > 0 )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.exception.UniqueConstraintException") )
+#end
 #foreach ( $import in $coreImports )
 ${import};
 #end
@@ -112,8 +114,8 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
     public ${entity.name} execute(final Update${entity.name}By${domainId}Parameters parameters) {
 #foreach( $field in $domainLinksToOne )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-
-        final ${field.fieldType} ${field.fieldName} = get${field.fieldType}AndValidate(parameters.get${field.fieldType}${fieldEntityId}());
+#set ( $capitalizedFieldName = $wordUtils.capitalize($field.fieldName) )
+        final ${field.fieldType} ${field.fieldName} = get${field.fieldType}AndValidate(parameters.get${capitalizedFieldName}${fieldEntityId}());
 #end
 #foreach ( $field in $domainUkKeys )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )

@@ -1,0 +1,8 @@
+Enum_Education {
+  ElementarySchool : string { @Id }; 
+  MiddleSchool : string ; 
+  HighSchool : string ; 
+  Graduated : string ; 
+  Postgraduate : string ; 
+  Doctorate : string ; 
+}

@@ -6,7 +6,7 @@ package io.github.jtsato.bookstore.core.exception;
 
 public class NotFoundException extends CoreException {
 
-    private static final long serialVersionUID = 1543502877299394450L;
+    private static final long serialVersionUID = -7617219196616686018L;
 
     public NotFoundException(final String message, final Object... args) {
         super(message, args);

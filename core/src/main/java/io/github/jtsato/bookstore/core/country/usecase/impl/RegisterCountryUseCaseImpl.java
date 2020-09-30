@@ -1,17 +1,20 @@
 package io.github.jtsato.bookstore.core.country.usecase.impl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.jtsato.bookstore.core.language.domain.Language;
+import io.github.jtsato.bookstore.core.language.gateway.GetLanguageByIdGateway;
 import io.github.jtsato.bookstore.core.country.domain.Country;
-import io.github.jtsato.bookstore.core.country.gateway.GetCountryByNameIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.country.gateway.RegisterCountryGateway;
 import io.github.jtsato.bookstore.core.country.usecase.RegisterCountryUseCase;
 import io.github.jtsato.bookstore.core.country.usecase.parameter.RegisterCountryParameters;
-import io.github.jtsato.bookstore.core.exception.UniqueConstraintException;
+import io.github.jtsato.bookstore.core.common.GetLocalDateTime;
+import io.github.jtsato.bookstore.core.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 /*
@@ -32,27 +35,30 @@ public class RegisterCountryUseCaseImpl implements RegisterCountryUseCase {
 
     private final RegisterCountryGateway registerCountryGateway;
 
-    private final GetCountryByNameIgnoreCaseGateway getCountryByNameIgnoreCaseGateway;
+    private final GetLanguageByIdGateway getLanguageByIdGateway ;
+
+    private final GetLocalDateTime getLocalDateTime;
 
     @Override
     public Country execute(final RegisterCountryParameters parameters) {
 
-        checkDuplicatedNameViolation(parameters.getName());
+        final Language language = getLanguageAndValidate(parameters.getLanguageId());
 
         final String name = StringUtils.stripToEmpty(parameters.getName());
+        final LocalDateTime createdDateTime = getLocalDateTime.now();
+        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
 
         final Country country = new Country(null,
-                                            name);
+                                            language,
+                                            name,
+                                            createdDateTime,
+                                            lastModifiedDateTime);
 
         return registerCountryGateway.execute(country);
     }
 
-    private void checkDuplicatedNameViolation(final String name) {
-        final Optional<Country> optional = getCountryByNameIgnoreCaseGateway.execute(name);
-        optional.ifPresent(this::throwUniqueConstraintExceptionForName);
-    }
-
-    private void throwUniqueConstraintExceptionForName(final Country country) {
-        throw new UniqueConstraintException("validation.country.name.already.exists", country.getName());
+    private Language getLanguageAndValidate(final Long languageId) {
+        final Optional<Language> optional = getLanguageByIdGateway.execute(languageId);
+        return optional.orElseThrow(() -> new NotFoundException("validation.language.id.notfound", String.valueOf(languageId)));
     }
 }

@@ -48,17 +48,13 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Search${pluralEntityName}UseCase;
 import ${ROOT_PKG}.core.common.paging.Page;
 import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.api.Search${pluralEntityName}ApiMethod;
-#macro( importSearchRequests $entitie )
-import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Search${pluralEntityName}${suffix}Request;
-#foreach( $link in $entitie.selectedLinks )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Search${pluralEntityName}Request;
+#foreach( $link in $entity.selectedLinks )
 #if ( !$link.fieldType.contains("Enum_") )
-#set ( $suffix = "${suffix}${link.targetEntity.name}" )
-#importSearchRequests($link.targetEntity)
+#set ( $fieldName = $wordUtils.capitalize($link.fieldName) )
+import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.request.Search${pluralEntityName}${fieldName}Request;
 #end
 #end
-#end
-#set ( $suffix = "" )
-#importSearchRequests($entity)
 import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.domain.response.Search${pluralEntityName}WrapperResponse;
 import ${ROOT_PKG}.entrypoint.rest.${entity.name.toLowerCase()}.mapper.Search${pluralEntityName}Presenter;
 import ${ROOT_PKG}.entrypoint.rest.common.JsonConverter;
@@ -115,9 +111,8 @@ public class Search${pluralEntityName}Controller implements Search${pluralEntity
 #foreach( $field in $entitie.selectedLinks )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.fieldName}) )
 #if ( !$field.fieldType.contains("Enum_") )
-#set ( $fieldEntityName = $field.fieldType )
 #set ( $pluralFieldEntityName = $wordUtils.capitalize( $inflector.getInstance().pluralize( $field.targetEntity.name ) ) )
-#set ( $x = $statments.add("        final Search${pluralFieldEntityName}Parameters search${pluralFieldEntityName}Parameters = buildSearch${pluralFieldEntityName}Parameters(search${pluralEntitieName}Request.get${fieldEntityName}())") )
+#set ( $x = $statments.add("        final Search${pluralFieldEntityName}Parameters search${pluralFieldEntityName}Parameters = buildSearch${pluralFieldEntityName}Parameters(search${pluralEntitieName}Request.get${capitalizeFieldName}())") )
 #set ( $x = $constructorParameters.add("search${pluralFieldEntityName}Parameters") )
 #end
 #end
@@ -192,13 +187,15 @@ ${statment};
 ${signature}${constructorParameters[0]}#if( $constructorParameters.size() > 1 ), #end
 #foreach ( $parameter in $constructorParameters )#if ( $velocityCount > 1 )${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ), #end#end); 
     }
-#foreach( $field in $entitie.selectedLinks )
-#if ( !$field.fieldType.contains("Enum_") )
-#set( $parameters = {"param1": $field.targetEntity, "param2": "${suffix}${field.targetEntity.name}"} )
-#buildMethod($parameters)
-#end
-#end
 #end
 #set( $parameters = {"param1": $entity, "param2": ""} )
 #buildMethod($parameters)
+#foreach( $field in $entitie.selectedLinks )
+#if ( !$field.fieldType.contains("Enum_") )
+#set ( $fieldName = $wordUtils.capitalize(${field.fieldName}) )
+#set( $parameters = {"param1": $field.targetEntity, "param2": "${suffix}${fieldName}"} )
+#buildMethod($parameters)
+#set ( $suffix = "" )
+#end
+#end
 }

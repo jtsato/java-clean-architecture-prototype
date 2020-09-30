@@ -84,8 +84,8 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
 #set ( $fieldType = $link.fieldType.replace("Enum_", "") )
 
-        if (StringUtils.isNotBlank(query.get${fieldType}())) {
-            final ${fieldType} ${link.fieldName} = EnumeratorUtils.valueOf(query.get${fieldType}(), ${fieldType}.class);
+        if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
+            final ${fieldType} ${link.fieldName} = EnumeratorUtils.valueOf(query.get${capitalizeFieldName}(), ${fieldType}.class);
             booleanExpressions.add(entityPath.${link.fieldName}.eq(${link.fieldName}.name()));
         }
 #end

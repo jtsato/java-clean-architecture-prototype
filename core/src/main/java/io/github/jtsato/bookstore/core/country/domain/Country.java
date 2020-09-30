@@ -1,6 +1,9 @@
 package io.github.jtsato.bookstore.core.country.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import io.github.jtsato.bookstore.core.language.domain.Language;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,8 +19,11 @@ import lombok.ToString;
 @ToString
 public class Country implements Serializable {
 
-    private static final long serialVersionUID = -6639498580194016423L;
+    private static final long serialVersionUID = 7474849761830650645L;
 
     private final Long id;
+    private final Language language;
     private final String name;
+    private final LocalDateTime createdDateTime;
+    private final LocalDateTime lastModifiedDateTime;
 }

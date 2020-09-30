@@ -69,12 +69,13 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
         return ${uncapitalizeEntityName}Mapper.of(${uncapitalizeEntityName}Repository.saveAndFlush(${uncapitalizeEntityName}Entity));
     }
 #foreach ( $field in $domainLinksToOne )
+#set ( $capitalizeFieldName = $wordUtils.capitalize($field.fieldName) )
 #set ( $uncapitalizeFieldType = $wordUtils.uncapitalize($field.fieldType) )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 
     private void update${field.fieldType}Entity(final ${entity.name} ${uncapitalizeEntityName}, final ${entity.name}Entity ${uncapitalizeEntityName}Entity) {
-        final Long current${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}Entity.get${field.fieldType}().get${fieldEntityId}();
-        final Long new${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}.get${field.fieldType}().get${fieldEntityId}();
+        final Long current${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}Entity.get${capitalizeFieldName}().get${fieldEntityId}();
+        final Long new${field.fieldType}${fieldEntityId} = ${uncapitalizeEntityName}.get${capitalizeFieldName}().get${fieldEntityId}();
         if (!new${field.fieldType}${fieldEntityId}.equals(current${field.fieldType}${fieldEntityId})) {
 #set ( $fieldGraphs = [] )
 #foreach( $link in $field.targetEntity.selectedLinks )
@@ -88,7 +89,7 @@ public class Update${entity.name}By${domainId}DataProvider implements Update${en
             final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths(#foreach( $link in $fieldGraphs )"${link.fieldName}"#if( $foreach.hasNext ), #end#end);
             ${uncapitalizeFieldType}Repository.findBy${fieldEntityId}(new${field.fieldType}${fieldEntityId}, entityGraph).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
 #else
-            ${uncapitalizeFieldType}Repository.findBy${fieldEntityId}(new${field.fieldType}${fieldEntityId}).ifPresent(${uncapitalizeEntityName}Entity::set${field.fieldType});
+            ${uncapitalizeFieldType}Repository.findBy${fieldEntityId}(new${field.fieldType}${fieldEntityId}).ifPresent(${uncapitalizeEntityName}Entity::set${capitalizeFieldName});
 #end
         }
     }

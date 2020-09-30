@@ -11,8 +11,10 @@ package ${ROOT_PKG}.dataprovider.${entity.name.toLowerCase()}.domain;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "${tableName}"#if ( $domainUkKeys.size() > 0 ),
+@Table(name = "${tableName}"#if ( $domainUkKeys.size() > 0 ||  $domainIndexes.size() > 0 || $domainLinksToOne.size() > 0 || $domainEnumerators.size() > 0 ),
+#if ( $domainUkKeys.size() > 0 )
        uniqueConstraints = {
+#end
 #end
 #foreach( $field in $domainUkKeys )
 #set ( $columnName = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.databaseName), "_").toUpperCase() ) 

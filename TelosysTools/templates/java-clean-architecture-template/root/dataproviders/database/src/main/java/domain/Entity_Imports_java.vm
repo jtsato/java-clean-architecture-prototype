@@ -29,6 +29,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 #if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 || $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 )
 import javax.persistence.FetchType;
+#else
+#foreach( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#if ( $field.isStringType() )
+import javax.persistence.FetchType;
+#break
+#end
+#end
+#end
 #end
 #if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
 import javax.persistence.ForeignKey;
@@ -38,6 +47,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 #if ( $domainIndexes.size() > 0 )
 import javax.persistence.Index;
+#end
+#foreach( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#if ( $field.isStringType() )
+import javax.persistence.Lob;
+#break
+#end
+#end
 #end
 #if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
 import javax.persistence.JoinColumn;

@@ -28,7 +28,7 @@ public class ${prefix}Response implements Serializable {
     private final Long ${uncapitalizedDomainId};
 #foreach( $field in $domainLinksToOne )
 #set ( $fieldName = $wordUtils.capitalize($field.fieldName) )
-    private final ${prefix}${field.fieldType}Response $field.fieldName;$generator.generate($field.targetEntity.name, "${prefix}${field.fieldType}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/Response_java.vm" )
+    private final ${prefix}${fieldName}Response $field.fieldName;$generator.generate($field.targetEntity.name, "${prefix}${fieldName}Response.java", $target.folder, "root/entrypoints/rest/src/main/java/response/Response_java.vm" )
 #end
 #foreach( $field in $domainLongs )
     private final Long $field.name;
