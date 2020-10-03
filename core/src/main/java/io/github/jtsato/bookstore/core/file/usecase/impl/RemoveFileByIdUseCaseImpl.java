@@ -37,7 +37,6 @@ public class RemoveFileByIdUseCaseImpl implements RemoveFileByIdUseCase {
         }
 
         final Optional<File> optional = removeFileByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.file.id.notfound", String.valueOf(id)));
     }
 }

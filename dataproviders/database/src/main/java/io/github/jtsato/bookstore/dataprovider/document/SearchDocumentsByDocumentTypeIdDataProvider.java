@@ -11,7 +11,7 @@ import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils;
 
 import io.github.jtsato.bookstore.core.document.domain.Document;
-import io.github.jtsato.bookstore.core.document.gateway.SearchDocumentsByTypeIdGateway;
+import io.github.jtsato.bookstore.core.document.gateway.SearchDocumentsByDocumentTypeIdGateway;
 
 import io.github.jtsato.bookstore.core.common.paging.Page;
 import io.github.jtsato.bookstore.dataprovider.document.domain.DocumentEntity;
@@ -26,7 +26,7 @@ import io.github.jtsato.bookstore.dataprovider.common.PageRequestHelper;
 
 @Transactional(readOnly = true)
 @Service
-public class SearchDocumentsByTypeIdDataProvider implements SearchDocumentsByTypeIdGateway {
+public class SearchDocumentsByDocumentTypeIdDataProvider implements SearchDocumentsByDocumentTypeIdGateway {
     
 	private final DocumentMapper documentMapper = Mappers.getMapper(DocumentMapper.class);
     private final PageMapper<Document, DocumentEntity> pageMapper = new PageMapper<>() {};
@@ -35,12 +35,12 @@ public class SearchDocumentsByTypeIdDataProvider implements SearchDocumentsByTyp
     DocumentRepository documentRepository;
 
     @Override
-    public Page<Document> execute(final Long typeId, final Integer pageNumber, final Integer size, final String orderBy) {
+    public Page<Document> execute(final Long documentTypeId, final Integer pageNumber, final Integer size, final String orderBy) {
 
         final PageRequest pageRequest = PageRequestHelper.buildPageRequest(pageNumber, size, sanitizeOrderBy(orderBy));
     	
         final EntityGraph entityGraph = EntityGraphUtils.fromAttributePaths("lead", "type");
-        final org.springframework.data.domain.Page<DocumentEntity> page = documentRepository.findByTypeId(typeId, entityGraph, pageRequest);
+        final org.springframework.data.domain.Page<DocumentEntity> page = documentRepository.findByTypeId(documentTypeId, entityGraph, pageRequest);
 
         return pageMapper.of(page, documentMapper::of);
     }

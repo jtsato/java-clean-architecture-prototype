@@ -35,6 +35,7 @@ public class GetAddressByIdUseCaseImpl implements GetAddressByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.address.id.null");
         }
+
         final Optional<Address> optional = getAddressByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.address.id.notfound", String.valueOf(id)));
     }

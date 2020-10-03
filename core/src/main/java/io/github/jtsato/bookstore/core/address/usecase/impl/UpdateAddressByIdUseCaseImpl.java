@@ -43,6 +43,7 @@ public class UpdateAddressByIdUseCaseImpl implements UpdateAddressByIdUseCase {
 
     @Override
     public Address execute(final UpdateAddressByIdParameters parameters) {
+
         final Lead lead = getLeadAndValidate(parameters.getLeadId());
 
         final Long id = parameters.getId();

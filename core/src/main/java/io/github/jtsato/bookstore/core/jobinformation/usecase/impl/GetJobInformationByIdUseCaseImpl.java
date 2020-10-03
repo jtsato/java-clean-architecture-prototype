@@ -35,6 +35,7 @@ public class GetJobInformationByIdUseCaseImpl implements GetJobInformationByIdUs
         if (id == null) {
             throw new InvalidParameterException("validation.job.information.id.null");
         }
+
         final Optional<JobInformation> optional = getJobInformationByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.job.information.id.notfound", String.valueOf(id)));
     }

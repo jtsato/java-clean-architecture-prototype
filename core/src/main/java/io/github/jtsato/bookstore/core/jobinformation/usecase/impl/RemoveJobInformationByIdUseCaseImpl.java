@@ -37,7 +37,6 @@ public class RemoveJobInformationByIdUseCaseImpl implements RemoveJobInformation
         }
 
         final Optional<JobInformation> optional = removeJobInformationByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.job.information.id.notfound", String.valueOf(id)));
     }
 }

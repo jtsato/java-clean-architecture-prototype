@@ -35,6 +35,7 @@ public class GetDocumentTypeByIdUseCaseImpl implements GetDocumentTypeByIdUseCas
         if (id == null) {
             throw new InvalidParameterException("validation.document.type.id.null");
         }
+
         final Optional<DocumentType> optional = getDocumentTypeByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.document.type.id.notfound", String.valueOf(id)));
     }

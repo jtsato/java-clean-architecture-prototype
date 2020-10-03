@@ -36,6 +36,7 @@ public class Get${entity.name}By${domainId}UseCaseImpl implements Get${entity.na
 #set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
             throw new InvalidParameterException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null");
         }
+
         final Optional<${entity.name}> optional = get${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
         return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizedDomainId})));
     }

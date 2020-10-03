@@ -37,7 +37,6 @@ public class RemoveAddressByIdUseCaseImpl implements RemoveAddressByIdUseCase {
         }
 
         final Optional<Address> optional = removeAddressByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.address.id.notfound", String.valueOf(id)));
     }
 }

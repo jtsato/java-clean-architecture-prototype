@@ -15,7 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindDocumentsByIdsLeadResponse implements Serializable {
 
-    private static final long serialVersionUID = 408898875434746083L;
+    private static final long serialVersionUID = 5944026085036018583L;
 
     private final Long id;
     private final Long selfiePhoto;

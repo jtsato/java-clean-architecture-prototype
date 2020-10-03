@@ -35,6 +35,7 @@ public class GetDocumentByIdUseCaseImpl implements GetDocumentByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.document.id.null");
         }
+
         final Optional<Document> optional = getDocumentByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.document.id.notfound", String.valueOf(id)));
     }

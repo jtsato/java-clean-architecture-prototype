@@ -37,7 +37,6 @@ public class RemoveDocumentByIdUseCaseImpl implements RemoveDocumentByIdUseCase 
         }
 
         final Optional<Document> optional = removeDocumentByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.document.id.notfound", String.valueOf(id)));
     }
 }

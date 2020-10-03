@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterFileParameters extends SelfValidating<RegisterFileParameters> implements Serializable {
 
-    private static final long serialVersionUID = 5678610669854083789L;
+    private static final long serialVersionUID = -5785230114206890374L;
 
     @NotNull(message = "validation.file.size.null")
     @Positive(message = "validation.file.size.negative.or.zero")

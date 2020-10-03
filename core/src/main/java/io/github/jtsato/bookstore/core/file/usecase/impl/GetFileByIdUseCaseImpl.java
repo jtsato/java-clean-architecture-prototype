@@ -35,6 +35,7 @@ public class GetFileByIdUseCaseImpl implements GetFileByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.file.id.null");
         }
+
         final Optional<File> optional = getFileByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.file.id.notfound", String.valueOf(id)));
     }

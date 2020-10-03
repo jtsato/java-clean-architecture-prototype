@@ -62,7 +62,6 @@ public class RemoveLeadByIdUseCaseImpl implements RemoveLeadByIdUseCase {
         avoidRemovingLeadWithJobInformations(id);
 
         final Optional<Lead> optional = removeLeadByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.lead.id.notfound", String.valueOf(id)));
     }
 

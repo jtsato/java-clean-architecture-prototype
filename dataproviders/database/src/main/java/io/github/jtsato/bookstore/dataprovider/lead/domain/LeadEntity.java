@@ -44,7 +44,7 @@ import lombok.Setter;
 )
 public class LeadEntity implements Serializable {
 
-    private static final long serialVersionUID = 2310783261975464216L;
+    private static final long serialVersionUID = 945554661573411870L;
     
     @Access(AccessType.PROPERTY)
     @Id

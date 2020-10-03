@@ -25,7 +25,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterJobInformationParameters extends SelfValidating<RegisterJobInformationParameters> implements Serializable {
 
-    private static final long serialVersionUID = 702209834445521542L;
+    private static final long serialVersionUID = -8568050492878336743L;
 
     @NotNull(message = "validation.lead.id.null")
     private final Long leadId;

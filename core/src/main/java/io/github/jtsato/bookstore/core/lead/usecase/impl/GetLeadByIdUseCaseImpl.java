@@ -35,6 +35,7 @@ public class GetLeadByIdUseCaseImpl implements GetLeadByIdUseCase {
         if (id == null) {
             throw new InvalidParameterException("validation.lead.id.null");
         }
+
         final Optional<Lead> optional = getLeadByIdGateway.execute(id);
         return optional.orElseThrow(() -> new NotFoundException("validation.lead.id.notfound", String.valueOf(id)));
     }

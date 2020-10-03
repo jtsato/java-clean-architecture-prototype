@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchLeadsParameters extends SelfValidating<SearchLeadsParameters> implements Serializable {
 
-    private static final long serialVersionUID = 3466194209144455512L;
+    private static final long serialVersionUID = 9147530420269501122L;
 
     private Long id;
 

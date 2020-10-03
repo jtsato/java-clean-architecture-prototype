@@ -48,7 +48,6 @@ public class RemoveDocumentTypeByIdUseCaseImpl implements RemoveDocumentTypeById
         avoidRemovingDocumentTypeWithDocuments(id);
 
         final Optional<DocumentType> optional = removeDocumentTypeByIdGateway.execute(id);
-
         return optional.orElseThrow(() -> new NotFoundException("validation.document.type.id.notfound", String.valueOf(id)));
     }
 

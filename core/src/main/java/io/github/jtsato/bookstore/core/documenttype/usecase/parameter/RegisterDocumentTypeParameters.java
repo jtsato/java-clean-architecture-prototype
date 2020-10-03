@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterDocumentTypeParameters extends SelfValidating<RegisterDocumentTypeParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7188682628574589256L;
+    private static final long serialVersionUID = -4258070305954837369L;
 
     @NotBlank(message = "validation.document.type.country.blank")
     private final String country;

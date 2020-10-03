@@ -38,6 +38,7 @@ public class UpdateDocumentTypeByIdUseCaseImpl implements UpdateDocumentTypeById
     @Override
     public DocumentType execute(final UpdateDocumentTypeByIdParameters parameters) {
 
+
         final Long id = parameters.getId();
         final String country = StringUtils.stripToEmpty(parameters.getCountry());
         final String description = StringUtils.stripToEmpty(parameters.getDescription());
