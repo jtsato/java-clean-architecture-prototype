@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterFileResponse implements Serializable {
 
-    private static final long serialVersionUID = -1188186705460182545L;
+    private static final long serialVersionUID = 9107839709266264844L;
 
     private final Long id;
     private final Long size;

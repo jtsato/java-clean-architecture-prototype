@@ -60,9 +60,7 @@ public class RegisterDocumentController implements RegisterDocumentApiMethod {
                                                                                      request.getNumber(),
                                                                                      request.getIssuer(),
                                                                                      request.getState(),
-                                                                                     request.getIssueDate(),
-                                                                                     request.getCreatedDateTime(),
-                                                                                     request.getLastModifiedDateTime());
+                                                                                     request.getIssueDate());
 
         final Document document = registerDocumentUseCase.execute(parameters);
         return RegisterDocumentPresenter.of(document);

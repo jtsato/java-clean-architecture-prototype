@@ -54,9 +54,7 @@ public class RegisterDocumentTypeController implements RegisterDocumentTypeApiMe
         log.info("Starting Controller -> RegisterDocumentTypeController with {}", jsonRequest);
 
         final RegisterDocumentTypeParameters parameters = new RegisterDocumentTypeParameters(request.getCountry(),
-                                                                                             request.getDescription(),
-                                                                                             request.getCreatedDateTime(),
-                                                                                             request.getLastModifiedDateTime());
+                                                                                             request.getDescription());
 
         final DocumentType documentType = registerDocumentTypeUseCase.execute(parameters);
         return RegisterDocumentTypePresenter.of(documentType);

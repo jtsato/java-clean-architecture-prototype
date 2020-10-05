@@ -3,9 +3,7 @@ package io.github.jtsato.bookstore.core.document.usecase.parameter;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterDocumentParameters extends SelfValidating<RegisterDocumentParameters> implements Serializable {
 
-    private static final long serialVersionUID = -8364316092667705359L;
+    private static final long serialVersionUID = -434166760244492163L;
 
     @NotNull(message = "validation.lead.id.null")
     private final Long leadId;
@@ -50,12 +48,6 @@ public class RegisterDocumentParameters extends SelfValidating<RegisterDocumentP
     @LocalDateConstraint(message = "validation.document.issue.date.invalid")
     private final String issueDate;
 
-    @LocalDateTimeConstraint(message = "validation.document.created.date.time.invalid")
-    private final String createdDateTime;
-
-    @LocalDateTimeConstraint(message = "validation.document.last.modified.date.time.invalid")
-    private final String lastModifiedDateTime;
-
     public RegisterDocumentParameters(final Long leadId,
                                       final Long typeId,
                                       final Long frontPhoto,
@@ -63,9 +55,7 @@ public class RegisterDocumentParameters extends SelfValidating<RegisterDocumentP
                                       final String number,
                                       final String issuer,
                                       final String state,
-                                      final String issueDate,
-                                      final String createdDateTime,
-                                      final String lastModifiedDateTime) {
+                                      final String issueDate) {
         this.leadId = leadId;
         this.typeId = typeId;
         this.frontPhoto = frontPhoto;
@@ -74,8 +64,6 @@ public class RegisterDocumentParameters extends SelfValidating<RegisterDocumentP
         this.issuer = issuer;
         this.state = state;
         this.issueDate = issueDate;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = lastModifiedDateTime;
         this.validateSelf();
     }
 }

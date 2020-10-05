@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class UpdateLeadByIdRequest implements Serializable {
 
-    private static final long serialVersionUID = 3149522644211092238L;
+    private static final long serialVersionUID = 3109633688098653847L;
 
     private Long id;
     private Long selfiePhoto;
@@ -30,6 +30,4 @@ public class UpdateLeadByIdRequest implements Serializable {
     private String maritalStatus;
     private Boolean stableUnion;
     private String birthdate;
-    private String createdDateTime;
-    private String lastModifiedDateTime;
 }

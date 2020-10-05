@@ -58,9 +58,7 @@ public class RegisterFileController implements RegisterFileApiMethod {
                                                                              request.getExtension(),
                                                                              request.getName(),
                                                                              request.getContent(),
-                                                                             request.getUrl(),
-                                                                             request.getCreationDate(),
-                                                                             request.getLastModifiedDate());
+                                                                             request.getUrl());
 
         final File file = registerFileUseCase.execute(parameters);
         return RegisterFilePresenter.of(file);

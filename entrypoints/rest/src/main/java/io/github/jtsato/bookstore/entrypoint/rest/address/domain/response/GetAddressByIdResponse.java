@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetAddressByIdResponse implements Serializable {
 
-    private static final long serialVersionUID = -3113375143467661937L;
+    private static final long serialVersionUID = 3015570881118159908L;
 
     private final Long id;
     private final GetAddressByIdLeadResponse lead;

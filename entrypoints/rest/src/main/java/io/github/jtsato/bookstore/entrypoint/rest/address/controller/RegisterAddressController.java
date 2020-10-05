@@ -61,9 +61,7 @@ public class RegisterAddressController implements RegisterAddressApiMethod {
                                                                                    request.getDescription(),
                                                                                    request.getComplement(),
                                                                                    request.getNumber(),
-                                                                                   request.getType(),
-                                                                                   request.getCreatedDateTime(),
-                                                                                   request.getLastModifiedDateTime());
+                                                                                   request.getType());
 
         final Address address = registerAddressUseCase.execute(parameters);
         return RegisterAddressPresenter.of(address);

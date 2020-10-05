@@ -3,9 +3,7 @@ package io.github.jtsato.bookstore.core.lead.usecase.parameter;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterLeadParameters extends SelfValidating<RegisterLeadParameters> implements Serializable {
 
-    private static final long serialVersionUID = 3478152743805669244L;
+    private static final long serialVersionUID = 1370702576923067900L;
 
     @NotNull(message = "validation.lead.selfie.photo.null")
     private final Long selfiePhoto;
@@ -56,12 +54,6 @@ public class RegisterLeadParameters extends SelfValidating<RegisterLeadParameter
     @LocalDateConstraint(message = "validation.lead.birthdate.invalid")
     private final String birthdate;
 
-    @LocalDateTimeConstraint(message = "validation.lead.created.date.time.invalid")
-    private final String createdDateTime;
-
-    @LocalDateTimeConstraint(message = "validation.lead.last.modified.date.time.invalid")
-    private final String lastModifiedDateTime;
-
     public RegisterLeadParameters(final Long selfiePhoto,
                                   final String cpf,
                                   final String cellphone,
@@ -71,9 +63,7 @@ public class RegisterLeadParameters extends SelfValidating<RegisterLeadParameter
                                   final String education,
                                   final String maritalStatus,
                                   final Boolean stableUnion,
-                                  final String birthdate,
-                                  final String createdDateTime,
-                                  final String lastModifiedDateTime) {
+                                  final String birthdate) {
         this.selfiePhoto = selfiePhoto;
         this.cpf = cpf;
         this.cellphone = cellphone;
@@ -84,8 +74,6 @@ public class RegisterLeadParameters extends SelfValidating<RegisterLeadParameter
         this.maritalStatus = maritalStatus;
         this.stableUnion = stableUnion;
         this.birthdate = birthdate;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = lastModifiedDateTime;
         this.validateSelf();
     }
 }

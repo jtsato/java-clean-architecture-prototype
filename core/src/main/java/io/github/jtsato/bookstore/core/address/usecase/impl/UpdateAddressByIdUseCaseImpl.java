@@ -37,7 +37,7 @@ public class UpdateAddressByIdUseCaseImpl implements UpdateAddressByIdUseCase {
 
     private final UpdateAddressByIdGateway updateAddressByIdGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
     private final GetLocalDateTime getLocalDateTime;
 

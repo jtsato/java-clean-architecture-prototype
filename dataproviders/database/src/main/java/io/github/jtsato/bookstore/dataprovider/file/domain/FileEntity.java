@@ -40,7 +40,7 @@ import lombok.Setter;
 )
 public class FileEntity implements Serializable {
 
-    private static final long serialVersionUID = 8314558106689489177L;
+    private static final long serialVersionUID = -2993716055764677845L;
     
     @Access(AccessType.PROPERTY)
     @Id

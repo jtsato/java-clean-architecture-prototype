@@ -37,7 +37,7 @@ public class RegisterAddressUseCaseImpl implements RegisterAddressUseCase {
 
     private final RegisterAddressGateway registerAddressGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
     private final GetLocalDateTime getLocalDateTime;
 
@@ -55,7 +55,7 @@ public class RegisterAddressUseCaseImpl implements RegisterAddressUseCase {
         final String number = StringUtils.stripToEmpty(parameters.getNumber());
         final PropertyType type = EnumeratorUtils.valueOf(parameters.getType(), PropertyType.class);
         final LocalDateTime createdDateTime = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
         final Address address = new Address(null,
                                             lead,

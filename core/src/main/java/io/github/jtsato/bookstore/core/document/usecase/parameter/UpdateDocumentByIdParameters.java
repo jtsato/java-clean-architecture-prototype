@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateDocumentByIdParameters extends SelfValidating<UpdateDocumentByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -1307785412814749059L;
+    private static final long serialVersionUID = -2528669245284334391L;
 
     @NotNull(message = "validation.document.id.null")
     private Long id;
@@ -53,12 +52,6 @@ public class UpdateDocumentByIdParameters extends SelfValidating<UpdateDocumentB
     @LocalDateConstraint(message = "validation.document.issue.date.invalid")
     private final String issueDate;
 
-    @LocalDateTimeConstraint(message = "validation.document.created.date.time.invalid")
-    private final String createdDateTime;
-
-    @LocalDateTimeConstraint(message = "validation.document.last.modified.date.time.invalid")
-    private final String lastModifiedDateTime;
-
     public UpdateDocumentByIdParameters(final Long id,
                                         final Long leadId,
                                         final Long typeId,
@@ -67,9 +60,7 @@ public class UpdateDocumentByIdParameters extends SelfValidating<UpdateDocumentB
                                         final String number,
                                         final String issuer,
                                         final String state,
-                                        final String issueDate,
-                                        final String createdDateTime,
-                                        final String lastModifiedDateTime) {
+                                        final String issueDate) {
         this.id = id;
         this.leadId = leadId;
         this.typeId = typeId;
@@ -79,8 +70,6 @@ public class UpdateDocumentByIdParameters extends SelfValidating<UpdateDocumentB
         this.issuer = issuer;
         this.state = state;
         this.issueDate = issueDate;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = lastModifiedDateTime;
         this.validateSelf();
     }
 }

@@ -15,7 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterDocumentLeadResponse implements Serializable {
 
-    private static final long serialVersionUID = 2617314234311526785L;
+    private static final long serialVersionUID = 3230820766424842519L;
 
     private final Long id;
     private final Long selfiePhoto;

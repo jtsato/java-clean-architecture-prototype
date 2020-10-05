@@ -59,7 +59,7 @@ public class RegisterLeadUseCaseImpl implements RegisterLeadUseCase {
         final Boolean stableUnion = parameters.getStableUnion();
         final LocalDate birthdate = LocalDate.parse(parameters.getBirthdate());
         final LocalDateTime createdDateTime = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
         final Lead lead = new Lead(null,
                                    selfiePhoto,

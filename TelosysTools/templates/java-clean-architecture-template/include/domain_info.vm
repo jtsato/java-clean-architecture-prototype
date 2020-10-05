@@ -24,6 +24,10 @@
 #set ( $domainTimestamps      = [] )
 #set ( $domainDecimals        = [] )
 #set ( $domainReferencedBy    = [] )
+#set ( $hasCurrentDateOnCreation = "false" )
+#set ( $hasCurrentDateOnUpdate = "false" )
+#set ( $hasCurrentDateTimeOnCreation = "false" )
+#set ( $hasCurrentDateTimeOnUpdate = "false" )
 #foreach( $field in $entity.keyAttributes )
 #set ( $x = $domainKeys.add($field) )
 #end
@@ -67,8 +71,20 @@
 #set ( $x = $domainBooleans.add($field) )
 #elseif ( $field.isDateType() )
 #set ( $x = $domainDates.add($field) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#set ( $hasCurrentDateOnCreation = "true" )
+#end
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
+#set ( $hasCurrentDateOnUpdate = "true" )
+#end
 #elseif ( $field.isTimestampType() )
 #set ( $x = $domainTimestamps.add($field) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#set ( $hasCurrentDateTimeOnCreation = "true" )
+#end
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
+#set ( $hasCurrentDateTimeOnUpdate = "true" )
+#end
 #elseif ( $field.isDecimalType() )
 #set ( $x = $domainDecimals.add($field) )
 #end

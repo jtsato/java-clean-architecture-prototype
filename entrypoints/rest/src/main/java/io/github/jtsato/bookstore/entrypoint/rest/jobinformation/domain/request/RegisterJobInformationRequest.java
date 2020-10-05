@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class RegisterJobInformationRequest implements Serializable {
 
-    private static final long serialVersionUID = -4587641888293761206L;
+    private static final long serialVersionUID = 5069644455369261155L;
 
     private Long leadId;
     private Long attach;
@@ -26,7 +26,5 @@ public class RegisterJobInformationRequest implements Serializable {
     private String referenceMonth;
     private String receiptType;
     private String startDate;
-    private String createdDateTime;
-    private String lastModifiedDateTime;
     private BigDecimal monthlyIncome;
 }

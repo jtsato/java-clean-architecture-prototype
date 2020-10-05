@@ -56,9 +56,7 @@ public class UpdateDocumentTypeByIdController implements UpdateDocumentTypeByIdA
 
         final UpdateDocumentTypeByIdParameters parameters = new UpdateDocumentTypeByIdParameters(id,
                                                                                                  request.getCountry(),
-                                                                                                 request.getDescription(),
-                                                                                                 request.getCreatedDateTime(),
-                                                                                                 request.getLastModifiedDateTime());
+                                                                                                 request.getDescription());
         final DocumentType documentType = updateDocumentTypeByIdUseCase.execute(parameters);
         return UpdateDocumentTypeByIdPresenter.of(documentType);
     }

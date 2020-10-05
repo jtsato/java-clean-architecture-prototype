@@ -12,6 +12,7 @@ import io.github.jtsato.bookstore.core.file.gateway.GetFileByNameIgnoreCaseGatew
 import io.github.jtsato.bookstore.core.file.gateway.RegisterFileGateway;
 import io.github.jtsato.bookstore.core.file.usecase.RegisterFileUseCase;
 import io.github.jtsato.bookstore.core.file.usecase.parameter.RegisterFileParameters;
+import io.github.jtsato.bookstore.core.common.GetLocalDate;
 import io.github.jtsato.bookstore.core.exception.UniqueConstraintException;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +36,8 @@ public class RegisterFileUseCaseImpl implements RegisterFileUseCase {
 
     private final GetFileByNameIgnoreCaseGateway getFileByNameIgnoreCaseGateway;
 
+    private final GetLocalDate getLocalDate;
+
     @Override
     public File execute(final RegisterFileParameters parameters) {
 
@@ -46,8 +49,8 @@ public class RegisterFileUseCaseImpl implements RegisterFileUseCase {
         final String name = StringUtils.stripToEmpty(parameters.getName());
         final String content = StringUtils.stripToEmpty(parameters.getContent());
         final String url = StringUtils.stripToEmpty(parameters.getUrl());
-        final LocalDate creationDate = LocalDate.parse(parameters.getCreationDate());
-        final LocalDate lastModifiedDate = LocalDate.parse(parameters.getLastModifiedDate());
+        final LocalDate creationDate = getLocalDate.now();
+        final LocalDate lastModifiedDate = getLocalDate.now();
 
         final File file = new File(null,
                                    size,

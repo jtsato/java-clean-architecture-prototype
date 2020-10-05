@@ -5,9 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -25,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterJobInformationParameters extends SelfValidating<RegisterJobInformationParameters> implements Serializable {
 
-    private static final long serialVersionUID = -8568050492878336743L;
+    private static final long serialVersionUID = -745700475768650491L;
 
     @NotNull(message = "validation.lead.id.null")
     private final Long leadId;
@@ -46,12 +44,6 @@ public class RegisterJobInformationParameters extends SelfValidating<RegisterJob
     @LocalDateConstraint(message = "validation.job.information.start.date.invalid")
     private final String startDate;
 
-    @LocalDateTimeConstraint(message = "validation.job.information.created.date.time.invalid")
-    private final String createdDateTime;
-
-    @LocalDateTimeConstraint(message = "validation.job.information.last.modified.date.time.invalid")
-    private final String lastModifiedDateTime;
-
     @NotNull(message = "validation.job.information.monthly.income.null")
     @PositiveOrZero(message = "validation.job.information.monthly.income.negative")
     private final BigDecimal monthlyIncome; 
@@ -62,8 +54,6 @@ public class RegisterJobInformationParameters extends SelfValidating<RegisterJob
                                             final String referenceMonth,
                                             final String receiptType,
                                             final String startDate,
-                                            final String createdDateTime,
-                                            final String lastModifiedDateTime,
                                             final BigDecimal monthlyIncome) {
         this.leadId = leadId;
         this.attach = attach;
@@ -71,8 +61,6 @@ public class RegisterJobInformationParameters extends SelfValidating<RegisterJob
         this.referenceMonth = referenceMonth;
         this.receiptType = receiptType;
         this.startDate = startDate;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = lastModifiedDateTime;
         this.monthlyIncome = monthlyIncome;
         this.validateSelf();
     }

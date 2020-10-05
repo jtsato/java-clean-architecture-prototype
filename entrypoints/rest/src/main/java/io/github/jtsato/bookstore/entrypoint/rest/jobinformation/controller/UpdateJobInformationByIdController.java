@@ -61,8 +61,6 @@ public class UpdateJobInformationByIdController implements UpdateJobInformationB
                                                                                                      request.getReferenceMonth(),
                                                                                                      request.getReceiptType(),
                                                                                                      request.getStartDate(),
-                                                                                                     request.getCreatedDateTime(),
-                                                                                                     request.getLastModifiedDateTime(),
                                                                                                      request.getMonthlyIncome());
         final JobInformation jobInformation = updateJobInformationByIdUseCase.execute(parameters);
         return UpdateJobInformationByIdPresenter.of(jobInformation);

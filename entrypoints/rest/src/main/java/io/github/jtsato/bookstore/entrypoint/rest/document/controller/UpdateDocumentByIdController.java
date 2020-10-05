@@ -62,9 +62,7 @@ public class UpdateDocumentByIdController implements UpdateDocumentByIdApiMethod
                                                                                          request.getNumber(),
                                                                                          request.getIssuer(),
                                                                                          request.getState(),
-                                                                                         request.getIssueDate(),
-                                                                                         request.getCreatedDateTime(),
-                                                                                         request.getLastModifiedDateTime());
+                                                                                         request.getIssueDate());
         final Document document = updateDocumentByIdUseCase.execute(parameters);
         return UpdateDocumentByIdPresenter.of(document);
     }

@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class Address implements Serializable {
 
-    private static final long serialVersionUID = -5796373482211884645L;
+    private static final long serialVersionUID = -8229381556528659392L;
 
     private final Long id;
     private final Lead lead;

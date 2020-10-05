@@ -40,9 +40,9 @@ public class RegisterDocumentUseCaseImpl implements RegisterDocumentUseCase {
 
     private final RegisterDocumentGateway registerDocumentGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
-    private final GetDocumentTypeByIdGateway getDocumentTypeByIdGateway ;
+    private final GetDocumentTypeByIdGateway getDocumentTypeByIdGateway;
 
     private final GetDocumentByNumberIgnoreCaseGateway getDocumentByNumberIgnoreCaseGateway;
 
@@ -64,7 +64,7 @@ public class RegisterDocumentUseCaseImpl implements RegisterDocumentUseCase {
         final String state = StringUtils.stripToEmpty(parameters.getState());
         final LocalDate issueDate = LocalDate.parse(parameters.getIssueDate());
         final LocalDateTime createdDateTime = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
         final Document document = new Document(null,
                                                lead,

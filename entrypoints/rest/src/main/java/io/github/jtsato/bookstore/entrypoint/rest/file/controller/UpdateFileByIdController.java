@@ -60,9 +60,7 @@ public class UpdateFileByIdController implements UpdateFileByIdApiMethod {
                                                                                  request.getExtension(),
                                                                                  request.getName(),
                                                                                  request.getContent(),
-                                                                                 request.getUrl(),
-                                                                                 request.getCreationDate(),
-                                                                                 request.getLastModifiedDate());
+                                                                                 request.getUrl());
         final File file = updateFileByIdUseCase.execute(parameters);
         return UpdateFileByIdPresenter.of(file);
     }

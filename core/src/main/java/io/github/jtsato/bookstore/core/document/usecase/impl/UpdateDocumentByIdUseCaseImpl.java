@@ -42,9 +42,9 @@ public class UpdateDocumentByIdUseCaseImpl implements UpdateDocumentByIdUseCase 
 
     private final GetDocumentByNumberIgnoreCaseGateway getDocumentByNumberIgnoreCaseGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
-    private final GetDocumentTypeByIdGateway getDocumentTypeByIdGateway ;
+    private final GetDocumentTypeByIdGateway getDocumentTypeByIdGateway;
 
     private final GetLocalDateTime getLocalDateTime;
 

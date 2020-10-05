@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public final class FindDocumentTypesByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = 1535866859658627116L;
+    private static final long serialVersionUID = -4671914016068056742L;
 
     private List<Long> ids;
 }

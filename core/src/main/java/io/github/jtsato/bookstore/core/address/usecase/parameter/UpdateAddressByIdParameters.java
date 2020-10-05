@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import io.github.jtsato.bookstore.core.common.validation.LocalDateTimeConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -22,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -2475701949048008921L;
+    private static final long serialVersionUID = -7764793539828037630L;
 
     @NotNull(message = "validation.address.id.null")
     private Long id;
@@ -53,12 +52,6 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
     @NotBlank(message = "validation.address.type.blank")
     private final String type;
 
-    @LocalDateTimeConstraint(message = "validation.address.created.date.time.invalid")
-    private final String createdDateTime;
-
-    @LocalDateTimeConstraint(message = "validation.address.last.modified.date.time.invalid")
-    private final String lastModifiedDateTime;
-
     public UpdateAddressByIdParameters(final Long id,
                                        final Long leadId,
                                        final String zipCode,
@@ -68,9 +61,7 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
                                        final String description,
                                        final String complement,
                                        final String number,
-                                       final String type,
-                                       final String createdDateTime,
-                                       final String lastModifiedDateTime) {
+                                       final String type) {
         this.id = id;
         this.leadId = leadId;
         this.zipCode = zipCode;
@@ -81,8 +72,6 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
         this.complement = complement;
         this.number = number;
         this.type = type;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = lastModifiedDateTime;
         this.validateSelf();
     }
 }

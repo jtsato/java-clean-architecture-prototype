@@ -64,9 +64,7 @@ public class UpdateLeadByIdController implements UpdateLeadByIdApiMethod {
                                                                                  request.getEducation(),
                                                                                  request.getMaritalStatus(),
                                                                                  request.getStableUnion(),
-                                                                                 request.getBirthdate(),
-                                                                                 request.getCreatedDateTime(),
-                                                                                 request.getLastModifiedDateTime());
+                                                                                 request.getBirthdate());
         final Lead lead = updateLeadByIdUseCase.execute(parameters);
         return UpdateLeadByIdPresenter.of(lead);
     }

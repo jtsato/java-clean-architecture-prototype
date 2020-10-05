@@ -39,7 +39,7 @@ public class RegisterJobInformationUseCaseImpl implements RegisterJobInformation
 
     private final RegisterJobInformationGateway registerJobInformationGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
     private final GetLocalDateTime getLocalDateTime;
 
@@ -54,7 +54,7 @@ public class RegisterJobInformationUseCaseImpl implements RegisterJobInformation
         final ReceiptType receiptType = EnumeratorUtils.valueOf(parameters.getReceiptType(), ReceiptType.class);
         final LocalDate startDate = LocalDate.parse(parameters.getStartDate());
         final LocalDateTime createdDateTime = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
         final BigDecimal monthlyIncome = parameters.getMonthlyIncome();
 
         final JobInformation jobInformation = new JobInformation(null,

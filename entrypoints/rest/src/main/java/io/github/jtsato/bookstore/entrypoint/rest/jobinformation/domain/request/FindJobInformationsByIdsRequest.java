@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public final class FindJobInformationsByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = 7844894470452825722L;
+    private static final long serialVersionUID = -8673790284838386450L;
 
     private List<Long> ids;
 }

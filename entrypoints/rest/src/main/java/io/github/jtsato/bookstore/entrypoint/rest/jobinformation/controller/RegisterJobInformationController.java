@@ -59,8 +59,6 @@ public class RegisterJobInformationController implements RegisterJobInformationA
                                                                                                  request.getReferenceMonth(),
                                                                                                  request.getReceiptType(),
                                                                                                  request.getStartDate(),
-                                                                                                 request.getCreatedDateTime(),
-                                                                                                 request.getLastModifiedDateTime(),
                                                                                                  request.getMonthlyIncome());
 
         final JobInformation jobInformation = registerJobInformationUseCase.execute(parameters);

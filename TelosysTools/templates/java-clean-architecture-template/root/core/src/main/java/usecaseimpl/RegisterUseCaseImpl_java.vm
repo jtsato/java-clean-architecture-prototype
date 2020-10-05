@@ -42,17 +42,11 @@ import org.apache.commons.lang3.StringUtils;
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Register${entity.name}Gateway") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Register${entity.name}UseCase") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Register${entity.name}Parameters") )
-#foreach( $field in $domainDates )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( $hasCurrentDateOnCreation == "true" || $hasCurrentDateOnUpdate == "true" )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDate") )
-#break;
 #end
-#end
-#foreach( $field in $domainTimestamps )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $hasCurrentDateTimeOnCreation == "true" || $hasCurrentDateTimeOnUpdate == "true" )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDateTime") )
-#break;
-#end
 #end
 #if ( $domainEnumerators.size() > 0 )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.EnumeratorUtils") )
@@ -86,7 +80,7 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 
 #foreach ( $field in $domainLinksToOne )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway ;
+    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway;
 
 #end
 #foreach( $field in $domainUkKeys )
@@ -100,14 +94,14 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 #end
 #end
 #foreach( $field in $domainDates )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") || $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
     private final GetLocalDate getLocalDate;
 
 #break
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") || $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
     private final GetLocalDateTime getLocalDateTime;
 
 #break
@@ -156,7 +150,9 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 #foreach ( $field in $domainDates )
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
 #set ( $x = $parameters.add("$field.name") )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#set ( $x = $statements.add("final LocalDate $field.name = getLocalDate.now()") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $x = $statements.add("final LocalDate $field.name = getLocalDate.now()") )
 #else
 #set ( $x = $statements.add("final LocalDate $field.name = LocalDate.parse(parameters.get${fieldName}())") )
@@ -166,6 +162,8 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 #set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
 #set ( $x = $parameters.add("$field.name") )
 #if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
+#elseif  ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
 #else
 #set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}())") )

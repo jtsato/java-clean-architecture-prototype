@@ -39,7 +39,7 @@ public class UpdateJobInformationByIdUseCaseImpl implements UpdateJobInformation
 
     private final UpdateJobInformationByIdGateway updateJobInformationByIdGateway;
 
-    private final GetLeadByIdGateway getLeadByIdGateway ;
+    private final GetLeadByIdGateway getLeadByIdGateway;
 
     private final GetLocalDateTime getLocalDateTime;
 

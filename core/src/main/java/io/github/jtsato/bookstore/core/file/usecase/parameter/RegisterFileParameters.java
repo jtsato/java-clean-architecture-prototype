@@ -4,8 +4,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-
-import io.github.jtsato.bookstore.core.common.validation.LocalDateConstraint;
 import io.github.jtsato.bookstore.core.common.validation.SelfValidating;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -23,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterFileParameters extends SelfValidating<RegisterFileParameters> implements Serializable {
 
-    private static final long serialVersionUID = -5785230114206890374L;
+    private static final long serialVersionUID = 2506453344670924996L;
 
     @NotNull(message = "validation.file.size.null")
     @Positive(message = "validation.file.size.negative.or.zero")
@@ -44,28 +42,18 @@ public class RegisterFileParameters extends SelfValidating<RegisterFileParameter
     @NotBlank(message = "validation.file.url.blank")
     private final String url;
 
-    @LocalDateConstraint(message = "validation.file.creation.date.invalid")
-    private final String creationDate;
-
-    @LocalDateConstraint(message = "validation.file.last.modified.date.invalid")
-    private final String lastModifiedDate;
-
     public RegisterFileParameters(final Long size,
                                   final String contentType,
                                   final String extension,
                                   final String name,
                                   final String content,
-                                  final String url,
-                                  final String creationDate,
-                                  final String lastModifiedDate) {
+                                  final String url) {
         this.size = size;
         this.contentType = contentType;
         this.extension = extension;
         this.name = name;
         this.content = content;
         this.url = url;
-        this.creationDate = creationDate;
-        this.lastModifiedDate = lastModifiedDate;
         this.validateSelf();
     }
 }

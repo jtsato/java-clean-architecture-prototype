@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class RegisterFileRequest implements Serializable {
 
-    private static final long serialVersionUID = -5098694528837271020L;
+    private static final long serialVersionUID = -1542562705316624171L;
 
     private Long size;
     private String contentType;
@@ -25,6 +25,4 @@ public class RegisterFileRequest implements Serializable {
     private String name;
     private String content;
     private String url;
-    private String creationDate;
-    private String lastModifiedDate;
 }

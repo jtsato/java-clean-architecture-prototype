@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class Document implements Serializable {
 
-    private static final long serialVersionUID = -7188542182024068148L;
+    private static final long serialVersionUID = 6035902810259081055L;
 
     private final Long id;
     private final Lead lead;

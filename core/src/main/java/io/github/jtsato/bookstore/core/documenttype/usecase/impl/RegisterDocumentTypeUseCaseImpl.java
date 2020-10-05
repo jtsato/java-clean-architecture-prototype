@@ -39,9 +39,13 @@ public class RegisterDocumentTypeUseCaseImpl implements RegisterDocumentTypeUseC
         final String country = StringUtils.stripToEmpty(parameters.getCountry());
         final String description = StringUtils.stripToEmpty(parameters.getDescription());
         final LocalDateTime createdDateTime = getLocalDateTime.now();
-        final LocalDateTime lastModifiedDateTime = LocalDateTime.parse(parameters.getLastModifiedDateTime());
+        final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
-        final DocumentType documentType = new DocumentType(null, country, description, createdDateTime, lastModifiedDateTime);
+        final DocumentType documentType = new DocumentType(null,
+                                                           country,
+                                                           description,
+                                                           createdDateTime,
+                                                           lastModifiedDateTime);
 
         return registerDocumentTypeGateway.execute(documentType);
     }

@@ -62,9 +62,7 @@ public class RegisterLeadController implements RegisterLeadApiMethod {
                                                                              request.getEducation(),
                                                                              request.getMaritalStatus(),
                                                                              request.getStableUnion(),
-                                                                             request.getBirthdate(),
-                                                                             request.getCreatedDateTime(),
-                                                                             request.getLastModifiedDateTime());
+                                                                             request.getBirthdate());
 
         final Lead lead = registerLeadUseCase.execute(parameters);
         return RegisterLeadPresenter.of(lead);

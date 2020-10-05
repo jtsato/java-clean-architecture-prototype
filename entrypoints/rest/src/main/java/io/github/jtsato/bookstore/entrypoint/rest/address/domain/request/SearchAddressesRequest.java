@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public final class SearchAddressesRequest implements Serializable {
 
-    private static final long serialVersionUID = 7213009351307839648L;
+    private static final long serialVersionUID = -769445035723636333L;
 
     private Long id;
     private SearchAddressesLeadRequest lead;
