@@ -8,7 +8,7 @@ Address {
   description: string { @NotBlank };
   complement: string;
   number: string { @NotBlank };
-  type: Enum_PropertyType { @NotNull };
+  propertyType: Enum_PropertyType { @NotNull };
   createdDateTime : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
   lastModifiedDateTime : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
 }
