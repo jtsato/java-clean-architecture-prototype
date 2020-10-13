@@ -61,18 +61,18 @@ public class SearchLeadsPredicateBuilder extends AbstractPredicateBuilderImpl<QL
             booleanExpressions.add(entityPath.motherFullName.like(addLikeOperator(query.getMotherFullName())));
         }
 
-        if (StringUtils.isNotBlank(query.getMotherFullName())) {
-            final Gender gender = EnumeratorUtils.valueOf(query.getMotherFullName(), Gender.class);
+        if (StringUtils.isNotBlank(query.getGender())) {
+            final Gender gender = EnumeratorUtils.valueOf(query.getGender(), Gender.class);
             booleanExpressions.add(entityPath.gender.eq(gender.name()));
         }
 
-        if (StringUtils.isNotBlank(query.getMotherFullName())) {
-            final Education education = EnumeratorUtils.valueOf(query.getMotherFullName(), Education.class);
+        if (StringUtils.isNotBlank(query.getEducation())) {
+            final Education education = EnumeratorUtils.valueOf(query.getEducation(), Education.class);
             booleanExpressions.add(entityPath.education.eq(education.name()));
         }
 
-        if (StringUtils.isNotBlank(query.getMotherFullName())) {
-            final MaritalStatus maritalStatus = EnumeratorUtils.valueOf(query.getMotherFullName(), MaritalStatus.class);
+        if (StringUtils.isNotBlank(query.getMaritalStatus())) {
+            final MaritalStatus maritalStatus = EnumeratorUtils.valueOf(query.getMaritalStatus(), MaritalStatus.class);
             booleanExpressions.add(entityPath.maritalStatus.eq(maritalStatus.name()));
         }
 

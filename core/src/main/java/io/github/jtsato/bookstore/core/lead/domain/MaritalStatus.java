@@ -62,4 +62,3 @@ public enum MaritalStatus {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }
-

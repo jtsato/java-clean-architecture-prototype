@@ -68,9 +68,9 @@ public class SearchAddressesPredicateBuilder extends AbstractPredicateBuilderImp
             booleanExpressions.add(entityPath.number.like(addLikeOperator(query.getNumber())));
         }
 
-        if (StringUtils.isNotBlank(query.getNumber())) {
-            final PropertyType type = EnumeratorUtils.valueOf(query.getNumber(), PropertyType.class);
-            booleanExpressions.add(entityPath.type.eq(type.name()));
+        if (StringUtils.isNotBlank(query.getPropertyType())) {
+            final PropertyType propertyType = EnumeratorUtils.valueOf(query.getPropertyType(), PropertyType.class);
+            booleanExpressions.add(entityPath.propertyType.eq(propertyType.name()));
         }
 
         if (StringUtils.isNotBlank(query.getStartCreatedDateTime())) {

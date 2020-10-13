@@ -25,7 +25,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchJobInformationsParameters extends SelfValidating<SearchJobInformationsParameters> implements Serializable {
 
-    private static final long serialVersionUID = 3419402346214345074L;
+    private static final long serialVersionUID = -1426138593740961447L;
 
     private Long id;
 

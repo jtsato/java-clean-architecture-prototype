@@ -52,7 +52,7 @@ public class UpdateAddressByIdDataProvider implements UpdateAddressByIdGateway {
         addressEntity.setComplement(address.getComplement());
         addressEntity.setNumber(address.getNumber());
         addressEntity.setLastModifiedDateTime(address.getLastModifiedDateTime());
-        addressEntity.setType(address.getType().name());
+        addressEntity.setPropertyType(address.getPropertyType().name());
         return addressMapper.of(addressRepository.saveAndFlush(addressEntity));
     }
 

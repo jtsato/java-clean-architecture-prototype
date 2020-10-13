@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public final class SearchAddressesRequest implements Serializable {
 
-    private static final long serialVersionUID = -769445035723636333L;
+    private static final long serialVersionUID = 3523280110663649879L;
 
     private Long id;
     private SearchAddressesLeadRequest lead;
@@ -30,7 +30,7 @@ public final class SearchAddressesRequest implements Serializable {
     private String description;
     private String complement;
     private String number;
-    private String type;
+    private String propertyType;
     private String startCreatedDateTime;
     private String endCreatedDateTime;
     private String startLastModifiedDateTime;

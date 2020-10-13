@@ -106,7 +106,6 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #end
     @Override
     public ${entity.name} execute(final Update${entity.name}By${domainId}Parameters parameters) {
-
 #foreach( $field in $domainLinksToOne )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
 #set ( $capitalizedFieldName = $wordUtils.capitalize($field.fieldName) )

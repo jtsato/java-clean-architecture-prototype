@@ -45,7 +45,6 @@ public class UpdateJobInformationByIdUseCaseImpl implements UpdateJobInformation
 
     @Override
     public JobInformation execute(final UpdateJobInformationByIdParameters parameters) {
-
         final Lead lead = getLeadAndValidate(parameters.getLeadId());
 
         final Long id = parameters.getId();

@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterAddressParameters extends SelfValidating<RegisterAddressParameters> implements Serializable {
 
-    private static final long serialVersionUID = 9006532277861631006L;
+    private static final long serialVersionUID = -1160903938349970344L;
 
     @NotNull(message = "validation.lead.id.null")
     private final Long leadId;
@@ -45,8 +45,8 @@ public class RegisterAddressParameters extends SelfValidating<RegisterAddressPar
     @NotBlank(message = "validation.address.number.blank")
     private final String number;
 
-    @NotBlank(message = "validation.address.type.blank")
-    private final String type;
+    @NotBlank(message = "validation.address.property.type.blank")
+    private final String propertyType;
 
     public RegisterAddressParameters(final Long leadId,
                                      final String zipCode,
@@ -56,7 +56,7 @@ public class RegisterAddressParameters extends SelfValidating<RegisterAddressPar
                                      final String description,
                                      final String complement,
                                      final String number,
-                                     final String type) {
+                                     final String propertyType) {
         this.leadId = leadId;
         this.zipCode = zipCode;
         this.city = city;
@@ -65,7 +65,7 @@ public class RegisterAddressParameters extends SelfValidating<RegisterAddressPar
         this.description = description;
         this.complement = complement;
         this.number = number;
-        this.type = type;
+        this.propertyType = propertyType;
         this.validateSelf();
     }
 }

@@ -43,7 +43,6 @@ public class UpdateAddressByIdUseCaseImpl implements UpdateAddressByIdUseCase {
 
     @Override
     public Address execute(final UpdateAddressByIdParameters parameters) {
-
         final Lead lead = getLeadAndValidate(parameters.getLeadId());
 
         final Long id = parameters.getId();
@@ -54,7 +53,7 @@ public class UpdateAddressByIdUseCaseImpl implements UpdateAddressByIdUseCase {
         final String description = StringUtils.stripToEmpty(parameters.getDescription());
         final String complement = StringUtils.stripToEmpty(parameters.getComplement());
         final String number = StringUtils.stripToEmpty(parameters.getNumber());
-        final PropertyType type = EnumeratorUtils.valueOf(parameters.getType(), PropertyType.class);
+        final PropertyType propertyType = EnumeratorUtils.valueOf(parameters.getPropertyType(), PropertyType.class);
         final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
         final Address address = new Address(id ,
@@ -66,7 +65,7 @@ public class UpdateAddressByIdUseCaseImpl implements UpdateAddressByIdUseCase {
                                             description,
                                             complement,
                                             number,
-                                            type,
+                                            propertyType,
                                             null,
                                             lastModifiedDateTime);
 

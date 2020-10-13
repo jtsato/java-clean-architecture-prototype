@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class UpdateFileByIdRequest implements Serializable {
 
-    private static final long serialVersionUID = 3921656119637065769L;
+    private static final long serialVersionUID = -7341774045396188116L;
 
     private Long id;
     private Long size;

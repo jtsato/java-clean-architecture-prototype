@@ -74,10 +74,10 @@ public class SearchAddressesController implements SearchAddressesApiMethod {
         final String description = searchAddressesRequest.getDescription();
         final String complement = searchAddressesRequest.getComplement();
         final String number = searchAddressesRequest.getNumber();
-        final String type = searchAddressesRequest.getType();
+        final String propertyType = searchAddressesRequest.getPropertyType();
         final ImmutablePair<String, String> createdDateTimeRange = new ImmutablePair<>(searchAddressesRequest.getStartCreatedDateTime(), searchAddressesRequest.getEndCreatedDateTime());
         final ImmutablePair<String, String> lastModifiedDateTimeRange = new ImmutablePair<>(searchAddressesRequest.getStartLastModifiedDateTime(), searchAddressesRequest.getEndLastModifiedDateTime());
-        return new SearchAddressesParameters(id, searchLeadsParameters, zipCode, city, state, country, description, complement, number, type, createdDateTimeRange, lastModifiedDateTimeRange); 
+        return new SearchAddressesParameters(id, searchLeadsParameters, zipCode, city, state, country, description, complement, number, propertyType, createdDateTimeRange, lastModifiedDateTimeRange); 
     }
 
     private SearchLeadsParameters buildSearchLeadsParameters(final SearchAddressesLeadRequest searchLeadsRequest) {

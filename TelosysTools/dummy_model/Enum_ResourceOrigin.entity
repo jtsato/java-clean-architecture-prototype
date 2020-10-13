@@ -1,0 +1,5 @@
+Enum_ResourceOrigin {
+  JDFBR : string { @Id };
+  BNDES : string ;
+  JDFAR : string ;
+}

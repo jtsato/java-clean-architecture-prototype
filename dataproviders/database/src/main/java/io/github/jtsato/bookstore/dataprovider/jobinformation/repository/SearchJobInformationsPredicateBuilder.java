@@ -57,8 +57,8 @@ public class SearchJobInformationsPredicateBuilder extends AbstractPredicateBuil
             booleanExpressions.add(entityPath.referenceMonth.like(addLikeOperator(query.getReferenceMonth())));
         }
 
-        if (StringUtils.isNotBlank(query.getReferenceMonth())) {
-            final ReceiptType receiptType = EnumeratorUtils.valueOf(query.getReferenceMonth(), ReceiptType.class);
+        if (StringUtils.isNotBlank(query.getReceiptType())) {
+            final ReceiptType receiptType = EnumeratorUtils.valueOf(query.getReceiptType(), ReceiptType.class);
             booleanExpressions.add(entityPath.receiptType.eq(receiptType.name()));
         }
 

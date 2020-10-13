@@ -50,7 +50,6 @@ public class UpdateDocumentByIdUseCaseImpl implements UpdateDocumentByIdUseCase 
 
     @Override
     public Document execute(final UpdateDocumentByIdParameters parameters) {
-
         final Lead lead = getLeadAndValidate(parameters.getLeadId());
         final DocumentType type = getDocumentTypeAndValidate(parameters.getTypeId());
 

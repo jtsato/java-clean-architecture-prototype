@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateDocumentTypeByIdParameters extends SelfValidating<UpdateDocumentTypeByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -4382209725570528964L;
+    private static final long serialVersionUID = 3065391468871632187L;
 
     @NotNull(message = "validation.document.type.id.null")
     private Long id;

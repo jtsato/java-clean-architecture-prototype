@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateFileByIdResponse implements Serializable {
 
-    private static final long serialVersionUID = -7600335893137767212L;
+    private static final long serialVersionUID = -4145264391865874133L;
 
     private final Long id;
     private final Long size;

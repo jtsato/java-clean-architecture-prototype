@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateFileByIdParameters extends SelfValidating<UpdateFileByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = 7334211931092763389L;
+    private static final long serialVersionUID = 7530367674441483253L;
 
     @NotNull(message = "validation.file.id.null")
     private Long id;

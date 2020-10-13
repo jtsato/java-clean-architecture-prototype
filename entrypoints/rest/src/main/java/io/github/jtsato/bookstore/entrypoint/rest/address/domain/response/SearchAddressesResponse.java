@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SearchAddressesResponse implements Serializable {
 
-    private static final long serialVersionUID = -8785804193670279427L;
+    private static final long serialVersionUID = -2399577054323063416L;
 
     private final Long id;
     private final SearchAddressesLeadResponse lead;
@@ -25,7 +25,7 @@ public class SearchAddressesResponse implements Serializable {
     private final String description;
     private final String complement;
     private final String number;
-    private final String type;
+    private final String propertyType;
     private final LocalDateTime createdDateTime;
     private final LocalDateTime lastModifiedDateTime;
 }

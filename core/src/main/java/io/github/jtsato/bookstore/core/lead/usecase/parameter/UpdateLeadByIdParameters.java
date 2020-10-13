@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateLeadByIdParameters extends SelfValidating<UpdateLeadByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -594887193545060503L;
+    private static final long serialVersionUID = -2454922147768284322L;
 
     @NotNull(message = "validation.lead.id.null")
     private Long id;

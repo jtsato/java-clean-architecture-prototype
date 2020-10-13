@@ -44,7 +44,7 @@ import lombok.Setter;
 )
 public class JobInformationEntity implements Serializable {
 
-    private static final long serialVersionUID = -1692488918931124322L;
+    private static final long serialVersionUID = -3757402138185545575L;
     
     @Access(AccessType.PROPERTY)
     @Id

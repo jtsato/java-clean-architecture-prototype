@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class Address implements Serializable {
 
-    private static final long serialVersionUID = -8229381556528659392L;
+    private static final long serialVersionUID = 7521218455563816590L;
 
     private final Long id;
     private final Lead lead;
@@ -30,7 +30,7 @@ public class Address implements Serializable {
     private final String description;
     private final String complement;
     private final String number;
-    private final PropertyType type;
+    private final PropertyType propertyType;
     private final LocalDateTime createdDateTime;
     private final LocalDateTime lastModifiedDateTime;
 }

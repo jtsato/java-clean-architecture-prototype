@@ -41,4 +41,3 @@ public enum Gender {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }
-

@@ -41,4 +41,3 @@ public enum ReceiptType {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }
-

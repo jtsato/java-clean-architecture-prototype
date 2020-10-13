@@ -53,7 +53,7 @@ public class RegisterAddressUseCaseImpl implements RegisterAddressUseCase {
         final String description = StringUtils.stripToEmpty(parameters.getDescription());
         final String complement = StringUtils.stripToEmpty(parameters.getComplement());
         final String number = StringUtils.stripToEmpty(parameters.getNumber());
-        final PropertyType type = EnumeratorUtils.valueOf(parameters.getType(), PropertyType.class);
+        final PropertyType propertyType = EnumeratorUtils.valueOf(parameters.getPropertyType(), PropertyType.class);
         final LocalDateTime createdDateTime = getLocalDateTime.now();
         final LocalDateTime lastModifiedDateTime = getLocalDateTime.now();
 
@@ -66,7 +66,7 @@ public class RegisterAddressUseCaseImpl implements RegisterAddressUseCase {
                                             description,
                                             complement,
                                             number,
-                                            type,
+                                            propertyType,
                                             createdDateTime,
                                             lastModifiedDateTime);
 

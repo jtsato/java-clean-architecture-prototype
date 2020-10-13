@@ -34,14 +34,14 @@ import lombok.Setter;
 @Table(name = "ADDRESSES",
        indexes = {
             @Index(columnList = "LEAD_ID", name = "IDX_ADDRESSES_LEAD_ID"),
-            @Index(columnList = "TYPE", name = "IDX_ADDRESSES_TYPE"),
+            @Index(columnList = "PROPERTY_TYPE", name = "IDX_ADDRESSES_PROPERTY_TYPE"),
             @Index(columnList = "CREATED_DATE_TIME", name = "IDX_ADDRESSES_CREATED_DATE_TIME"),
             @Index(columnList = "LAST_MODIFIED_DATE_TIME", name = "IDX_ADDRESSES_LAST_MODIFIED_DATE_TIME"),
        }
 )
 public class AddressEntity implements Serializable {
 
-    private static final long serialVersionUID = 1090795749216044424L;
+    private static final long serialVersionUID = 2408896916413500912L;
     
     @Access(AccessType.PROPERTY)
     @Id
@@ -53,8 +53,8 @@ public class AddressEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private LeadEntity lead;
 
-    @Column(name = "TYPE", nullable = false)
-    private String type;
+    @Column(name = "PROPERTY_TYPE", nullable = false)
+    private String propertyType;
 
     @Column(name = "ZIP_CODE", nullable = false)
     private String zipCode;

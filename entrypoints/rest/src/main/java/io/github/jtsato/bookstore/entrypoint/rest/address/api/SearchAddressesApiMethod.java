@@ -37,8 +37,8 @@ public interface SearchAddressesApiMethod {
                description = "Address id that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "long")))
     @Parameter(in = ParameterIn.QUERY,
-               name = "type",
-               description = "Address type that need to be considered for filter.",
+               name = "propertyType",
+               description = "Address property type that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "string")))
     @Parameter(in = ParameterIn.QUERY,
                name = "zipCode",

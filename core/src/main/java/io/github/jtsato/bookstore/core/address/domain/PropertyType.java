@@ -41,4 +41,3 @@ public enum PropertyType {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }
-

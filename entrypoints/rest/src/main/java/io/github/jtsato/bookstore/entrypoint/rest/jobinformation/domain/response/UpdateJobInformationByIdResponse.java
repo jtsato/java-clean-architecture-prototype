@@ -16,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UpdateJobInformationByIdResponse implements Serializable {
 
-    private static final long serialVersionUID = 3186015789582206165L;
+    private static final long serialVersionUID = -7056043366656293269L;
 
     private final Long id;
     private final UpdateJobInformationByIdLeadResponse lead;

@@ -63,7 +63,7 @@ public class UpdateAddressByIdController implements UpdateAddressByIdApiMethod {
                                                                                        request.getDescription(),
                                                                                        request.getComplement(),
                                                                                        request.getNumber(),
-                                                                                       request.getType());
+                                                                                       request.getPropertyType());
         final Address address = updateAddressByIdUseCase.execute(parameters);
         return UpdateAddressByIdPresenter.of(address);
     }

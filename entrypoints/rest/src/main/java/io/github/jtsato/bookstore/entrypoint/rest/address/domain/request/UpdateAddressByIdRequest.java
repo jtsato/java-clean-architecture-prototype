@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class UpdateAddressByIdRequest implements Serializable {
 
-    private static final long serialVersionUID = -4602475992082265695L;
+    private static final long serialVersionUID = -7235069613759772320L;
 
     private Long id;
     private Long leadId;
@@ -28,5 +28,5 @@ public class UpdateAddressByIdRequest implements Serializable {
     private String description;
     private String complement;
     private String number;
-    private String type;
+    private String propertyType;
 }

@@ -69,4 +69,3 @@ public enum Education {
         return Arrays.stream(others).noneMatch(this::equals);
     }
 }
-

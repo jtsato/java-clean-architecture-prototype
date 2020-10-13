@@ -1,0 +1,4 @@
+Enum_Currency {
+  BRL : string { @Id };
+  USD : string ; 
+}

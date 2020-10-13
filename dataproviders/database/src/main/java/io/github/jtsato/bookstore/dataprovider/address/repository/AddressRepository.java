@@ -38,5 +38,5 @@ public interface AddressRepository extends EntityGraphJpaRepository<AddressEntit
 
     Optional<AddressEntity> findByNumberIgnoreCase(final String number, final EntityGraph entityGraph);
 
-    Optional<AddressEntity> findByType(final String type, final EntityGraph entityGraph);
+    Optional<AddressEntity> findByPropertyType(final String propertyType, final EntityGraph entityGraph);
 }

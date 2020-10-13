@@ -27,7 +27,7 @@ public final class RegisterAddressPresenter {
                                            address.getDescription(),
                                            address.getComplement(),
                                            address.getNumber(),
-                                           address.getType().name(),
+                                           address.getPropertyType().name(),
                                            address.getCreatedDateTime(),
                                            address.getLastModifiedDateTime());
     }

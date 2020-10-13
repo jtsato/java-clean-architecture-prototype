@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchAddressesParameters extends SelfValidating<SearchAddressesParameters> implements Serializable {
 
-    private static final long serialVersionUID = -12756463493757141L;
+    private static final long serialVersionUID = 716704001102990454L;
 
     private Long id;
 
@@ -43,7 +43,7 @@ public class SearchAddressesParameters extends SelfValidating<SearchAddressesPar
 
     private String number;
 
-    private String type;
+    private String propertyType;
 
     @LocalDateTimeConstraint(message = "validation.address.start.created.date.time.invalid")
     private String startCreatedDateTime;
@@ -66,7 +66,7 @@ public class SearchAddressesParameters extends SelfValidating<SearchAddressesPar
                                      final String description,
                                      final String complement,
                                      final String number,
-                                     final String type,
+                                     final String propertyType,
                                      final ImmutablePair<String, String> createdDateTimeRange,
                                      final ImmutablePair<String, String> lastModifiedDateTimeRange) {
         this.id = id;
@@ -78,7 +78,7 @@ public class SearchAddressesParameters extends SelfValidating<SearchAddressesPar
         this.description = description;
         this.complement = complement;
         this.number = number;
-        this.type = type;
+        this.propertyType = propertyType;
         this.startCreatedDateTime = createdDateTimeRange.getLeft();
         this.endCreatedDateTime = createdDateTimeRange.getRight();
         this.startLastModifiedDateTime = lastModifiedDateTimeRange.getLeft();

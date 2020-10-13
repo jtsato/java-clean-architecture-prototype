@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class RegisterLeadRequest implements Serializable {
 
-    private static final long serialVersionUID = 1724580460688525716L;
+    private static final long serialVersionUID = 5631401774564130838L;
 
     private Long selfiePhoto;
     private String cpf;

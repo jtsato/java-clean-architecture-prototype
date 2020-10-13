@@ -11,6 +11,8 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.jtsato.bookstore.core.address.domain.PropertyType;
+import io.github.jtsato.bookstore.core.balance.domain.Currency;
+import io.github.jtsato.bookstore.core.balance.domain.ResourceOrigin;
 import io.github.jtsato.bookstore.core.jobinformation.domain.ReceiptType;
 import io.github.jtsato.bookstore.core.lead.domain.Gender;
 import io.github.jtsato.bookstore.core.lead.domain.Education;
@@ -50,12 +52,18 @@ public class SearchEnumeratorsUseCaseImpl implements SearchEnumeratorsUseCase {
 
     private List<Enumerator> getAllEnumerators() {
         final List<Enumerator> enumerators = new ArrayList<>(0);
+        enumerators.addAll(Arrays.asList(Currency.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         enumerators.addAll(Arrays.asList(Education.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         enumerators.addAll(Arrays.asList(Gender.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         enumerators.addAll(Arrays.asList(MaritalStatus.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         enumerators.addAll(Arrays.asList(PropertyType.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         enumerators.addAll(Arrays.asList(ReceiptType.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
+        enumerators.addAll(Arrays.asList(ResourceOrigin.values()).stream().map(this::buildEnumerator).collect(Collectors.toList()));
         return enumerators;
+    }
+
+    private Enumerator buildEnumerator(final Currency enumerator) {
+        return new Enumerator("Currency", enumerator.name(), enumerator.getMessageKey());
     }
 
     private Enumerator buildEnumerator(final Education enumerator) {
@@ -76,5 +84,9 @@ public class SearchEnumeratorsUseCaseImpl implements SearchEnumeratorsUseCase {
 
     private Enumerator buildEnumerator(final ReceiptType enumerator) {
         return new Enumerator("ReceiptType", enumerator.name(), enumerator.getMessageKey());
+    }
+
+    private Enumerator buildEnumerator(final ResourceOrigin enumerator) {
+        return new Enumerator("ResourceOrigin", enumerator.name(), enumerator.getMessageKey());
     }
 }

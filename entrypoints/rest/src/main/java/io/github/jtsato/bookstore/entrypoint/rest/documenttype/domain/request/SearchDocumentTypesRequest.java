@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public final class SearchDocumentTypesRequest implements Serializable {
 
-    private static final long serialVersionUID = -2047225817402421733L;
+    private static final long serialVersionUID = -8026917147457075974L;
 
     private Long id;
     private String country;

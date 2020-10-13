@@ -47,7 +47,6 @@ public class UpdateLeadByIdUseCaseImpl implements UpdateLeadByIdUseCase {
     @Override
     public Lead execute(final UpdateLeadByIdParameters parameters) {
 
-
         checkDuplicatedCpfViolation(parameters.getId(), parameters.getCpf());
 
         final Long id = parameters.getId();

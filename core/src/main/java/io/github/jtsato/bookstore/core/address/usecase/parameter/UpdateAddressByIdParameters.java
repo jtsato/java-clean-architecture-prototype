@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -7764793539828037630L;
+    private static final long serialVersionUID = -1470705646171961287L;
 
     @NotNull(message = "validation.address.id.null")
     private Long id;
@@ -49,8 +49,8 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
     @NotBlank(message = "validation.address.number.blank")
     private final String number;
 
-    @NotBlank(message = "validation.address.type.blank")
-    private final String type;
+    @NotBlank(message = "validation.address.property.type.blank")
+    private final String propertyType;
 
     public UpdateAddressByIdParameters(final Long id,
                                        final Long leadId,
@@ -61,7 +61,7 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
                                        final String description,
                                        final String complement,
                                        final String number,
-                                       final String type) {
+                                       final String propertyType) {
         this.id = id;
         this.leadId = leadId;
         this.zipCode = zipCode;
@@ -71,7 +71,7 @@ public class UpdateAddressByIdParameters extends SelfValidating<UpdateAddressByI
         this.description = description;
         this.complement = complement;
         this.number = number;
-        this.type = type;
+        this.propertyType = propertyType;
         this.validateSelf();
     }
 }

@@ -42,7 +42,6 @@ public class UpdateFileByIdUseCaseImpl implements UpdateFileByIdUseCase {
     @Override
     public File execute(final UpdateFileByIdParameters parameters) {
 
-
         checkDuplicatedNameViolation(parameters.getId(), parameters.getName());
 
         final Long id = parameters.getId();

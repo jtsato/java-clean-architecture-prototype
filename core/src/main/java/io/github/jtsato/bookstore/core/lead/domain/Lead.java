@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class Lead implements Serializable {
 
-    private static final long serialVersionUID = 2882200826771032073L;
+    private static final long serialVersionUID = 1880085389612436679L;
 
     private final Long id;
     private final Long selfiePhoto;
