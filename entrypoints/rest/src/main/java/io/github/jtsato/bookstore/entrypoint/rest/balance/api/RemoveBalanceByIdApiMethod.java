@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface RemoveBalanceByIdApiMethod {
 
-    @Operation(summary = "Remove Balance by Id")
+    @Operation(operationId = "removeBalanceById", summary = "Remove Balance by Id")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

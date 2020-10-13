@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class UpdateBalanceByIdParameters extends SelfValidating<UpdateBalanceByIdParameters> implements Serializable {
 
-    private static final long serialVersionUID = -270163618995943302L;
+    private static final long serialVersionUID = 223384636864744590L;
 
     @NotNull(message = "validation.balance.id.null")
     private Long id;

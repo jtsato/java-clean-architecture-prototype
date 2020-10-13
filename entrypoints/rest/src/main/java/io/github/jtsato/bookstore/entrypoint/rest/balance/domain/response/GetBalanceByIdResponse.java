@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetBalanceByIdResponse implements Serializable {
 
-    private static final long serialVersionUID = -4656904855219255613L;
+    private static final long serialVersionUID = -2606894238996739503L;
 
     private final Long id;
     private final String customerNumber;

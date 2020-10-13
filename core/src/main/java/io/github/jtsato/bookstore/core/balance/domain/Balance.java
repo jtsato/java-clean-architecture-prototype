@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Balance implements Serializable {
 
-    private static final long serialVersionUID = 1963952070411436326L;
+    private static final long serialVersionUID = -8669054615037327188L;
 
     private final Long id;
     private final String customerNumber;

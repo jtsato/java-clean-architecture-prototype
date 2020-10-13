@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class RegisterBalanceRequest implements Serializable {
 
-    private static final long serialVersionUID = 7658683748666919810L;
+    private static final long serialVersionUID = 9174665798779030124L;
 
     private String customerNumber;
     private String currency;

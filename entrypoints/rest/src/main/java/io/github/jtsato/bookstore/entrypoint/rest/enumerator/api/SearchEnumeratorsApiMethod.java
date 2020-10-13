@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface SearchEnumeratorsApiMethod {
 
-    @Operation(summary = "Search Enumerators")
+    @Operation(operationId = "searchEnumerators", summary = "Search Enumerators")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

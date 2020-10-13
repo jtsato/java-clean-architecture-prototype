@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class UpdateBalanceByIdRequest implements Serializable {
 
-    private static final long serialVersionUID = 98358723459892280L;
+    private static final long serialVersionUID = -5768651992717311053L;
 
     private Long id;
     private String customerNumber;

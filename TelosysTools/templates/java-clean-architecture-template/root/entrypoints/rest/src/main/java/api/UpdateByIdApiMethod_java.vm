@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface Update${entity.name}By${domainId}ApiMethod {
 
-    @Operation(summary = "Update ${entity.name} by ${domainId}")
+    @Operation(operationId = "update${entity.name}By${domainId}", summary = "Update ${entity.name} by ${domainId}")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

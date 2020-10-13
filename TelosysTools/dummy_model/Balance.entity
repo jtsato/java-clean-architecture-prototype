@@ -1,6 +1,6 @@
 Balance {
   id: long { @Id };
-  customerNumber: string { @NotBlank @DbComment("UniqueKey") };  
+  customerNumber: string { @NotBlank @DbComment("Index") };  
   currency: Enum_Currency { @NotNull, @DbComment("Index") };
   resourceOrigin: Enum_ResourceOrigin { @NotNull, @DbComment("Index") };
   debitBalance: decimal  { @NotNull };

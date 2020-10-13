@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface SearchBalancesApiMethod {
 
-    @Operation(summary = "Search Balances")
+    @Operation(operationId = "searchBalances", summary = "Search Balances")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

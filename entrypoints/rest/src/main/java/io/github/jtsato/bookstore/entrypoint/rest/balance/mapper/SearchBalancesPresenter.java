@@ -9,6 +9,7 @@ import io.github.jtsato.bookstore.core.common.paging.Page;
 import io.github.jtsato.bookstore.entrypoint.rest.balance.domain.response.SearchBalancesResponse;
 
 import io.github.jtsato.bookstore.entrypoint.rest.balance.domain.response.SearchBalancesWrapperResponse;
+import io.github.jtsato.bookstore.entrypoint.rest.balance.domain.response.SessionResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -28,16 +29,14 @@ public final class SearchBalancesPresenter {
 
 
     public static SearchBalancesResponse of(final Balance balance) {
+        final SessionResponse contracted = new SessionResponse(balance.getContractedPrincipal(), balance.getContractedInterest(), balance.getContractedTotal());
+        final SessionResponse paid = new SessionResponse(balance.getPaidPrincipal(), balance.getPaidInterest(), balance.getPaidTotal());
         return new SearchBalancesResponse(balance.getId(),
                                           balance.getCustomerNumber(),
                                           balance.getCurrency().name(),
                                           balance.getResourceOrigin().name(),
                                           balance.getDebitBalance(),
-                                          balance.getContractedPrincipal(),
-                                          balance.getContractedInterest(),
-                                          balance.getContractedTotal(),
-                                          balance.getPaidPrincipal(),
-                                          balance.getPaidInterest(),
-                                          balance.getPaidTotal());
+                                          contracted,
+                                          paid);
     }
 }

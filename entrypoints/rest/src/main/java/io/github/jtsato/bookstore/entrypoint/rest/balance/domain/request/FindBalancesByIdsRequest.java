@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public final class FindBalancesByIdsRequest implements Serializable {
 
-    private static final long serialVersionUID = 6583088162186543782L;
+    private static final long serialVersionUID = 359716066584051996L;
 
     private List<Long> ids;
 }

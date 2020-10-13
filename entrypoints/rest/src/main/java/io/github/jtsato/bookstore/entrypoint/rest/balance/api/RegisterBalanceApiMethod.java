@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface RegisterBalanceApiMethod {
 
-    @Operation(summary = "Register new Balance")
+    @Operation(operationId = "registerBalance", summary = "Register new Balance")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

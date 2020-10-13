@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface Remove${entity.name}By${domainId}ApiMethod {
 
-    @Operation(summary = "Remove ${entity.name} by ${domainId}")
+    @Operation(operationId = "remove${entity.name}By${domainId}", summary = "Remove ${entity.name} by ${domainId}")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

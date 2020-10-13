@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface FindBalancesByIdsApiMethod {
 
-    @Operation(summary = "Find Balances by Ids")
+    @Operation(operationId = "findBalancesByIds", summary = "Find Balances by Ids")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

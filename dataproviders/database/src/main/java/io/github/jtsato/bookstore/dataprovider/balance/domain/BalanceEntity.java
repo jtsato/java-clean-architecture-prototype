@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,12 +27,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "BALANCES",
-       uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"CUSTOMER_NUMBER"}, name = "UN_BALANCES_CUSTOMER_NUMBER"),
-       })
+       indexes = {
+            @Index(columnList = "CURRENCY", name = "IDX_BALANCES_CURRENCY"),
+            @Index(columnList = "RESOURCE_ORIGIN", name = "IDX_BALANCES_RESOURCE_ORIGIN"),
+            @Index(columnList = "CUSTOMER_NUMBER", name = "IDX_BALANCES_CUSTOMER_NUMBER"),
+       }
+)
 public class BalanceEntity implements Serializable {
 
-    private static final long serialVersionUID = 8597294651567981729L;
+    private static final long serialVersionUID = -7571419576584287463L;
     
     @Access(AccessType.PROPERTY)
     @Id

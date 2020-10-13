@@ -10,13 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import io.github.jtsato.bookstore.core.balance.domain.Currency;
 import io.github.jtsato.bookstore.core.balance.domain.ResourceOrigin;
 import io.github.jtsato.bookstore.core.balance.domain.Balance;
-import io.github.jtsato.bookstore.core.balance.gateway.GetBalanceByCustomerNumberIgnoreCaseGateway;
 import io.github.jtsato.bookstore.core.balance.gateway.UpdateBalanceByIdGateway;
 import io.github.jtsato.bookstore.core.balance.usecase.UpdateBalanceByIdUseCase;
 import io.github.jtsato.bookstore.core.balance.usecase.parameter.UpdateBalanceByIdParameters;
 import io.github.jtsato.bookstore.core.common.EnumeratorUtils;
 import io.github.jtsato.bookstore.core.exception.NotFoundException;
-import io.github.jtsato.bookstore.core.exception.UniqueConstraintException;
 import lombok.RequiredArgsConstructor;
 
 /*
@@ -37,12 +35,8 @@ public class UpdateBalanceByIdUseCaseImpl implements UpdateBalanceByIdUseCase {
 
     private final UpdateBalanceByIdGateway updateBalanceByIdGateway;
 
-    private final GetBalanceByCustomerNumberIgnoreCaseGateway getBalanceByCustomerNumberIgnoreCaseGateway;
-
     @Override
     public Balance execute(final UpdateBalanceByIdParameters parameters) {
-
-        checkDuplicatedCustomerNumberViolation(parameters.getId(), parameters.getCustomerNumber());
 
         final Long id = parameters.getId();
         final String customerNumber = StringUtils.stripToEmpty(parameters.getCustomerNumber());
@@ -70,19 +64,5 @@ public class UpdateBalanceByIdUseCaseImpl implements UpdateBalanceByIdUseCase {
 
         final Optional<Balance> optional = updateBalanceByIdGateway.execute(balance);
         return optional.orElseThrow(() -> new NotFoundException("validation.balance.id.notfound", String.valueOf(parameters.getId())));
-    }
-
-    private void checkDuplicatedCustomerNumberViolation(final Long id, final String customerNumber) {
-
-        final Optional<Balance> optional = getBalanceByCustomerNumberIgnoreCaseGateway.execute(customerNumber);
-
-        if (optional.isEmpty()) {
-            return;
-        }
-
-        final Balance balance = optional.get();
-        if (!balance.getId().equals(id)) {
-            throw new UniqueConstraintException("validation.balance.customer.number.already.exists", balance.getCustomerNumber());
-        }
     }
 }

@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBalanceParameters extends SelfValidating<RegisterBalanceParameters> implements Serializable {
 
-    private static final long serialVersionUID = -1675239734788273057L;
+    private static final long serialVersionUID = 2268433320664451642L;
 
     @NotBlank(message = "validation.balance.customer.number.blank")
     private final String customerNumber;
