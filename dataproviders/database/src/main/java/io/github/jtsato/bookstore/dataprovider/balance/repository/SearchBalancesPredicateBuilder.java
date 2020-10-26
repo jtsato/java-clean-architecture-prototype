@@ -37,6 +37,14 @@ public class SearchBalancesPredicateBuilder extends AbstractPredicateBuilderImpl
             booleanExpressions.add(entityPath.customerNumber.like(addLikeOperator(query.getCustomerNumber())));
         }
 
+        if (StringUtils.isNotBlank(query.getCurrency1())) {
+            booleanExpressions.add(entityPath.currency1.like(addLikeOperator(query.getCurrency1())));
+        }
+
+        if (StringUtils.isNotBlank(query.getResourceOrigin1())) {
+            booleanExpressions.add(entityPath.resourceOrigin1.like(addLikeOperator(query.getResourceOrigin1())));
+        }
+
         if (StringUtils.isNotBlank(query.getCurrency())) {
             final Currency currency = EnumeratorUtils.valueOf(query.getCurrency(), Currency.class);
             booleanExpressions.add(entityPath.currency.eq(currency.name()));

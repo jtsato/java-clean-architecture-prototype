@@ -14,10 +14,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetBalanceByIdResponse implements Serializable {
 
-    private static final long serialVersionUID = -2606894238996739503L;
+    private static final long serialVersionUID = -9214610091025414888L;
 
     private final Long id;
     private final String customerNumber;
+    private final String currency1;
+    private final String resourceOrigin1;
     private final String currency;
     private final String resourceOrigin;
     private final BigDecimal debitBalance;

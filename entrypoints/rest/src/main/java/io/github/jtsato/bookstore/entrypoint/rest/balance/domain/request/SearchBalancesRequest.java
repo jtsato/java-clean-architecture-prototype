@@ -20,10 +20,12 @@ import lombok.ToString;
 @ToString
 public final class SearchBalancesRequest implements Serializable {
 
-    private static final long serialVersionUID = -3892081320021111663L;
+    private static final long serialVersionUID = 6523923334765694843L;
 
     private Long id;
     private String customerNumber;
+    private String currency1;
+    private String resourceOrigin1;
     private String currency;
     private String resourceOrigin;
     private BigDecimal startDebitBalance;

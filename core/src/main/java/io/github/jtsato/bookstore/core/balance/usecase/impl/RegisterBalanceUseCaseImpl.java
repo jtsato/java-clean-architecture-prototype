@@ -37,6 +37,8 @@ public class RegisterBalanceUseCaseImpl implements RegisterBalanceUseCase {
     public Balance execute(final RegisterBalanceParameters parameters) {
 
         final String customerNumber = StringUtils.stripToEmpty(parameters.getCustomerNumber());
+        final String currency1 = StringUtils.stripToEmpty(parameters.getCurrency1());
+        final String resourceOrigin1 = StringUtils.stripToEmpty(parameters.getResourceOrigin1());
         final Currency currency = EnumeratorUtils.valueOf(parameters.getCurrency(), Currency.class);
         final ResourceOrigin resourceOrigin = EnumeratorUtils.valueOf(parameters.getResourceOrigin(), ResourceOrigin.class);
         final BigDecimal debitBalance = parameters.getDebitBalance();
@@ -49,6 +51,8 @@ public class RegisterBalanceUseCaseImpl implements RegisterBalanceUseCase {
 
         final Balance balance = new Balance(null,
                                             customerNumber,
+                                            currency1,
+                                            resourceOrigin1,
                                             currency,
                                             resourceOrigin,
                                             debitBalance,

@@ -18,6 +18,8 @@ public final class UpdateBalanceByIdPresenter {
     public static UpdateBalanceByIdResponse of(final Balance balance) {
         return new UpdateBalanceByIdResponse(balance.getId(),
                                              balance.getCustomerNumber(),
+                                             balance.getCurrency1(),
+                                             balance.getResourceOrigin1(),
                                              balance.getCurrency().name(),
                                              balance.getResourceOrigin().name(),
                                              balance.getDebitBalance(),

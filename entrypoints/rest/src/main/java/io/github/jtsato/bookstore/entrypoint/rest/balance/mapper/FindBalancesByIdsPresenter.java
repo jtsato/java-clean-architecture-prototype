@@ -30,6 +30,8 @@ public final class FindBalancesByIdsPresenter {
     public static FindBalancesByIdsResponse of(final Balance balance) {
         return new FindBalancesByIdsResponse(balance.getId(),
                                              balance.getCustomerNumber(),
+                                             balance.getCurrency1(),
+                                             balance.getResourceOrigin1(),
                                              balance.getCurrency().name(),
                                              balance.getResourceOrigin().name(),
                                              balance.getDebitBalance(),

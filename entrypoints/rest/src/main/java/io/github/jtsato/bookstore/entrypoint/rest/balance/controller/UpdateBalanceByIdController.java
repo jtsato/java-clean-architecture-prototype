@@ -56,6 +56,8 @@ public class UpdateBalanceByIdController implements UpdateBalanceByIdApiMethod {
 
         final UpdateBalanceByIdParameters parameters = new UpdateBalanceByIdParameters(id,
                                                                                        request.getCustomerNumber(),
+                                                                                       request.getCurrency1(),
+                                                                                       request.getResourceOrigin1(),
                                                                                        request.getCurrency(),
                                                                                        request.getResourceOrigin(),
                                                                                        request.getDebitBalance(),

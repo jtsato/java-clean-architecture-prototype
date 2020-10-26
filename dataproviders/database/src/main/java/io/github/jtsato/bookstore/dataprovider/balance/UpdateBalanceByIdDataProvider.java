@@ -35,6 +35,8 @@ public class UpdateBalanceByIdDataProvider implements UpdateBalanceByIdGateway {
 
     private Balance updateBalanceEntity(final BalanceEntity balanceEntity, final Balance balance) {
         balanceEntity.setCustomerNumber(balance.getCustomerNumber());
+        balanceEntity.setCurrency1(balance.getCurrency1());
+        balanceEntity.setResourceOrigin1(balance.getResourceOrigin1());
         balanceEntity.setDebitBalance(balance.getDebitBalance());
         balanceEntity.setContractedPrincipal(balance.getContractedPrincipal());
         balanceEntity.setContractedInterest(balance.getContractedInterest());

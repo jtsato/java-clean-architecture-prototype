@@ -14,13 +14,19 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SearchBalancesResponse implements Serializable {
 
-    private static final long serialVersionUID = -1205399252670397443L;
+    private static final long serialVersionUID = 5703897084962030236L;
 
     private final Long id;
     private final String customerNumber;
+    private final String currency1;
+    private final String resourceOrigin1;
     private final String currency;
     private final String resourceOrigin;
     private final BigDecimal debitBalance;
-    private final SessionResponse contracted;
-    private final SessionResponse paid;
+    private final BigDecimal contractedPrincipal;
+    private final BigDecimal contractedInterest;
+    private final BigDecimal contractedTotal;
+    private final BigDecimal paidPrincipal;
+    private final BigDecimal paidInterest;
+    private final BigDecimal paidTotal;
 }

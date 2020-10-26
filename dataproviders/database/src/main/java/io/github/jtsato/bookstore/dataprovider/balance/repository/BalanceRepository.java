@@ -21,6 +21,10 @@ public interface BalanceRepository extends EntityGraphJpaRepository<BalanceEntit
 
     Optional<BalanceEntity> findByCustomerNumberIgnoreCase(final String customerNumber);
 
+    Optional<BalanceEntity> findByCurrency1IgnoreCase(final String currency1);
+
+    Optional<BalanceEntity> findByResourceOrigin1IgnoreCase(final String resourceOrigin1);
+
     Optional<BalanceEntity> findByCurrency(final String currency);
 
     Optional<BalanceEntity> findByResourceOrigin(final String resourceOrigin);

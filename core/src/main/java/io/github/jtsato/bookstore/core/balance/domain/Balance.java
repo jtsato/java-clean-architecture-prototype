@@ -17,10 +17,12 @@ import lombok.ToString;
 @ToString
 public class Balance implements Serializable {
 
-    private static final long serialVersionUID = -8669054615037327188L;
+    private static final long serialVersionUID = -9183050201790068351L;
 
     private final Long id;
     private final String customerNumber;
+    private final String currency1;
+    private final String resourceOrigin1;
     private final Currency currency;
     private final ResourceOrigin resourceOrigin;
     private final BigDecimal debitBalance;

@@ -30,12 +30,11 @@ import lombok.Setter;
        indexes = {
             @Index(columnList = "CURRENCY", name = "IDX_BALANCES_CURRENCY"),
             @Index(columnList = "RESOURCE_ORIGIN", name = "IDX_BALANCES_RESOURCE_ORIGIN"),
-            @Index(columnList = "CUSTOMER_NUMBER", name = "IDX_BALANCES_CUSTOMER_NUMBER"),
        }
 )
 public class BalanceEntity implements Serializable {
 
-    private static final long serialVersionUID = -7571419576584287463L;
+    private static final long serialVersionUID = -8040077395043594893L;
     
     @Access(AccessType.PROPERTY)
     @Id
@@ -51,6 +50,12 @@ public class BalanceEntity implements Serializable {
 
     @Column(name = "CUSTOMER_NUMBER", nullable = false)
     private String customerNumber;
+
+    @Column(name = "CURRENCY_1", nullable = false)
+    private String currency1;
+
+    @Column(name = "RESOURCE_ORIGIN_1", nullable = false)
+    private String resourceOrigin1;
 
     @Column(name = "DEBIT_BALANCE", nullable = false)
     private BigDecimal debitBalance;
@@ -110,6 +115,10 @@ public class BalanceEntity implements Serializable {
         builder.append(id);
         builder.append(", customerNumber=");
         builder.append(customerNumber);
+        builder.append(", currency1=");
+        builder.append(currency1);
+        builder.append(", resourceOrigin1=");
+        builder.append(resourceOrigin1);
         builder.append(", debitBalance=");
         builder.append(debitBalance);
         builder.append(", contractedPrincipal=");

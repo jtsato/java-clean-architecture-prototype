@@ -67,6 +67,8 @@ public class SearchBalancesController implements SearchBalancesApiMethod {
 
         final Long id = searchBalancesRequest.getId();
         final String customerNumber = searchBalancesRequest.getCustomerNumber();
+        final String currency1 = searchBalancesRequest.getCurrency1();
+        final String resourceOrigin1 = searchBalancesRequest.getResourceOrigin1();
         final String currency = searchBalancesRequest.getCurrency();
         final String resourceOrigin = searchBalancesRequest.getResourceOrigin();
         final ImmutablePair<BigDecimal, BigDecimal> debitBalanceRange = new ImmutablePair<>(searchBalancesRequest.getStartDebitBalance(), searchBalancesRequest.getEndDebitBalance());
@@ -76,6 +78,6 @@ public class SearchBalancesController implements SearchBalancesApiMethod {
         final ImmutablePair<BigDecimal, BigDecimal> paidPrincipalRange = new ImmutablePair<>(searchBalancesRequest.getStartPaidPrincipal(), searchBalancesRequest.getEndPaidPrincipal());
         final ImmutablePair<BigDecimal, BigDecimal> paidInterestRange = new ImmutablePair<>(searchBalancesRequest.getStartPaidInterest(), searchBalancesRequest.getEndPaidInterest());
         final ImmutablePair<BigDecimal, BigDecimal> paidTotalRange = new ImmutablePair<>(searchBalancesRequest.getStartPaidTotal(), searchBalancesRequest.getEndPaidTotal());
-        return new SearchBalancesParameters(id, customerNumber, currency, resourceOrigin, debitBalanceRange, contractedPrincipalRange, contractedInterestRange, contractedTotalRange, paidPrincipalRange, paidInterestRange, paidTotalRange); 
+        return new SearchBalancesParameters(id, customerNumber, currency1, resourceOrigin1, currency, resourceOrigin, debitBalanceRange, contractedPrincipalRange, contractedInterestRange, contractedTotalRange, paidPrincipalRange, paidInterestRange, paidTotalRange); 
     }
 }

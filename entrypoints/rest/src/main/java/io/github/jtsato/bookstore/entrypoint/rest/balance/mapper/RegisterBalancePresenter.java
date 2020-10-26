@@ -18,6 +18,8 @@ public final class RegisterBalancePresenter {
     public static RegisterBalanceResponse of(final Balance balance) {
         return new RegisterBalanceResponse(balance.getId(),
                                            balance.getCustomerNumber(),
+                                           balance.getCurrency1(),
+                                           balance.getResourceOrigin1(),
                                            balance.getCurrency().name(),
                                            balance.getResourceOrigin().name(),
                                            balance.getDebitBalance(),

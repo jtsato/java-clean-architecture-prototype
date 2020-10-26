@@ -22,11 +22,15 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class SearchBalancesParameters extends SelfValidating<SearchBalancesParameters> implements Serializable {
 
-    private static final long serialVersionUID = 5843198251626548095L;
+    private static final long serialVersionUID = 1902875975959986394L;
 
     private Long id;
 
     private String customerNumber;
+
+    private String currency1;
+
+    private String resourceOrigin1;
 
     private String currency;
 
@@ -62,6 +66,8 @@ public class SearchBalancesParameters extends SelfValidating<SearchBalancesParam
 
     public SearchBalancesParameters(final Long id,
                                     final String customerNumber,
+                                    final String currency1,
+                                    final String resourceOrigin1,
                                     final String currency,
                                     final String resourceOrigin,
                                     final ImmutablePair<BigDecimal, BigDecimal> debitBalanceRange,
@@ -73,6 +79,8 @@ public class SearchBalancesParameters extends SelfValidating<SearchBalancesParam
                                     final ImmutablePair<BigDecimal, BigDecimal> paidTotalRange) {
         this.id = id;
         this.customerNumber = customerNumber;
+        this.currency1 = currency1;
+        this.resourceOrigin1 = resourceOrigin1;
         this.currency = currency;
         this.resourceOrigin = resourceOrigin;
         this.startDebitBalance = debitBalanceRange.getLeft();

@@ -21,10 +21,16 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterBalanceParameters extends SelfValidating<RegisterBalanceParameters> implements Serializable {
 
-    private static final long serialVersionUID = 2268433320664451642L;
+    private static final long serialVersionUID = 1821929395739314275L;
 
     @NotBlank(message = "validation.balance.customer.number.blank")
     private final String customerNumber;
+
+    @NotBlank(message = "validation.balance.currency.1.blank")
+    private final String currency1;
+
+    @NotBlank(message = "validation.balance.resource.origin.1.blank")
+    private final String resourceOrigin1;
 
     @NotBlank(message = "validation.balance.currency.blank")
     private final String currency;
@@ -54,6 +60,8 @@ public class RegisterBalanceParameters extends SelfValidating<RegisterBalancePar
     private final BigDecimal paidTotal; 
 
     public RegisterBalanceParameters(final String customerNumber,
+                                     final String currency1,
+                                     final String resourceOrigin1,
                                      final String currency,
                                      final String resourceOrigin,
                                      final BigDecimal debitBalance,
@@ -64,6 +72,8 @@ public class RegisterBalanceParameters extends SelfValidating<RegisterBalancePar
                                      final BigDecimal paidInterest,
                                      final BigDecimal paidTotal) {
         this.customerNumber = customerNumber;
+        this.currency1 = currency1;
+        this.resourceOrigin1 = resourceOrigin1;
         this.currency = currency;
         this.resourceOrigin = resourceOrigin;
         this.debitBalance = debitBalance;

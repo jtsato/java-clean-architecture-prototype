@@ -14,10 +14,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RegisterBalanceResponse implements Serializable {
 
-    private static final long serialVersionUID = 5572817852426699266L;
+    private static final long serialVersionUID = 3318524074570762579L;
 
     private final Long id;
     private final String customerNumber;
+    private final String currency1;
+    private final String resourceOrigin1;
     private final String currency;
     private final String resourceOrigin;
     private final BigDecimal debitBalance;

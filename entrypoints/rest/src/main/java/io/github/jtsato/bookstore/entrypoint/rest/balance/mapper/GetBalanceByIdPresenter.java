@@ -18,6 +18,8 @@ public final class GetBalanceByIdPresenter {
     public static GetBalanceByIdResponse of(final Balance balance) {
         return new GetBalanceByIdResponse(balance.getId(),
                                           balance.getCustomerNumber(),
+                                          balance.getCurrency1(),
+                                          balance.getResourceOrigin1(),
                                           balance.getCurrency().name(),
                                           balance.getResourceOrigin().name(),
                                           balance.getDebitBalance(),

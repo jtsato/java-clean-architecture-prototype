@@ -54,6 +54,8 @@ public class RegisterBalanceController implements RegisterBalanceApiMethod {
         log.info("Starting Controller -> RegisterBalanceController with {}", jsonRequest);
 
         final RegisterBalanceParameters parameters = new RegisterBalanceParameters(request.getCustomerNumber(),
+                                                                                   request.getCurrency1(),
+                                                                                   request.getResourceOrigin1(),
                                                                                    request.getCurrency(),
                                                                                    request.getResourceOrigin(),
                                                                                    request.getDebitBalance(),

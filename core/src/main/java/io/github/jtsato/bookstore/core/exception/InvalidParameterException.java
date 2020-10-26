@@ -6,7 +6,7 @@ package io.github.jtsato.bookstore.core.exception;
 
 public class InvalidParameterException extends CoreException {
 
-    private static final long serialVersionUID = 6952947970003913520L;
+    private static final long serialVersionUID = -4373488845740356907L;
 
     public InvalidParameterException(final String message) {
         super(message);

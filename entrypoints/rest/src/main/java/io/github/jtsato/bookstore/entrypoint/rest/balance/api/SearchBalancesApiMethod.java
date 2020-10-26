@@ -48,6 +48,14 @@ public interface SearchBalancesApiMethod {
                name = "customerNumber",
                description = "Balance customer number that need to be considered for filter.",
                content = @Content(schema = @Schema(type = "string")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "currency1",
+               description = "Balance currency 1 that need to be considered for filter.",
+               content = @Content(schema = @Schema(type = "string")))
+    @Parameter(in = ParameterIn.QUERY,
+               name = "resourceOrigin1",
+               description = "Balance resource origin 1 that need to be considered for filter.",
+               content = @Content(schema = @Schema(type = "string")))
 
     @ApiResponses(value = {@ApiResponse(responseCode = HttpStatusConstants.OK_200, description = HttpStatusConstants.OK_200_MESSAGE),
                            @ApiResponse(responseCode = HttpStatusConstants.BAD_REQUEST_400, description = HttpStatusConstants.BAD_REQUEST_400_MESSAGE),
