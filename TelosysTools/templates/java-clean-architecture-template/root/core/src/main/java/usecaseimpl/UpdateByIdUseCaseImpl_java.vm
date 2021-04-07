@@ -41,17 +41,11 @@ import org.apache.commons.lang3.StringUtils;
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Update${entity.name}By${domainId}Gateway") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Update${entity.name}By${domainId}UseCase") )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}By${domainId}Parameters") )
-#foreach( $field in $domainDates )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
+#if ( $hasCurrentDateOnCreation == "true" || $hasCurrentDateOnUpdate == "true" )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDate") )
-#break;
 #end
-#end
-#foreach( $field in $domainTimestamps )
-#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
+#if ( $hasCurrentDateTimeOnCreation == "true" || $hasCurrentDateTimeOnUpdate == "true" )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDateTime") )
-#break;
-#end
 #end
 #if ( $domainEnumerators.size() > 0 )
 #set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.EnumeratorUtils") )
@@ -93,7 +87,7 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #end
 #foreach ( $field in $domainLinksToOne )
 #set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
-    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway ;
+    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway;
 
 #end
 #foreach( $field in $domainDates )

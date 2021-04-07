@@ -1,0 +1,15 @@
+Balance {
+  id: long { @Id };
+  customerNumber: string { @NotBlank @DbComment("UniqueKey1") };  
+  currency: Enum_Currency { @NotNull, @DbComment("Index") };
+  resourceOrigin: Enum_ResourceOrigin { @NotNull, @DbComment("Index") };
+  currency1: string { @NotBlank @DbComment("UniqueKey1") };
+  resourceOrigin1: string { @NotBlank @DbComment("UniqueKey1") };
+  debitBalance: decimal  { @NotNull };
+  contractedPrincipal: decimal  { @NotNull };
+  contractedInterest: decimal  { @NotNull };
+  contractedTotal: decimal  { @NotNull };  
+  paidPrincipal: decimal  { @NotNull };
+  paidInterest: decimal  { @NotNull };
+  paidTotal: decimal  { @NotNull };  
+}

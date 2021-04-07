@@ -40,13 +40,17 @@ public class Register${entity.name}Request implements Serializable {
     private Boolean $field.name;
 #end
 #foreach( $field in $domainDates )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
     private String $field.name;
+#end
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
     private String $field.name;
+#end
 #end
 #end
 #foreach( $field in $domainDecimals )

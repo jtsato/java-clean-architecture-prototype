@@ -5,10 +5,10 @@ import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 import ${ROOT_PKG}.core.common.paging.Page;
 
 #include ( "/include/author.vm" )
-#set ( $fieldNameAndKey = $strUtils.substringBetween($target.file, "By", "Gateway") )
-#set ( $uncapitalizedFieldNameAndKey =  $wordUtils.uncapitalize($fieldNameAndKey) )
+#set ( $fieldType = $strUtils.substringBetween($target.file, "By", "Gateway") )
+#set ( $uncapitalizedFieldType =  $wordUtils.uncapitalize($fieldType) )
 @FunctionalInterface
-public interface Search${pluralEntityName}By${fieldNameAndKey}Gateway {
+public interface Search${pluralEntityName}By${fieldType}Gateway {
 
-    Page<${entity.name}> execute(final Long ${uncapitalizedFieldNameAndKey}, final Integer pageNumber, final Integer size, final String orderBy);
+    Page<${entity.name}> execute(final Long ${uncapitalizedFieldType}, final Integer pageNumber, final Integer size, final String orderBy);
 }

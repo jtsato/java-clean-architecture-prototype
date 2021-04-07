@@ -45,7 +45,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-#if ( $domainIndexes.size() > 0 )
+#if ( $domainIndexes.size() > 0 || $domainLinksToOne.size() > 0 || $domainEnumerators.size() > 0 )
 import javax.persistence.Index;
 #end
 #foreach( $field in $domainAttributes )

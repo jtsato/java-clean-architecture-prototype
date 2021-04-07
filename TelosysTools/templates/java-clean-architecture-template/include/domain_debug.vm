@@ -5,6 +5,12 @@ $entity.name [$domainId]
 ${field.name} [domainKeys]
 #end
 ##
+#foreach( $element in $domainUniqKeys )
+${element[0]} [0]
+${element[1]} [1]
+${element[2]} [2]
+#end
+##
 #foreach( $link in $domainLinks )
 $link.fieldName $link.fieldType  $wordUtils.capitalize($link.targetEntity.keyAttributes[0].name)
 #end
@@ -32,11 +38,11 @@ ${field.name} [domainDates]
 #foreach( $field in $domainTimestamps )
 ${field.name} [domainTimestamps]
 #end
-
+##
 $uncapitalizeEntityName [uncapitalize] 
 $pluralEntityName [capitalize plural]
 $wordUtils.uncapitalize( $inflector.getInstance().pluralize( $entity.name ) ) [uncapitalize plural]
-
+##
 #foreach( $field in $domainUkKeys )
 $field.name [Unique Keys]
 #end
@@ -58,7 +64,7 @@ References [The $entity.name is referenced by the $dependent and the $dependent.
 #set ( $entityName = $entity.name.replace("Enum_", "") )
 $target.forceEntityName(${entityName})
 #end
-
+##
 #macro( printEntityFields $params )
 #set ( $entitie = $params.param1 )
 #set ( $prefix = $params.param2 )
@@ -73,7 +79,5 @@ ${prefix}${field.type} ${field.name};
 #end
 #end
 #end
-
 #set( $params = {"param1" : $entity, "param2": ""} )
 #printEntityFields($params)
-

@@ -83,6 +83,7 @@ public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicate
 #foreach ( $link in $domainEnumerators )
 #if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
 #set ( $fieldType = $link.fieldType.replace("Enum_", "") )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${link.fieldName}) )
 
         if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
             final ${fieldType} ${link.fieldName} = EnumeratorUtils.valueOf(query.get${capitalizeFieldName}(), ${fieldType}.class);

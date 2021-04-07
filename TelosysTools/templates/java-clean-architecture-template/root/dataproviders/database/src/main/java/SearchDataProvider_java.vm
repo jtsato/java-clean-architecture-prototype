@@ -58,7 +58,7 @@ public class Search${pluralEntityName}DataProvider implements Search${pluralEnti
 #if ( $domainStrings.size() > 0 )
             return "${domainStrings.get(0).name}:asc";
 #elseif ( $domainEnumerators.size() > 0 )
-            return "${domainEnumerators.get(0).name}:asc";
+            return "${domainEnumerators.get(0).fieldName}:asc";
 #elseif ( $domainBooleans.size() > 0 )
             return "${domainBooleans.get(0).name}:asc";
 #elseif ( $domainTimestamps.size() > 0 )

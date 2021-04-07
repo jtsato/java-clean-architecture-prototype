@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface Find${pluralEntityName}By${pluralDomainId}ApiMethod {
 
-    @Operation(summary = "Find ${pluralEntityName} by ${pluralDomainId}")
+    @Operation(operationId = "find${pluralEntityName}By${pluralDomainId}", summary = "Find ${pluralEntityName} by ${pluralDomainId}")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface Search${pluralEntityName}ApiMethod {
 
-    @Operation(summary = "Search ${pluralEntityName}")
+    @Operation(operationId = "search${pluralEntityName}", summary = "Search ${pluralEntityName}")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

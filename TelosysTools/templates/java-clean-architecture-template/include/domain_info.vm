@@ -8,6 +8,7 @@
 #set ( $entityNameAsUrl = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($inflector.getInstance().pluralize($entity.name)), "-").toLowerCase() )
 #set ( $domainKeys            = [] )
 #set ( $domainUkKeys          = [] )
+#set ( $domainUniqKeys        = [] )
 #set ( $domainIndexes         = [] )
 #set ( $domainLinks           = [] )
 #set ( $domainLinksToMany     = [] )
@@ -24,6 +25,10 @@
 #set ( $domainTimestamps      = [] )
 #set ( $domainDecimals        = [] )
 #set ( $domainReferencedBy    = [] )
+#set ( $hasCurrentDateOnCreation = "false" )
+#set ( $hasCurrentDateOnUpdate = "false" )
+#set ( $hasCurrentDateTimeOnCreation = "false" )
+#set ( $hasCurrentDateTimeOnUpdate = "false" )
 #foreach( $field in $entity.keyAttributes )
 #set ( $x = $domainKeys.add($field) )
 #end
@@ -67,15 +72,50 @@
 #set ( $x = $domainBooleans.add($field) )
 #elseif ( $field.isDateType() )
 #set ( $x = $domainDates.add($field) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#set ( $hasCurrentDateOnCreation = "true" )
+#end
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
+#set ( $hasCurrentDateOnUpdate = "true" )
+#end
 #elseif ( $field.isTimestampType() )
 #set ( $x = $domainTimestamps.add($field) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#set ( $hasCurrentDateTimeOnCreation = "true" )
+#end
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
+#set ( $hasCurrentDateTimeOnUpdate = "true" )
+#end
 #elseif ( $field.isDecimalType() )
 #set ( $x = $domainDecimals.add($field) )
 #end
+#foreach ( $item in [1..9] )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey${item}") )
+#if ( $field.isStringType() )
+#set ( $element = ["UniqueKey${item}", "${field.name}", "${field.name}IgnoreCase"] )
+#else
+#set ( $element = ["UniqueKey${item}", "${field.name}", "${field.name}"] )
+#end
+#set ( $x = $domainUniqKeys.add($element) )
+#end
+#end
 #if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey") )
+
+#set ( $element = ["UniqueKey${item}", "${field.name}", "${field.name}"] )
+#set ( $x = $domainUniqKeys.add($element) )
+
 #set ( $x = $domainUkKeys.add($field) )
 #elseif ( $strUtils.split($field.databaseComment, ", ").contains("Index") )
 #set ( $x = $domainIndexes.add($field) )
+#end
+#end
+#set ( $domainEnumAttributes = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.IN_SELECTED_LINKS ) )
+#foreach( $field in $domainEnumAttributes )
+#foreach ( $item in [1..9] )
+#if ( $strUtils.split($field.label, ", ").contains("UniqueKey${item}") )
+#set ( $element = ["UniqueKey${item}", "${field.name}", "${field.name}"] )
+#set ( $x = $domainUniqKeys.add($element) )
+#end
 #end
 #end
 #foreach( $element in $model.allEntites )

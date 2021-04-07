@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @FunctionalInterface
 public interface Register${entity.name}ApiMethod {
 
-    @Operation(summary = "Register new ${entity.name}")
+    @Operation(operationId = "register${entity.name}", summary = "Register new ${entity.name}")
 
     @Parameter(name = "Accept-Language",
                example = "pt_BR",

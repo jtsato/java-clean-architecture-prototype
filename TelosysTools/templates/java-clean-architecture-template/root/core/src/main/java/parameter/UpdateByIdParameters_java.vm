@@ -40,13 +40,13 @@ import javax.validation.constraints.PositiveOrZero;
 #end
 
 #foreach( $field in $domainDates )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 import ${ROOT_PKG}.core.common.validation.LocalDateConstraint;
 #break;
 #end
 #end
 #foreach( $field in $domainTimestamps )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDate") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 import ${ROOT_PKG}.core.common.validation.LocalDateTimeConstraint;
 #break;
 #end
@@ -121,7 +121,7 @@ public class Update${entity.name}By${domainId}Parameters extends SelfValidating<
     private final Boolean ${wordUtils.uncapitalize($field.name)};
 #end
 #foreach ( $field in $domainDates )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotBlank() )
@@ -132,7 +132,7 @@ public class Update${entity.name}By${domainId}Parameters extends SelfValidating<
 #end
 #end
 #foreach ( $field in $domainTimestamps )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") && !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
 
 #if ( $field.isNotBlank() )
@@ -187,15 +187,19 @@ public class Update${entity.name}By${domainId}Parameters extends SelfValidating<
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
 #end
 #foreach ( $field in $domainDates )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $x = $constructorParameters.add("final String ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
 #end
 #end
 #foreach ( $field in $domainTimestamps )
-#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOn") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $x = $constructorParameters.add("final String ${field.name}") )
 #set ( $x = $setParameters.add("this.${field.name} = ${field.name};") )
+#end
 #end
 #end
 #foreach ( $field in $domainDecimals )

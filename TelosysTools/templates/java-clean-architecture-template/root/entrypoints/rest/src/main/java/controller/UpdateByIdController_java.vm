@@ -77,12 +77,20 @@ public class Update${entity.name}By${domainId}Controller implements Update${enti
 #set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
 #end
 #foreach ( $field in $domainDates )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
 #set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
 #end
+#end
+#end
 #foreach ( $field in $domainTimestamps )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#if ( !$strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
 #set ( $x = $parameters.add("request.get${capitalizeFieldName}()") )
+#end
+#end
 #end
 #foreach ( $field in $domainDecimals )
 #set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
