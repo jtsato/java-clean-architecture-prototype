@@ -6,13 +6,12 @@ import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import io.github.jtsato.bookstore.core.common.paging.Page;
+import io.github.jtsato.bookstore.core.document.domain.Document;
+import io.github.jtsato.bookstore.core.document.gateway.SearchDocumentsByTypeIdGateway;
 import io.github.jtsato.bookstore.core.documenttype.domain.DocumentType;
 import io.github.jtsato.bookstore.core.documenttype.gateway.RemoveDocumentTypeByIdGateway;
 import io.github.jtsato.bookstore.core.documenttype.usecase.RemoveDocumentTypeByIdUseCase;
-
-import io.github.jtsato.bookstore.core.document.domain.Document;
-import io.github.jtsato.bookstore.core.document.gateway.SearchDocumentsByDocumentTypeIdGateway;
-import io.github.jtsato.bookstore.core.common.paging.Page;
 import io.github.jtsato.bookstore.core.exception.InvalidParameterException;
 import io.github.jtsato.bookstore.core.exception.NotFoundException;
 import io.github.jtsato.bookstore.core.exception.ParentConstraintException;
@@ -36,7 +35,7 @@ public class RemoveDocumentTypeByIdUseCaseImpl implements RemoveDocumentTypeById
 
     private final RemoveDocumentTypeByIdGateway removeDocumentTypeByIdGateway;
 
-    private final SearchDocumentsByDocumentTypeIdGateway searchDocumentsByDocumentTypeIdGateway;
+    private final SearchDocumentsByTypeIdGateway searchDocumentsByTypeIdGateway;
 
     @Override
     public DocumentType execute(final Long id) {
@@ -54,7 +53,7 @@ public class RemoveDocumentTypeByIdUseCaseImpl implements RemoveDocumentTypeById
 
     private void avoidRemovingDocumentTypeWithDocuments(final Long id) {
 
-        final Page<Document> pageOfDocuments = searchDocumentsByDocumentTypeIdGateway.execute(id, 0, 1, null);
+        final Page<Document> pageOfDocuments = searchDocumentsByTypeIdGateway.execute(id, 0, 1, null);
 
         if (CollectionUtils.isNotEmpty(pageOfDocuments.getContent())) {
             throw new ParentConstraintException("validation.document.type.with.documents.removal");

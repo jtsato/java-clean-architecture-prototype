@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 public class RegisterLeadParameters extends SelfValidating<RegisterLeadParameters> implements Serializable {
 
-    private static final long serialVersionUID = 3866223145744288878L;
+    private static final long serialVersionUID = 2257746272021529169L;
 
     @NotNull(message = "validation.lead.selfie.photo.null")
     private final Long selfiePhoto;

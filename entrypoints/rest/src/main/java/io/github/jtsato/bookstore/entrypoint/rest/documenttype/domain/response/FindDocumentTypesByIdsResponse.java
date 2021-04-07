@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindDocumentTypesByIdsResponse implements Serializable {
 
-    private static final long serialVersionUID = -3510317448432695524L;
+    private static final long serialVersionUID = 8506094256094924291L;
 
     private final Long id;
     private final String country;

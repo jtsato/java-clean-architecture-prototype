@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class RegisterDocumentTypeRequest implements Serializable {
 
-    private static final long serialVersionUID = 3517205754449448108L;
+    private static final long serialVersionUID = -4328745806992358323L;
 
     private String country;
     private String description;
