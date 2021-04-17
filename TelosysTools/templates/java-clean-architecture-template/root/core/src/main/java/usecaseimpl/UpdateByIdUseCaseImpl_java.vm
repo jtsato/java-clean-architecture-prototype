@@ -9,6 +9,7 @@ import java.time.LocalDate;
 #end
 #if ( $domainTimestamps.size() > 0 )
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 #end
 import java.util.Optional;
 
@@ -164,7 +165,7 @@ public class Update${entity.name}By${domainId}UseCaseImpl implements Update${ent
 #set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
 #set ( $x = $parameters.add("$field.name") )
 #else
-#set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}())") )
+#set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}(), DateTimeFormatter.ISO_DATE_TIME)") )
 #set ( $x = $parameters.add("$field.name") )
 #end
 #end

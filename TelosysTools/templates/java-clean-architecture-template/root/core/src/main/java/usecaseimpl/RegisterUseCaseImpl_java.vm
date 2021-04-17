@@ -9,6 +9,7 @@ import java.time.LocalDate;
 #end
 #if ( $domainTimestamps.size() > 0 )
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 #end
 #if ( $domainLinksToOne.size() > 0 || $domainUkKeys.size() > 0 )
 import java.util.Optional;
@@ -166,7 +167,7 @@ public class Register${entity.name}UseCaseImpl implements Register${entity.name}
 #elseif  ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
 #set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
 #else
-#set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}())") )
+#set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}(), DateTimeFormatter.ISO_DATE_TIME)") )
 #end
 #end
 #foreach ( $field in $domainDecimals )

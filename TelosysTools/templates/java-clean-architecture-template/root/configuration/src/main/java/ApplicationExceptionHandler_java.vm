@@ -12,6 +12,8 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +31,7 @@ import ${ROOT_PKG}.entrypoint.rest.common.WebRequest;
 #include ( "/include/author.vm" )
 #set ( $appName = $strUtils.capitalize( ${MAVEN_ARTIFACT_ID} ) ) 
 
+@Order(Ordered.LOWEST_PRECEDENCE)
 @RestControllerAdvice
 public class ${appName}ExceptionHandler {
 
