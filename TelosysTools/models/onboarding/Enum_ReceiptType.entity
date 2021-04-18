@@ -1,0 +1,4 @@
+Enum_ReceiptType {
+  Payslip : string { @Id };
+  Paychech : string ; 
+}

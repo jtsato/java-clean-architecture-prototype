@@ -1,0 +1,12 @@
+JobInformation {
+ id : long { @Id } ;
+ lead: Lead { @NotNull };
+ profession: string { @NotBlank, @DbComment("UniqueKey1") } ;
+ monthlyIncome: decimal { @NotNull, @DbComment("PositiveOrZero") } ;
+ referenceMonth: string { @NotBlank, @DbComment("UniqueKey1, Regex(^(0?[1-9]|1[012])$)") } ;
+ startDate: date { @NotBlank, @DbComment("Index") } ;
+ receiptType: Enum_ReceiptType { @NotNull, @DbComment("Index") };
+ attach: long { @NotNull, @DbComment("SkipSearch") };
+ createdDateTime : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
+ lastModifiedDateTime : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
+}

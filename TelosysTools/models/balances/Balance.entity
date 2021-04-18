@@ -12,4 +12,5 @@ Balance {
   paidPrincipal: decimal  { @NotNull };
   paidInterest: decimal  { @NotNull };
   paidTotal: decimal  { @NotNull };  
+  referenceDate: timestamp { @NotNull };
 }
