@@ -78,5 +78,8 @@ nb-configuration.xml
 ## Custom
 ##############################
 *.ignore
-configuration/archunit_store/
+configuration/
+core/
+dataproviders/
+entrypoints/
 .env

@@ -7,8 +7,8 @@ import java.time.LocalDate;
 #end
 #if ( $domainTimestamps.size() > 0 )
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 #end
+import java.time.format.DateTimeFormatter;
 #end
 import java.util.LinkedList;
 import java.util.List;

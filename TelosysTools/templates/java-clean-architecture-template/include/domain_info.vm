@@ -101,7 +101,7 @@
 #end
 #if ( $strUtils.split($field.databaseComment, ", ").contains("UniqueKey") )
 
-#set ( $element = ["UniqueKey${item}", "${field.name}", "${field.name}"] )
+#set ( $element = ["UniqueKey", "${field.name}", "${field.name}"] )
 #set ( $x = $domainUniqKeys.add($element) )
 
 #set ( $x = $domainUkKeys.add($field) )

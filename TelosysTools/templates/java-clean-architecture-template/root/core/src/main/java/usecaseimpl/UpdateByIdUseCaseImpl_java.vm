@@ -4,11 +4,13 @@ package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.impl;
 #if ( $domainDecimals.size() > 0 )
 import java.math.BigDecimal;
 #end
+#if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
 #if ( $domainDates.size() > 0 )
 import java.time.LocalDate;
 #end
 #if ( $domainTimestamps.size() > 0 )
 import java.time.LocalDateTime;
+#end
 import java.time.format.DateTimeFormatter;
 #end
 import java.util.Optional;
