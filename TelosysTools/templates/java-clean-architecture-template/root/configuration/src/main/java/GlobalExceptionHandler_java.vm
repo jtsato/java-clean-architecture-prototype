@@ -29,7 +29,7 @@ import ${ROOT_PKG}.entrypoint.rest.common.WebRequest;
 
 #include ( "/include/author.vm" )
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.LOWEST_PRECEDENCE)
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
