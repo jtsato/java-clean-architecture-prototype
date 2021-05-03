@@ -1,0 +1,11 @@
+BookDocument {
+  id: long { @Id };
+  bookId: long { @NotNull };
+  contentType: string { @NotBlank };
+  extension: string { @NotBlank };
+  name: string { @NotBlank };
+  size: long { @NotNull, @DbComment("SkipSearch") };
+  content: string { @NotBlank };
+  creationDate : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
+  updateDate : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
+}

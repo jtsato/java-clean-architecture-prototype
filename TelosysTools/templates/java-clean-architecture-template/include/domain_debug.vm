@@ -19,6 +19,10 @@ $link.fieldName $link.fieldType  $wordUtils.capitalize($link.targetEntity.keyAtt
 ${field.fieldName} [domainEnumerators]
 #end
 ##
+#foreach( $field in $domainLongs )
+${field.name} [domainLongs]
+#end
+##
 #foreach( $field in $domainStrings )
 ${field.name} [domainStrings]
 #end

@@ -1,0 +1,5 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "include/domain_info.vm" )
+#set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
+$generator.generate($target.entityName, "Find${pluralEntityName}By${pluralDomainId}Action.java", $target.folder, "root/core/src/main/java/action/FindByIdsAction_java.vm" )
+#end

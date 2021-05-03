@@ -1,0 +1,86 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.action;
+
+import java.util.Optional;
+
+import javax.inject.Named;
+#if ( $domainReferencedBy.size() > 0 )
+
+import org.apache.commons.collections.CollectionUtils;
+#end
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Remove${entity.name}By${domainId}Gateway;
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Remove${entity.name}By${domainId}UseCase;
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+
+import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.domain.${dependent.name};
+import ${ROOT_PKG}.core.${dependent.name.toLowerCase()}.gateway.Search${pluralType}By${entity.name}${domainId}Gateway;
+#end
+#if ( $domainReferencedBy.size() > 0 )
+import ${ROOT_PKG}.core.common.paging.Page;
+#end
+import ${ROOT_PKG}.core.exception.InvalidParameterException;
+import ${ROOT_PKG}.core.exception.NotFoundException;
+#if ( $domainReferencedBy.size() > 0 )
+import ${ROOT_PKG}.core.exception.ParentConstraintException;
+#end
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Remove${entity.name}By${domainId}Action implements Remove${entity.name}By${domainId}UseCase {
+
+    private final Remove${entity.name}By${domainId}Gateway remove${entity.name}By${domainId}Gateway;
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+
+    private final Search${pluralType}By${entity.name}${domainId}Gateway search${pluralType}By${entity.name}${domainId}Gateway;
+#end
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+
+    @Override
+    public ${entity.name} execute(final Long ${uncapitalizedDomainId}) {
+
+        if (${uncapitalizedDomainId} == null) {
+            throw new InvalidParameterException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.null");
+        }
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+
+        avoidRemoving${entity.name}With${pluralType}(${uncapitalizedDomainId});
+#end
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+
+        final Optional<${entity.name}> optional = remove${entity.name}By${domainId}Gateway.execute(${uncapitalizedDomainId});
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizedDomainId})));
+    }
+#foreach ( $dependent in $domainReferencedBy )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($dependent.name)) )
+#set ( $dependentLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($pluralType), ".").toLowerCase() )
+#set ( $fieldEntityId = $wordUtils.capitalize($dependent.keyAttributes.get(0).name) )
+
+    private void avoidRemoving${entity.name}With${pluralType}(final Long ${uncapitalizedDomainId}) {
+
+        final Page<${dependent.name}> pageOf${pluralType} = search${pluralType}By${entity.name}${domainId}Gateway.execute(${uncapitalizedDomainId}, 0, 1, null);
+
+        if (CollectionUtils.isNotEmpty(pageOf${pluralType}.getContent())) {
+            throw new ParentConstraintException("validation.${entityNameLowerCaseWithDot}.with.${dependentLowerCaseWithDot}.removal");
+        }
+    }
+#end
+}

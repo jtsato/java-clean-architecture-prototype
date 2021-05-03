@@ -1,0 +1,141 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.infra.${entity.name.toLowerCase()}.repository;
+
+#if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
+#if ( $domainDates.size() > 0 )
+import java.time.LocalDate;
+#end
+#if ( $domainTimestamps.size() > 0 )
+import java.time.LocalDateTime;
+#end
+import java.time.format.DateTimeFormatter;
+#end
+import java.util.LinkedList;
+import java.util.List;
+#if ( $domainStrings.size() > 0 || $domainEnumerators.size() > 0 )
+
+import org.apache.commons.lang3.StringUtils;
+#end
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+
+#foreach ( $field in $domainEnumerators )
+#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.$fieldType;
+#end
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Search${pluralEntityName}Parameters;
+#foreach ( $field in $domainLinks )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($field.fieldType)) )
+import ${ROOT_PKG}.infra.${field.fieldType.toLowerCase()}.repository.Search${pluralType}PredicateBuilder;
+#end
+#if ( $domainEnumerators.size() > 0 )
+import ${ROOT_PKG}.core.common.EnumeratorUtils;
+#end
+import ${ROOT_PKG}.infra.${entity.name.toLowerCase()}.domain.Q${entity.name}Entity;
+import ${ROOT_PKG}.infra.common.predicate.AbstractPredicateBuilderImpl;
+
+#include ( "/include/author.vm" )
+
+public class Search${pluralEntityName}PredicateBuilder extends AbstractPredicateBuilderImpl<Q${entity.name}Entity, Search${pluralEntityName}Parameters> {
+
+    public Search${pluralEntityName}PredicateBuilder(final Q${entity.name}Entity entityPath) {
+        super(entityPath);
+    }
+
+    @Override
+    public List<BooleanExpression> buildBooleanExpressions(final Search${pluralEntityName}Parameters query) {
+
+        final List<BooleanExpression> booleanExpressions = new LinkedList<>();
+#foreach ( $field in $domainKeys )
+
+        if (query.${field.getter}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.eq(query.${field.getter}()));
+        }
+#end
+#foreach ( $link in $domainLinks )
+#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
+#set ( $pluralType = $wordUtils.capitalize($inflector.getInstance().pluralize($link.fieldType)) )
+
+        if (query.getSearch${pluralType}Parameters() != null) {
+            final Search${pluralType}PredicateBuilder search${link.fieldType}PredicateBuilder = new Search${pluralType}PredicateBuilder(entityPath.${link.fieldName});
+            booleanExpressions.addAll(search${link.fieldType}PredicateBuilder.buildBooleanExpressions(query.getSearch${pluralType}Parameters()));
+        }
+#end
+#end
+#foreach ( $field in $domainLongs )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (query.getStart${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.goe(query.getStart${capitalizeFieldName}()));
+        }
+
+        if (query.getEnd${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.loe(query.getEnd${capitalizeFieldName}()));
+        }
+#end
+#foreach ( $field in $domainStrings )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
+            booleanExpressions.add(entityPath.${field.name}.like(addLikeOperator(query.get${capitalizeFieldName}())));
+        }
+#end
+#foreach ( $link in $domainEnumerators )
+#if ( $link.isCardinalityManyToOne() || $link.isCardinalityOneToOne() )
+#set ( $fieldType = $link.fieldType.replace("Enum_", "") )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${link.fieldName}) )
+
+        if (StringUtils.isNotBlank(query.get${capitalizeFieldName}())) {
+            final ${fieldType} ${link.fieldName} = EnumeratorUtils.valueOf(query.get${capitalizeFieldName}(), ${fieldType}.class);
+            booleanExpressions.add(entityPath.${link.fieldName}.eq(${link.fieldName}.name()));
+        }
+#end
+#end
+#foreach ( $field in $domainBooleans )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (query.get${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.eq(query.get${capitalizeFieldName}()));
+        }
+#end
+#foreach ( $field in $domainDates )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (StringUtils.isNotBlank(query.getStart${capitalizeFieldName}())) {
+            final LocalDate start${capitalizeFieldName} = LocalDate.parse(query.getStart${capitalizeFieldName}(), DateTimeFormatter.ISO_DATE);
+            booleanExpressions.add(entityPath.${field.name}.goe(start${capitalizeFieldName}));
+        }
+
+        if (StringUtils.isNotBlank(query.getEnd${capitalizeFieldName}())) {
+            final LocalDate end${capitalizeFieldName} = LocalDate.parse(query.getEnd${capitalizeFieldName}(), DateTimeFormatter.ISO_DATE);
+            booleanExpressions.add(entityPath.${field.name}.loe(end${capitalizeFieldName}));
+        }
+#end
+#foreach ( $field in $domainTimestamps )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (StringUtils.isNotBlank(query.getStart${capitalizeFieldName}())) {
+            final LocalDateTime start${capitalizeFieldName} = LocalDateTime.parse(query.getStart${capitalizeFieldName}(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.${field.name}.goe(start${capitalizeFieldName}));
+        }
+
+        if (StringUtils.isNotBlank(query.getEnd${capitalizeFieldName}())) {
+            final LocalDateTime end${capitalizeFieldName} = LocalDateTime.parse(query.getEnd${capitalizeFieldName}(), DateTimeFormatter.ISO_DATE_TIME);
+            booleanExpressions.add(entityPath.${field.name}.loe(end${capitalizeFieldName}));
+        }
+#end
+#foreach ( $field in $domainDecimals )
+#set ( $capitalizeFieldName =  $wordUtils.capitalize(${field.name}) )
+
+        if (query.getStart${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.goe(query.getStart${capitalizeFieldName}()));
+        }
+
+        if (query.getEnd${capitalizeFieldName}() != null) {
+            booleanExpressions.add(entityPath.${field.name}.loe(query.getEnd${capitalizeFieldName}()));
+        }
+#end
+
+        return booleanExpressions;
+    }
+}

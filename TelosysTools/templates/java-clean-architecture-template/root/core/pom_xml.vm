@@ -165,7 +165,7 @@
                     <siteReportDescription>${appName} core mutation report</siteReportDescription>
                     <siteReportDirectory>${MAVEN_ARTIFACT_ID}-core</siteReportDirectory>
                     <targetClasses>
-                        <param>${ROOT_PKG}.core.*.usecase.impl.*UseCaseImpl</param>
+                        <param>${ROOT_PKG}.core.*.action.*Action</param>
                     </targetClasses>
                     <targetTests>
                         <param>${ROOT_PKG}.core.*.usecase.*UseCaseTest</param>

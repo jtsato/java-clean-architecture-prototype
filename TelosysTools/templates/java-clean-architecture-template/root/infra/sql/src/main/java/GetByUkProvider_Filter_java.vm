@@ -1,0 +1,11 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "/include/domain_info.vm" )
+#foreach( $field in $domainUkKeys )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $field.isStringType() )
+$generator.generate($target.entityName, "Get${entity.name}By${fieldName}IgnoreCaseProvider.java", $target.folder, "root/infra/sql/src/main/java/GetByUkProvider_java.vm" )
+#else
+$generator.generate($target.entityName, "Get${entity.name}By${fieldName}Provider.java", $target.folder, "root/infra/sql/src/main/java/GetByUkProvider_java.vm" )
+#end
+#end
+#end 

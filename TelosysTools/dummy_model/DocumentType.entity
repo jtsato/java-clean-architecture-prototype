@@ -1,7 +1,0 @@
-DocumentType {
- id : long { @Id } ;
- country: string { @NotBlank, @DbComment("UniqueKey1") } ;
- description: string { @NotBlank, @DbComment("UniqueKey1") } ;
- createdDateTime : timestamp { @DbComment("CurrentDateTimeOnCreation, Index") } ;
- lastModifiedDateTime : timestamp { @DbComment("CurrentDateTimeOnUpdate, Index") } ;
-}

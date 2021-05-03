@@ -1,0 +1,6 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "include/loader_wordutils.vm" )
+#parse ( "include/loader_inflector.vm" )
+#set ( $pluralEntityName = $wordUtils.capitalize($inflector.getInstance().pluralize($entity.name)) )
+$generator.generate($target.entityName, "Search${pluralEntityName}Action.java", $target.folder, "root/core/src/main/java/action/SearchAction_java.vm" )
+#end

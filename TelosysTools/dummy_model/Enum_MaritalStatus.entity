@@ -1,7 +1,0 @@
-Enum_MaritalStatus {
-  Single : string { @Id };
-  Married : string ; 
-  Separated : string ; 
-  Divorced : string ; 
-  Widowed : string ; 
-}

@@ -1,4 +1,0 @@
-Enum_PropertyType {
-  RentedHouse : string { @Id };
-  OwnHome : string ; 
-}

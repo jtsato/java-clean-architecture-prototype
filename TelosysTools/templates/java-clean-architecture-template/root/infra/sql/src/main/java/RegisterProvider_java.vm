@@ -1,0 +1,31 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.infra.${entity.name.toLowerCase()};
+
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
+import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Register${entity.name}Gateway;
+import ${ROOT_PKG}.infra.${entity.name.toLowerCase()}.domain.${entity.name}Entity;
+import ${ROOT_PKG}.infra.${entity.name.toLowerCase()}.mapper.${entity.name}Mapper;
+import ${ROOT_PKG}.infra.${entity.name.toLowerCase()}.repository.${entity.name}Repository;
+
+#include ( "/include/author.vm" )
+
+@Transactional
+@Service
+public class Register${entity.name}Provider implements Register${entity.name}Gateway {
+
+    private final ${entity.name}Mapper ${uncapitalizeEntityName}Mapper = Mappers.getMapper(${entity.name}Mapper.class);
+    
+    @Autowired
+    ${entity.name}Repository ${uncapitalizeEntityName}Repository;
+
+    @Override
+    public ${entity.name} execute(final ${entity.name} ${uncapitalizeEntityName}) {
+        final ${entity.name}Entity ${uncapitalizeEntityName}Entity = ${uncapitalizeEntityName}Mapper.of(${uncapitalizeEntityName});
+        return ${uncapitalizeEntityName}Mapper.of(${uncapitalizeEntityName}Repository.saveAndFlush(${uncapitalizeEntityName}Entity));
+    }
+}

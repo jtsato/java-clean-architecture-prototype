@@ -1,0 +1,3 @@
+#if ( !$entity.name.contains("Enum_") )
+$generator.generate($target.entityName, "Register${entity.name}Action.java", $target.folder, "root/core/src/main/java/action/RegisterAction_java.vm" )
+#end

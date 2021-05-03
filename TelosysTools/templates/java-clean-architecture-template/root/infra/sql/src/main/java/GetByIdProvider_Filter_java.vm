@@ -1,0 +1,4 @@
+#if ( !$entity.name.contains("Enum_") )
+#parse ( "include/domain_info.vm" )
+$generator.generate($target.entityName, "Get${entity.name}By${domainId}Provider.java", $target.folder, "root/infra/sql/src/main/java/GetByIdProvider_java.vm" )
+#end
