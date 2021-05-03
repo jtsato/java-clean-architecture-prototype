@@ -1,0 +1,245 @@
+#parse ( "/include/domain_info.vm" )
+package ${ROOT_PKG}.core.${entity.name.toLowerCase()}.action;
+
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+#end
+#if ( $domainDates.size() > 0 || $domainTimestamps.size() > 0 )
+#if ( $domainDates.size() > 0 )
+import java.time.LocalDate;
+#end
+#if ( $domainTimestamps.size() > 0 )
+import java.time.LocalDateTime;
+#end
+import java.time.format.DateTimeFormatter;
+#end
+import java.util.Optional;
+
+import javax.inject.Named;
+
+import org.apache.commons.lang3.StringUtils;
+
+#set ( $coreImports = [] )
+#foreach ( $field in $domainLinksToOne )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.domain.${field.fieldType}") )
+#end
+#foreach ( $field in $domainEnumerators )
+#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${fieldType}") )
+#end
+#foreach ( $field in $domainLinksToOne )
+#set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${field.fieldType.toLowerCase()}.gateway.Get${field.fieldType}By${fieldEntityId}Gateway") )
+#end
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name}") )
+#foreach ( $field in $domainUkKeys )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $field.isStringType() )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}By${fieldName}IgnoreCaseGateway") )
+#else
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Get${entity.name}By${fieldName}Gateway") )
+#end
+#end
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Update${entity.name}By${domainId}Gateway") )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.Update${entity.name}By${domainId}UseCase") )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.usecase.parameter.Update${entity.name}By${domainId}Parameters") )
+#if ( $hasCurrentDateOnCreation == "true" || $hasCurrentDateOnUpdate == "true" )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDate") )
+#end
+#if ( $hasCurrentDateTimeOnCreation == "true" || $hasCurrentDateTimeOnUpdate == "true" )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.GetLocalDateTime") )
+#end
+#if ( $domainEnumerators.size() > 0 )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.common.EnumeratorUtils") )
+#end
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.exception.NotFoundException") )
+#if ( $domainUkKeys.size() > 0 )
+#set ( $x = $coreImports.add("import ${ROOT_PKG}.core.exception.UniqueConstraintException") )
+#end
+#foreach ( $import in $coreImports )
+${import};
+#end
+import lombok.RequiredArgsConstructor;
+
+/*
+ * A Use Case follows these steps:
+ * - Takes input
+ * - Validates business rules
+ * - Manipulates the model state
+ * - Returns output
+ */
+
+#include ( "/include/author.vm" )
+
+@Named
+@RequiredArgsConstructor
+public class Update${entity.name}By${domainId}Action implements Update${entity.name}By${domainId}UseCase {
+
+    private final Update${entity.name}By${domainId}Gateway update${entity.name}By${domainId}Gateway;
+
+#foreach( $field in $domainUkKeys )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $field.isStringType() )
+    private final Get${entity.name}By${fieldName}IgnoreCaseGateway get${entity.name}By${fieldName}IgnoreCaseGateway;
+
+#else
+    private final Get${entity.name}By${fieldName}Gateway get${entity.name}By${fieldName}Gateway;
+
+#end
+#end
+#foreach ( $field in $domainLinksToOne )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+    private final Get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway get${wordUtils.capitalize($field.fieldType)}By${fieldEntityId}Gateway;
+
+#end
+#foreach( $field in $domainDates )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
+    private final GetLocalDate getLocalDate;
+
+#break
+#end
+#end
+#foreach( $field in $domainTimestamps )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
+    private final GetLocalDateTime getLocalDateTime;
+
+#break
+#end
+#end
+    @Override
+    public ${entity.name} execute(final Update${entity.name}By${domainId}Parameters parameters) {
+#foreach( $field in $domainLinksToOne )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $capitalizedFieldName = $wordUtils.capitalize($field.fieldName) )
+        final ${field.fieldType} ${field.fieldName} = get${field.fieldType}AndValidate(parameters.get${capitalizedFieldName}${fieldEntityId}());
+#end
+#foreach ( $field in $domainUkKeys )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+
+        checkDuplicated${fieldName}Violation(parameters.get${domainId}(), parameters.get${fieldName}());
+#end
+#set ( $statements = [] )
+#set ( $parameters = [] )
+#set ( $x = $statements.add("final Long ${uncapitalizedDomainId} = parameters.get${domainId}()") )
+#set ( $x = $parameters.add("${uncapitalizedDomainId} ") )
+#foreach ( $field in $domainLinksToOne )
+#set ( $x = $parameters.add("${field.fieldName}") )
+#end
+#foreach ( $field in $domainLongs )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statements.add("final Long $field.name = parameters.get${fieldName}()") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#foreach ( $field in $domainStrings )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statements.add("final String $field.name = StringUtils.stripToEmpty(parameters.get${fieldName}())") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#foreach ( $field in $domainEnumerators )
+#set ( $fieldType = $field.fieldType.replace("Enum_", "") )
+#set ( $fieldName =  $wordUtils.capitalize(${field.fieldName}) )
+#set ( $x = $statements.add("final ${fieldType} ${field.fieldName} = EnumeratorUtils.valueOf(parameters.get${fieldName}(), ${fieldType}.class)") )
+#set ( $x = $parameters.add(${field.fieldName}) )
+#end
+#foreach ( $field in $domainBooleans )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statements.add("final Boolean $field.name = parameters.get${fieldName}()") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#foreach ( $field in $domainDates )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnCreation") )
+#set ( $x = $parameters.add("null") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateOnUpdate") )
+#set ( $x = $statements.add("final LocalDate $field.name = getLocalDate.now()") )
+#set ( $x = $parameters.add("$field.name") )
+#else
+#set ( $x = $statements.add("final LocalDate $field.name = LocalDate.parse(parameters.get${fieldName}())") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#end
+#foreach ( $field in $domainTimestamps )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnCreation") )
+#set ( $x = $parameters.add("null") )
+#elseif ( $strUtils.split($field.databaseComment, ", ").contains("CurrentDateTimeOnUpdate") )
+#set ( $x = $statements.add("final LocalDateTime $field.name = getLocalDateTime.now()") )
+#set ( $x = $parameters.add("$field.name") )
+#else
+#set ( $x = $statements.add("final LocalDateTime $field.name = LocalDateTime.parse(parameters.get${fieldName}(), DateTimeFormatter.ISO_DATE_TIME)") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#end
+#foreach ( $field in $domainDecimals )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $x = $statements.add("final BigDecimal $field.name = parameters.get${fieldName}()") )
+#set ( $x = $parameters.add("$field.name") )
+#end
+#set ( $signature = "        final ${entity.name} ${uncapitalizeEntityName} = new ${entity.name}(" )
+#set ( $filler = $strUtils.repeat(" ", $signature.length() ) )
+#set ( $domainIdLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($domainId), ".").toLowerCase() )
+
+#foreach ( $statement in $statements )
+        ${statement};
+#end
+
+${signature}${parameters[0]}#if( $parameters.size() > 1 ),#end
+#foreach ( $parameter in $parameters )#if ( $velocityCount > 1 )
+
+${filler}${parameter}#end#if( $velocityCount > 1 && $foreach.hasNext ),#end
+#end);
+
+        final Optional<${entity.name}> optional = update${entity.name}By${domainId}Gateway.execute(${uncapitalizeEntityName});
+        return optional.orElseThrow(() -> new NotFoundException("validation.${entityNameLowerCaseWithDot}.${domainIdLowerCaseWithDot}.notfound", String.valueOf(parameters.get${domainId}())));
+    }
+#foreach( $field in $domainLinksToOne )
+#set ( $uncapitalizeFieldName = ${wordUtils.uncapitalize($field.fieldName)} )
+#set ( $fieldEntityId = $wordUtils.capitalize($field.targetEntity.keyAttributes[0].name) )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.fieldType), ".").toLowerCase() )
+#set ( $fieldEntityIdLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($fieldEntityId), ".").toLowerCase() )
+
+    private ${field.fieldType} get${field.fieldType}AndValidate(final Long ${uncapitalizeFieldName}${fieldEntityId}) {
+        final Optional<${field.fieldType}> optional = get${field.fieldType}By${fieldEntityId}Gateway.execute(${uncapitalizeFieldName}${fieldEntityId});
+        return optional.orElseThrow(() -> new NotFoundException("validation.${fieldNameLowerCaseWithDot}.${fieldEntityIdLowerCaseWithDot}.notfound", String.valueOf(${uncapitalizeFieldName}${fieldEntityId})));
+    }
+#end
+#set ( $uncapitalizedDomainId = ${wordUtils.uncapitalize($domainId)} )
+#foreach( $field in $domainUkKeys )
+#set ( $fieldName =  $wordUtils.capitalize(${field.name}) )
+#set ( $uncapitalizeFieldName = ${wordUtils.uncapitalize($fieldName)} )
+#set ( $fieldNameLowerCaseWithDot = $strUtils.join($strUtils.splitByCharacterTypeCamelCase($field.name), ".").toLowerCase() )
+#if ( $field.isStringType() )
+#set ( $ignoreCase =  "IgnoreCase")
+#else
+#set ( $ignoreCase =  "" )
+#end
+#if ( $field.isLongType() )
+#set ( $fieldType = "Long" )
+#elseif ( $field.isStringType() )
+#set ( $fieldType = "String" )
+#elseif ( $field.isBooleanType() )
+#set ( $fieldType = "Boolean" )
+#elseif ( $field.isDateType() )
+#set ( $fieldType = "LocalDate" )
+#elseif ( $field.isTimestampType() )
+#set ( $fieldType = "LocalDateTime" )
+#elseif ( $field.isDecimalType() )
+#set ( $fieldType = "BigDecimal" )
+#end
+
+    private void checkDuplicated${fieldName}Violation(final Long ${uncapitalizedDomainId}, final ${fieldType} ${uncapitalizeFieldName}) {
+
+        final Optional<${entity.name}> optional = get${entity.name}By${fieldName}${ignoreCase}Gateway.execute(${uncapitalizeFieldName});
+
+        if (optional.isEmpty()) {
+            return;
+        }
+
+        final ${entity.name} ${uncapitalizeEntityName} = optional.get();
+        if (!${uncapitalizeEntityName}.get${domainId}().equals(${uncapitalizedDomainId})) {
+            throw new UniqueConstraintException("validation.${entityNameLowerCaseWithDot}.${fieldNameLowerCaseWithDot}.already.exists", ${uncapitalizeEntityName}.get${fieldName}());
+        }
+    }
+#end
+}

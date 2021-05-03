@@ -1,0 +1,15 @@
+package ${ROOT_PKG}.infra.common.predicate;
+
+import java.util.List;
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+
+#include ( "/include/author.vm" )
+
+public interface PredicateBuilder<Q> {
+
+    List<BooleanExpression> buildBooleanExpressions(final Q query);
+
+    BooleanBuilder buildBooleanBuilder(final Q query);
+}

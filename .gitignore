@@ -80,6 +80,6 @@ nb-configuration.xml
 *.ignore
 configuration/
 core/
-dataproviders/
+infra/
 entrypoints/
 .env

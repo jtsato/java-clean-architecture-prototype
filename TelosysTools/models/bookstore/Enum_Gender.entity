@@ -1,0 +1,4 @@
+Enum_Gender {
+  Male : string { @Id };
+  Female : string ; 
+}

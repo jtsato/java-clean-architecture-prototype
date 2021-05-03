@@ -1,4 +1,0 @@
-#if ( !$entity.name.contains("Enum_") )
-#parse ( "include/domain_info.vm" )
-$generator.generate($target.entityName, "Update${entity.name}By${domainId}UseCaseImpl.java", $target.folder, "root/core/src/main/java/usecaseimpl/UpdateByIdUseCaseImpl_java.vm" )
-#end

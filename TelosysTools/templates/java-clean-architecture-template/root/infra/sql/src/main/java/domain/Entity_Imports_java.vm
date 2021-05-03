@@ -1,0 +1,88 @@
+import java.io.Serializable;
+#if ( $domainDecimals.size() > 0 )
+import java.math.BigDecimal;
+#end
+#if ( $domainDates.size() > 0 )
+import java.time.LocalDate;
+#end
+#if ( $domainTimestamps.size() > 0)
+import java.time.LocalDateTime;
+#end
+#if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
+import java.util.List;
+#end
+#set ( $hasLargeObject = "false" )
+#foreach ( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#set ( $hasLargeObject = "true" )
+#end
+#end
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+#if ( $hasLargeObject == "true" )
+import javax.persistence.Basic;
+#end
+#if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
+import javax.persistence.CascadeType;
+#end
+import javax.persistence.Column;
+import javax.persistence.Entity;
+#if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 || $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 )
+import javax.persistence.FetchType;
+#else
+#foreach( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#if ( $field.isStringType() )
+import javax.persistence.FetchType;
+#break
+#end
+#end
+#end
+#end
+#if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
+import javax.persistence.ForeignKey;
+#end
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+#if ( $domainIndexes.size() > 0 || $domainLinksToOne.size() > 0 || $domainEnumerators.size() > 0 )
+import javax.persistence.Index;
+#end
+#foreach( $field in $domainAttributes )
+#if ( $strUtils.split($field.databaseComment, ", ").contains("LargeObject") )
+#if ( $field.isStringType() )
+import javax.persistence.Lob;
+#break
+#end
+#end
+#end
+#if ( $domainLinksManyToOne.size() > 0 || $domainLinksOneToOne.size() > 0 ) 
+import javax.persistence.JoinColumn;
+#if ( $hasLargeObject == "true" )
+import javax.persistence.Lob;
+#end
+import javax.persistence.ManyToOne;
+#end
+#if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
+import javax.persistence.OneToMany;
+#end
+import javax.persistence.Table;
+#if ( $domainUkKeys.size() > 0 )
+import javax.persistence.UniqueConstraint;
+#end
+#if ( $domainLinksManyToMany.size() > 0 || $domainLinksOneToMany.size() > 0 )
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+#end
+
+#foreach( $field in $domainLinks )
+#set ( $fieldType = $field.fieldType )
+import ${ROOT_PKG}.infra.${fieldType.toLowerCase()}.domain.${fieldType}Entity;
+#end
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;

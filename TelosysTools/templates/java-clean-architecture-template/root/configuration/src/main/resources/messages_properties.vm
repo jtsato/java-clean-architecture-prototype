@@ -69,4 +69,4 @@ exception.unexpected=An unexpected error has occurred, please try again later!
 exception.request.body.is.invalid.or.missing=The required request body is invalid!
 exception.field.format=The ''{0}'' field provided is not in an expected format!
 exception.access.denied=Access denied!
-exception.database.constraint.violation=An unexpected error occurred while updating the data, please try again later!
+exception.sql.constraint.violation=An unexpected error occurred while updating the data, please try again later!
