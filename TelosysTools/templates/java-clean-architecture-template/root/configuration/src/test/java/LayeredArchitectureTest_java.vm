@@ -23,17 +23,17 @@ public class LayeredArchitectureTest {
                                                                                   .layer("Controllers")
                                                                                   .definedBy("..controller..")
                                                                                   .layer("UseCases")
-                                                                                  .definedBy("..usecase..")
+                                                                                  .definedBy("..usecase..", "..action..")
                                                                                   .layer("Gateways")
                                                                                   .definedBy("..gateway..")
-                                                                                  .layer("Providers")
+                                                                                  .layer("Infra")
                                                                                   .definedBy("..infra..")
                                                                                   .whereLayer("Controllers")
                                                                                   .mayNotBeAccessedByAnyLayer()
                                                                                   .whereLayer("UseCases")
-                                                                                  .mayOnlyBeAccessedByLayers("Controllers", "Gateways", "Providers")
+                                                                                  .mayOnlyBeAccessedByLayers("Infra", "Controllers", "Gateways")
                                                                                   .whereLayer("Gateways")
-                                                                                  .mayOnlyBeAccessedByLayers("UseCases", "Providers")
-                                                                                  .whereLayer("Providers")
-                                                                                  .mayOnlyBeAccessedByLayers("Gateways");
+                                                                                  .mayOnlyBeAccessedByLayers("UseCases", "Infra")
+                                                                                  .whereLayer("Infra")
+                                                                                  .mayOnlyBeAccessedByLayers("UseCases", "Gateways");
 }
