@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.gateway.Find${pluralEntityName}By${pluralDomainId}Gateway;

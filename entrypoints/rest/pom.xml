@@ -5,41 +5,41 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.jtsato</groupId>
-        <artifactId>bookstore-application</artifactId>
+        <groupId>br.com.viavarejo</groupId>
+        <artifactId>subscription-application</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>bookstore-rest</artifactId>
+    <artifactId>subscription-rest</artifactId>
     <packaging>jar</packaging>
 
     <name>Rest Interface</name>
-    <description>Bookstore Rest Interface</description>
+    <description>Subscription Rest Interface</description>
 
     <properties>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <commons.io.version>2.7</commons.io.version>
-        <springdoc.version>1.4.2</springdoc.version>
-        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
-        <jacoco.agent.version>0.8.5</jacoco.agent.version>
-        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-        <pitest-maven.version>1.5.2</pitest-maven.version>
-        <pitest-junit5-plugin.version>0.12</pitest-junit5-plugin.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<commons.io.version>2.8.0</commons.io.version>
+		<springdoc.version>1.5.6</springdoc.version>
+		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+		<jacoco.agent.version>0.8.6</jacoco.agent.version>
+		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+		<pitest-maven.version>1.5.2</pitest-maven.version>
+		<pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
         <sonar.coverage.exclusions>
             **/src/**/core/**,
-            **/src/**/BookstoreRestApplication.java
+            **/src/**/SubscriptionRestApplication.java
         </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.jtsato</groupId>
-            <artifactId>bookstore-core</artifactId>
+            <groupId>br.com.viavarejo</groupId>
+            <artifactId>subscription-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -198,14 +198,14 @@
                     <sourceDataFormats>
                         <sourceDataFormat>HTML</sourceDataFormat>
                     </sourceDataFormats>
-                    <siteReportName>bookstore-rest</siteReportName>
-                    <siteReportDescription>Bookstore rest mutation report</siteReportDescription>
-                    <siteReportDirectory>bookstore-rest</siteReportDirectory>
+                    <siteReportName>subscription-rest</siteReportName>
+                    <siteReportDescription>Subscription rest mutation report</siteReportDescription>
+                    <siteReportDirectory>subscription-rest</siteReportDirectory>
                     <targetClasses>
-                        <param>io.github.jtsato.bookstore.entrypoint.rest.*.controller.*Controller</param>
+                        <param>br.com.viavarejo.entrypoint.rest.*.controller.*Controller</param>
                     </targetClasses>
                     <targetTests>
-                        <param>io.github.jtsato.bookstore.entrypoint.rest.*.controller.*ControllerTest</param>
+                        <param>br.com.viavarejo.entrypoint.rest.*.controller.*ControllerTest</param>
                     </targetTests>
                 </configuration>
                 <dependencies>

@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.inject.Named;
 #if ( $domainReferencedBy.size() > 0 )
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 #end
 
 import ${ROOT_PKG}.core.${entity.name.toLowerCase()}.domain.${entity.name};

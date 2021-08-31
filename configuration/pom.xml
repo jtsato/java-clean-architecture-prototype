@@ -5,47 +5,47 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.jtsato</groupId>
-        <artifactId>bookstore-application</artifactId>
+        <groupId>br.com.viavarejo</groupId>
+        <artifactId>subscription-application</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>bookstore-configuration</artifactId>
+    <artifactId>subscription-configuration</artifactId>
     <packaging>jar</packaging>
 
     <name>Configuration</name>
-    <description>Bookstore Configuration</description>
+    <description>Subscription Configuration</description>
 
     <properties>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <okta.version>1.4.0</okta.version>
-        <archunit-junit5.version>0.13.1</archunit-junit5.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<okta.version>1.4.0</okta.version>
+		<archunit-junit5.version>0.13.1</archunit-junit5.version>
         <sonar.coverage.exclusions>
             **/src/**/configuration/**,
             **/src/**/exception/handler/**,
-            **/src/**/BookstoreApplication.java
+            **/src/**/SubscriptionApplication.java
         </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.jtsato</groupId>
-            <artifactId>bookstore-core</artifactId>
+            <groupId>br.com.viavarejo</groupId>
+            <artifactId>subscription-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.jtsato</groupId>
-            <artifactId>bookstore-rest</artifactId>
+            <groupId>br.com.viavarejo</groupId>
+            <artifactId>subscription-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.jtsato</groupId>
-            <artifactId>bookstore-sql</artifactId>
+            <groupId>br.com.viavarejo</groupId>
+            <artifactId>subscription-sql</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -71,7 +71,7 @@
     </dependencies>
 
     <build>
-        <finalName>bookstore-starter</finalName>
+        <finalName>subscription-starter</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
