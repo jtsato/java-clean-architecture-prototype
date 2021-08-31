@@ -11,23 +11,23 @@
         <relativePath />
     </parent>
 
-    <groupId>io.github.jtsato</groupId>
-    <artifactId>bookstore-application</artifactId>
+    <groupId>br.com.viavarejo</groupId>
+    <artifactId>subscription-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Bookstore</name>
-    <description>Bookstore</description>
+    <name>Subscription</name>
+    <description>Subscription</description>
 
     <properties>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <junit-jupiter-engine.version>5.6.1</junit-jupiter-engine.version>
-        <pitest-maven.version>1.5.2</pitest-maven.version>
-        <pitest-junit5-plugin.version>0.12</pitest-junit5-plugin.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<junit-jupiter-engine.version>5.6.1</junit-jupiter-engine.version>
+		<pitest-maven.version>1.5.2</pitest-maven.version>
+		<pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
     </properties>
 
     <modules>
